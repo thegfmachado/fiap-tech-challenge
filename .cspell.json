@@ -1,0 +1,31 @@
+{
+  "dictionaries": [
+    "en_US",
+    "companies",
+    "misc",
+    "softwareTerms",
+    "typescript",
+    "node",
+    "html",
+    "css",
+    "npm",
+    "bash",
+    "filetypes",
+    "fonts",
+    "powershell",
+    "lorem-ipsum",
+    "custom-words"
+  ],
+  "ignorePaths": [
+    "**/.gitignore",
+    "**/.vscode",
+    "**/node_modules",
+    "**/dist",
+    "**/.outputs",
+    "**/*.tsbuildinfo"
+  ],
+  "words": [
+    "bytebank",
+    "fiap",
+  ]
+}

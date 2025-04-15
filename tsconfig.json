@@ -1,0 +1,4 @@
+{
+  "extends": "@fiap-tech-challenge/typescript-config/base.json"
+}
+
