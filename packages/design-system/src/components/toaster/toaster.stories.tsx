@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Toaster } from './toaster';
 import { toast, type ToasterProps } from "sonner";
+
 import { Button } from '../button/button';
+import { Toaster } from './toaster';
 
 export default {
   title: 'Toaster',
