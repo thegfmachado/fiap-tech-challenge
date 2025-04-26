@@ -17,7 +17,7 @@ export default {
     },
     onClick: { action: 'clicked' },
   },
-  args: { ...BUTTON_DEFAULT_PROPS, children: 'Click me!', onClick: () => alert('Clicked') },
+  args: { ...BUTTON_DEFAULT_PROPS, children: 'Click me!' },
 } satisfies Meta<typeof Button>;
 
 export const Default: StoryObj<typeof Button> = {

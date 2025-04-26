@@ -6,7 +6,7 @@ import { z } from "zod"
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from './form';
 
-import { Input } from '../input';
+import { Input } from '../input/input';
 import { Button } from '../button/button';
 
 export default {

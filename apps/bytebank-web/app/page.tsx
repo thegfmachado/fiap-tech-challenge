@@ -1,4 +1,4 @@
-import { Button } from "@fiap-tech-challenge/design-system/components/button/button";
+import { Button } from "@fiap-tech-challenge/design-system/components";
 
 export default function Page() {
   return (
