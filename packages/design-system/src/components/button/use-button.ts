@@ -40,14 +40,14 @@ export const buttonVariants = cva(
 export function useButton(props: ButtonProps) {
   const { asChild = BUTTON_DEFAULT_PROPS.asChild, className, disabled = BUTTON_DEFAULT_PROPS.disabled, variant, size, ...rest } = props
 
-  const computedClassName = cn(buttonVariants({ variant, size }), className)
+  const combinedClassNames = cn(buttonVariants({ variant, size }), className)
 
   const Comp = asChild ? Slot : "button";
 
   return {
     ...rest,
     disabled,
-    className: computedClassName,
+    className: combinedClassNames,
 
     Comp,
   }
