@@ -1,0 +1,34 @@
+name: pr-create-comment
+description: Creates a new comment in a pull request, optionally replacing previously tagged comments.
+
+inputs:
+  content:
+    description: Content of the comment
+    required: true
+  replace:
+    description: Replaces the comment instead of just creating a new one
+    required: false
+  tag:
+    description: Tag to identify the comment
+    required: true
+  token:
+    description: Token to use when interacting with github
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - run: npm run bundle
+      shell: bash
+      working-directory: ${{ github.action_path }}
+    - uses: actions/github-script@v7
+      with:
+        github-token: ${{ inputs.token }}
+        script: |
+          const { run } = await import(`${process.env.GITHUB_ACTION_PATH}/dist/action.js`);
+
+          const content = `${{ inputs.content }}`;
+          const replace = ${{ inputs.replace }};
+          const tag = `${{ inputs.tag }}`;
+
+          await run({ content, replace, tag });

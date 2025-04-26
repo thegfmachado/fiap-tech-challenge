@@ -1,0 +1,43 @@
+# Workflow name
+name: "Design System Storybook Deployment"
+
+# Event for the workflow
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+# List of jobs
+jobs:
+  chromatic:
+    runs-on: ubuntu-latest
+    # Job steps
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup actions
+        run: npm install
+        working-directory: .github/actions/pr-create-comment
+      - name: Run CI
+        run: npm ci
+        #👇 Adds Chromatic as a step in the workflow
+      - name: Run Chromatic
+        uses: chromaui/action@latest
+        id: chromatic
+        # Options required for Chromatic's GitHub Action
+        with:
+          workingDir: "packages/design-system"
+          #👇 Chromatic projectToken, see https://storybook.js.org/tutorials/intro-to-storybook/react/en/deploy/ to obtain it
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Comment on PR with Chromatic deployment link
+      #   uses: ./.github/actions/pr-create-comment
+      #   with:
+      #     content: ${{ steps.chromatic.outputs.storybookUrl }}
+      #     replace: true
+      #     tag: ChromaticLinkComment
+      #     token: ${{ secrets.GITHUB_TOKEN }}
