@@ -14,14 +14,17 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.475.0",
-    "next-themes": "^0.4.4",
+    "next-themes": "^0.4.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "sonner": "^2.0.3",
     "tailwind-merge": "^3.0.1",
     "tw-animate-css": "^1.2.4",
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@fiap-tech-challenge/eslint-config": "file:./packages/eslint-config",
+    "@fiap-tech-challenge/typescript-config": "file:./packages/typescript-config",
     "@storybook/addon-essentials": "^8.6.12",
     "@storybook/addon-onboarding": "^8.6.12",
     "@storybook/blocks": "^8.6.12",
@@ -30,8 +33,6 @@
     "@storybook/react-vite": "^8.6.12",
     "@storybook/test": "^8.6.12",
     "@tailwindcss/postcss": "^4.0.8",
-    "@fiap-tech-challenge/eslint-config": "file:./packages/eslint-config",
-    "@fiap-tech-challenge/typescript-config": "file:./packages/typescript-config",
     "@turbo/gen": "^2.4.2",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -48,7 +49,7 @@
     "./globals.css": "./src/styles/globals.css",
     "./postcss.config": "./postcss.config.mjs",
     "./lib/*": "./src/lib/*.ts",
-    "./components/*": "./src/components/*.tsx",
+    "./components": "./src/components/index.ts",
     "./hooks/*": "./src/hooks/*.ts"
   }
 }
