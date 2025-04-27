@@ -1,6 +1,6 @@
-const JSON_SERVER_URL = 'http://localhost:3001/items';
+const JSON_SERVER_URL = 'http://localhost:3005/transactions';
 
-export async function GET(_, { params }) {
+export async function GET(req, { params }) {
   const { id } = params;
 
   const response = await fetch(`${JSON_SERVER_URL}/${id}`);
