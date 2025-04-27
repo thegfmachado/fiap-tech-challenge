@@ -1,0 +1,18 @@
+{
+    "transactions": [
+      {
+        "id": 1,
+        "tipo": "depósito",
+        "valor": 500,
+        "data": "2025-04-25T10:30:00Z",
+        "descricao": "Depósito salário"
+      },
+      {
+        "id": 2,
+        "tipo": "transferência",
+        "valor": 200,
+        "data": "2025-04-24T14:00:00Z",
+        "descricao": "Transferência para João"
+      }
+    ]
+  }
