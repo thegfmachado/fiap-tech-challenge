@@ -13,6 +13,7 @@ export default function Page() {
 
         const data = await response.json();
         setTransactions(data);
+        console.log('transações: ', data)
       } catch (error) {
         console.error(error);
       }
@@ -23,9 +24,11 @@ export default function Page() {
 
   async function handleAddTransaction() {
     const newTransaction = {
-      tipo: "despesa",
-      valor: 100,
-      descricao: "Nova transação",
+      "id": 1,
+      "tipo": "depósito",
+      "valor": 500,
+      "data": "2025-04-25T10:30:00Z",
+      "descricao": "Depósito PPR"
     };
 
     try {
@@ -40,7 +43,6 @@ export default function Page() {
       const createdTransaction = await response.json();
       setTransactions((prev) => {
         const updatedTransactions = [...prev, createdTransaction];
-        console.log("nova lista de transactions:", updatedTransactions);
         return updatedTransactions;
       });
     } catch (error) {
@@ -54,7 +56,7 @@ export default function Page() {
 
       const data = await response.json();
       setTransactionById(data); 
-      console.log("Transação buscada por ID:", data);
+      console.log("Transação:", data);
     } catch (error) {
       console.error(error);
     }
