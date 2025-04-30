@@ -1,10 +1,13 @@
 "use client";
 import { Button } from "@fiap-tech-challenge/design-system/components";
 import { useEffect, useState } from "react";
+import { Transaction } from "./shared/models/transaction.interface";
+import { TransactionType } from "./shared/enums/transaction-type.enum";
 
 export default function Page() {
 
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState([] as Transaction[]);
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
 
   useEffect(() => {
     async function fetchTransactions() {
@@ -13,7 +16,7 @@ export default function Page() {
 
         const data = await response.json();
         setTransactions(data);
-        console.log('transações: ', data)
+
       } catch (error) {
         console.error(error);
       }
@@ -24,11 +27,10 @@ export default function Page() {
 
   async function handleAddTransaction() {
     const newTransaction = {
-      "id": 1,
-      "tipo": "depósito",
-      "valor": 500,
-      "data": "2025-04-25T10:30:00Z",
-      "descricao": "Depósito PPR"
+      "type": TransactionType.DEPOSIT,
+      "value": 500,
+      "date": "2025-04-25T10:30:00Z",
+      "description": "Depósito PPR"
     };
 
     try {
@@ -50,13 +52,13 @@ export default function Page() {
     }
   }
 
-  async function handleGetTransactionById(id) {
+  async function handleGetTransactionById(id: number | undefined) {
     try {
       const response = await fetch(`/api/transactions/${id}`);
 
       const data = await response.json();
-      setTransactionById(data); 
-      console.log("Transação:", data);
+      setSelectedTransaction(data); 
+      
     } catch (error) {
       console.error(error);
     }
@@ -67,10 +69,7 @@ export default function Page() {
       <div className="flex flex-col items-center justify-center gap-4">
         <h1 className="text-2xl font-bold">This is using design system button</h1>
         <Button variant="secondary" onClick={handleAddTransaction}>Button</Button>
-        <Button variant="secondary" onClick={() => {
-    console.log("ID enviado:", transactions[0]?.id);
-    handleGetTransactionById(transactions[0]?.id);
-  }}>Get transaction</Button>
+        <Button variant="secondary" onClick={() => handleGetTransactionById(transactions[0]?.id)}>Get transaction</Button>
       </div>
     </div>
   )

@@ -11,7 +11,7 @@ export async function GET() {
   return Response.json(data);
 }
 
-export async function POST(params) {
+export async function POST(params: any) {
   const body = await params.json();
 
   const response = await fetch(JSON_SERVER_URL, {
