@@ -16,7 +16,6 @@ export default function Page() {
 
         const data = await response.json();
         setTransactions(data);
-
       } catch (error) {
         console.error(error);
       }

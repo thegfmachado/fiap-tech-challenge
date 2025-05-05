@@ -3,5 +3,5 @@ export interface Transaction {
     type: string;
     value: number;
     date: string;
-    descricao: string;
+    description: string;
 }

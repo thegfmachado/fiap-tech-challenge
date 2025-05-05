@@ -4,14 +4,14 @@ export async function GET() {
   const response = await fetch(JSON_SERVER_URL);
 
   if (!response.ok) {
-    return new Response('Erro ao buscar transações', { status: 500 });
+    return new Response('Error fetching transactions', { status: 500 });
   }
 
   const data = await response.json();
   return Response.json(data);
 }
 
-export async function POST(params: any) {
+export async function POST(params: Request) {
   const body = await params.json();
 
   const response = await fetch(JSON_SERVER_URL, {
@@ -23,7 +23,7 @@ export async function POST(params: any) {
   });
 
   if (!response.ok) {
-    return new Response('Erro ao criar nova transação', { status: 500 });
+    return new Response('Error creating new transaction', { status: 500 });
   }
 
   const data = await response.json();

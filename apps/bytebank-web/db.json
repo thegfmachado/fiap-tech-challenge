@@ -2,14 +2,14 @@
   "transactions": [
     {
       "id": "1",
-      "type": "depósito",
+      "type": "deposit",
       "value": 500,
       "date": "2025-04-25T10:30:00Z",
       "description": "Depósito salário"
     },
     {
       "id": "2",
-      "type": "transferência",
+      "type": "transference",
       "value": 200,
       "date": "2025-04-24T14:00:00Z",
       "description": "Transferência para João"
