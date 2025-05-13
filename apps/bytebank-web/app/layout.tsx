@@ -4,7 +4,7 @@ import { Toaster } from "@fiap-tech-challenge/design-system/components";
 
 import { Providers } from "@/components/providers"
 
-import "@fiap-tech-challenge/design-system/globals.css"
+import "../styles/globals.css"
 
 const fontSans = Geist({
   subsets: ["latin"],

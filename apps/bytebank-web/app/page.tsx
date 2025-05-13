@@ -7,7 +7,7 @@ import { TransactionType } from "./shared/enums/transaction-type.enum";
 export default function Page() {
 
   const [transactions, setTransactions] = useState([] as Transaction[]);
-  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+  const [, setSelectedTransaction] = useState<Transaction | null>(null);
 
   useEffect(() => {
     async function fetchTransactions() {
@@ -56,8 +56,8 @@ export default function Page() {
       const response = await fetch(`/api/transactions/${id}`);
 
       const data = await response.json();
-      setSelectedTransaction(data); 
-      
+      setSelectedTransaction(data);
+
     } catch (error) {
       console.error(error);
     }
@@ -69,6 +69,12 @@ export default function Page() {
         <h1 className="text-2xl font-bold">This is using design system button</h1>
         <Button variant="secondary" onClick={handleAddTransaction}>Button</Button>
         <Button variant="secondary" onClick={() => handleGetTransactionById(transactions[0]?.id)}>Get transaction</Button>
+        <Button>primary</Button>
+        <Button variant="secondary">secondary</Button>
+        <Button variant="destructive">destructive</Button>
+        <Button variant="ghost">ghost</Button>
+        <Button variant="link">link</Button>
+        <Button variant="outline">outline</Button>
       </div>
     </div>
   )
