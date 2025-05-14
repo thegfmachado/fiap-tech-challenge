@@ -11,10 +11,10 @@
   },
   "iconLibrary": "lucide",
   "aliases": {
-    "components": "@fiap-tech-challenge/design-system/components",
-    "utils": "@fiap-tech-challenge/design-system/lib/utils",
-    "hooks": "@fiap-tech-challenge/design-system/hooks",
-    "lib": "@fiap-tech-challenge/design-system/lib",
-    "ui": "@fiap-tech-challenge/design-system/components"
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
   }
 }

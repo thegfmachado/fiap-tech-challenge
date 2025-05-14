@@ -1,8 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google"
 
 import { Toaster } from "@fiap-tech-challenge/design-system/components";
-
-import { Providers } from "@/components/providers"
+import { Providers } from "components/providers";
+import { Metadata } from "next";
 
 import "../styles/globals.css"
 
@@ -15,6 +15,11 @@ const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
 })
+
+export const metadata: Metadata = {
+  title: "FinTrack",
+  description: "Sistema de controle financeiro",
+};
 
 export default function RootLayout({
   children,

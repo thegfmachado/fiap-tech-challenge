@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
+      "@bytebank/*": ["./apps/bytebank-web*"],
       "@fiap-tech-challenge/design-system/*": ["../../packages/ui/src/*"]
     },
     "plugins": [
