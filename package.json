@@ -16,7 +16,8 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "server": "turbo server"
   },
   "devDependencies": {
     "@fiap-tech-challenge/eslint-config": "file:./packages/eslint-config",

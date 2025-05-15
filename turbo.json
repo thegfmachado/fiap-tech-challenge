@@ -13,6 +13,9 @@
     "check-types": {
       "dependsOn": ["^check-types"]
     },
+    "server": {
+      "dependsOn": ["^server"]
+    },
     "dev": {
       "cache": false,
       "persistent": true

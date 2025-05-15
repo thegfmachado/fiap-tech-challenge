@@ -1,4 +1,5 @@
-import { RouteParams } from "@/app/shared/models/route-params.interface.js";
+
+import { RouteParams } from "app/shared/models/route-params.interface";
 import { NextRequest } from "next/server";
 
 const JSON_SERVER_URL = 'http://localhost:3005/transactions';
