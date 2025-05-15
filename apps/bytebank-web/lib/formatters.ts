@@ -4,10 +4,10 @@ export function formatDate(date: Date, dateStyle: Intl.DateTimeFormatOptions["da
   }).format(date);
 }
 
-export function formatCurrency(value: number): string {
+export function formatCurrency(value: number, options?: Intl. NumberFormatOptions): string {
   return new Intl.NumberFormat("pt-BR", {
     currency: "BRL",
-    signDisplay: "always",
+    ...options,
     style: "currency",
   }).format(value);
 }

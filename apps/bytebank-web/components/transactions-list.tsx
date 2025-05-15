@@ -1,7 +1,7 @@
 import { cva } from "class-variance-authority"
-import { Transaction } from "@/app/shared/models/transaction.interface";
+import type { Transaction } from "app/shared/models/transaction.interface";
 import { Button } from "@fiap-tech-challenge/design-system/components";
-import { formatCurrency, formatDate } from "@/lib/formatters";
+import { formatCurrency, formatDate } from "lib/formatters";
 
 export interface TransactionsListProps {
   transactions: Transaction[];
@@ -35,7 +35,8 @@ export function TransactionsList(props: TransactionsListProps) {
             <p className="text-[#241B2896]">{formatDate(new Date(transaction.date), 'short')}</p>
           </div>
           <div>
-            <p className={moneyVariants({ type: transaction.type })}>{formatCurrency(transaction.value)}</p>
+            <p
+              className={moneyVariants({ type: transaction.type })}>{formatCurrency(transaction.value, { signDisplay: "always" })}</p>
           </div>
         </div>
       ))}
