@@ -2,21 +2,21 @@
   "transactions": [
     {
       "id": "1",
-      "type": "deposit",
+      "type": "credit",
       "value": 500,
       "date": "2025-04-25T10:30:00Z",
       "description": "Depósito salário"
     },
     {
       "id": "2",
-      "type": "transference",
-      "value": 200,
+      "type": "debit",
+      "value": -200,
       "date": "2025-04-24T14:00:00Z",
       "description": "Transferência para João"
     },
     {
-      "id": "8f89",
-      "type": "deposit",
+      "id": "db31",
+      "type": "credit",
       "value": 500,
       "date": "2025-04-25T10:30:00Z",
       "description": "Depósito PPR"

@@ -1,6 +1,6 @@
 export interface Transaction {
     id: number;
-    type: string;
+    type: 'credit' | 'debit';
     value: number;
     date: string;
     description: string;
