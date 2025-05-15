@@ -30,8 +30,5 @@
   "packageManager": "npm@10.8.2",
   "engines": {
     "node": ">=20"
-  },
-  "dependencies": {
-    "@radix-ui/react-navigation-menu": "^1.2.12"
   }
 }

@@ -86,38 +86,43 @@ export default function Page() {
       </header>
 
       <main className="mt-12">
-        <section className="relative flex flex-col py-20 gap-20 items-center justify-center bg-gradient-to-b from-white via-white to-[#312C7233]">
-          <h1 className="text-8xl text-center font-bold max-w-6xl">
+        <section className="relative flex flex-col py-20 gap-10 md:gap-20 items-center justify-center bg-gradient-to-b from-white via-white to-[#312C7233]">
+          <h1 className="text-4xl md:text-7xl lg:text-8xl text-center font-bold max-w-6xl">
             Tenha controle de suas finanças
           </h1>
+
+          <h2 className="text-lg md:hidden text-center px-4">
+            Gerencie seu dinheiro, acompanhe despesas e planeje seu futuro financeiro.
+          </h2>
+
           <Button>Comece agora</Button>
 
-          <div className="hidden md:block mb-[300px]"></div>
+          <div className="hidden md:block mb-32 md:mb-[300px] lg:mb-[250px]" />
 
-          <div className="hidden md:block absolute left-1/2 -translate-x-1/2 top-[460px] z-10">
+          <div className="hidden md:block absolute left-1/2 -translate-x-1/2 top-[520px] md:top-[460px] z-10 w-full max-w-3xl">
             <Image
               src="/images/landing/hero.svg"
-              alt="Floating"
+              alt="Hero Image"
               width={1024}
               height={720}
-            />
-          </div>
-
-          <div className="md:hidden">
-            <Image
-              src="/images/landing/hero.svg"
-              alt="Floating"
-              width={0}
-              height={0}
-              sizes="100vw"
-              className="rounded"
-              style={{ width: '100%', height: 'auto' }}
+              className="w-full h-auto"
             />
           </div>
         </section>
 
+        <section className="md:hidden relative h-[380px]">
+          <Image
+            src="/images/landing/hero-mobile.svg"
+            alt="Hero Image"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="max-h-lg w-full max-w-lg md:max-w-xl absolute -top-10 left-1/2 -translate-x-1/2"
+          />
+        </section>
+
         <section className="p-8 flex flex-col gap-12">
-          <div className="hidden md:block mb-[220px]"></div>
+          <div className="mb-0 min-[400px]:mb-[80px] sm:mb-[120px] md:mb-[220px] lg:mb-[160px]"></div>
 
           <h2 className="text-3xl text-center font-bold">Por que escolher a FinTrack?</h2>
 
@@ -151,12 +156,11 @@ export default function Page() {
               </Card>
             ))}
           </div>
-          
         </section>
       </main>
 
       <footer className="p-4 border-t border-t-secondary">
-        <div className="flex justify-between gap-4">
+        <div className="flex flex-col md:flex-row items-center md:justify-between gap-4">
           <Link href="/" className="flex items-center">
             <Image
               src="/images/logo.svg"
