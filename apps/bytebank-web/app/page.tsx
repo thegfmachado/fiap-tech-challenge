@@ -13,21 +13,25 @@ const cards = [
     title: "Monitoramento de despesas em tempo real",
     content: "Monitore seus gastos de onde estiver.",
     image: "/images/landing/tracking.svg",
+    icon: "/images/landing/eye.svg"
   },
   {
     title: "Planejamento de orçamento",
     content: "Crie e gerencie orçamentos com facilidade.",
     image: "/images/landing/budget.svg",
+    icon: "/images/landing/coin.svg"
   },
   {
     title: "Insights financeiros",
     content: "Receba insights valiosos sobre suas finanças.",
     image: "/images/landing/insight.svg",
+    icon: "/images/landing/presentation-chart.svg",
   },
   {
     title: "Dados seguros",
     content: "Seus dados financeiros estão seguros conosco.",
     image: "/images/landing/safe-data.svg",
+    icon: "/images/landing/shield-tick.svg"
   },
 ]
 
@@ -126,7 +130,7 @@ export default function Page() {
                 <CardContent className="flex flex-col gap-4">
                   <p>{card.content}</p>
 
-                  <div className="self-center">
+                  <div className="self-center hidden md:block">
                     <Image
                       src={card.image}
                       width={464}
@@ -134,10 +138,20 @@ export default function Page() {
                       alt={card.title}
                     />
                   </div>
+
+                  <div className="self-center md:hidden">
+                    <Image
+                      src={card.icon}
+                      width={116}
+                      height={116}
+                      alt={card.title}
+                    />
+                  </div>
                 </CardContent>
               </Card>
             ))}
           </div>
+          
         </section>
       </main>
 
