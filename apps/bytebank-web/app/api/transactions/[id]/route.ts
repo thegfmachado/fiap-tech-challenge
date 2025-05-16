@@ -16,7 +16,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<RouteP
   return Response.json(data);
 }
 
-export async function UPDATE(req: NextRequest, { params }: { params: Promise<RouteParams> }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<RouteParams> }) {
   try {
     const { id } = await params;
     const body: Partial<Transaction> = await req.json();
