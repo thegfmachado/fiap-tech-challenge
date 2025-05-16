@@ -4,19 +4,24 @@ import { useEffect, useState } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 import { TransactionsList } from "components/transactions-list";
-import type { Transaction } from "../shared/models/transaction.interface";
-import { formatCurrency } from "../../lib/formatters";
+import type { ITransaction } from "../shared/models/transaction.interface";
+import { formatCurrency } from "../client/formatters";
+
+import { HTTPService } from "app/client/services/http-service";
+import { TransactionService } from "app/client/services/transaction-service";
 
 const balance = 15460.75;
 
+const httpService = new HTTPService();
+const transactionService = new TransactionService(httpService);
+
 export default function Home() {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useState<ITransaction[]>([]);
   const [showBalance, setShowBalance] = useState(false);
 
   useEffect(() => {
     const fetchTransactions = async () => {
-      const response = await fetch("/api/transactions");
-      const data = await response.json();
+      const data = await transactionService.getAll();
 
       setTransactions(data);
     }

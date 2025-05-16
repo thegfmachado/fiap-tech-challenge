@@ -2,13 +2,13 @@ import Link from "next/link";
 
 import { cva } from "class-variance-authority"
 
-import type { Transaction } from "app/shared/models/transaction.interface";
+import type { ITransaction } from "app/shared/models/transaction.interface";
 import { Button } from "@fiap-tech-challenge/design-system/components";
-import { formatCurrency, formatDate } from "lib/formatters";
+import { formatCurrency, formatDate } from "app/client/formatters";
 import { TransactionType } from "app/shared/enums/transaction-type.enum";
 
 export interface TransactionsListProps {
-  transactions: Transaction[];
+  transactions: ITransaction[];
   showAllTransactionsButton?: boolean;
 }
 

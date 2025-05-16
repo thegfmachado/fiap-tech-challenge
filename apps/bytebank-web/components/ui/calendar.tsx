@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { DayPicker } from "react-day-picker"
 import { ptBR } from "date-fns/locale"
 
-import { cn } from "lib/utils"
+import { cn } from "app/client/utils"
 
 import { buttonVariants } from "../../../../packages/design-system/src/components/button/use-button"
 

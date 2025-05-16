@@ -19,15 +19,31 @@ import {
   Input,
 } from "@fiap-tech-challenge/design-system/components";
 
-import type { Transaction } from "../shared/models/transaction.interface";
+import type { ITransaction } from "../shared/models/transaction.interface";
+
+import { TransactionService } from "app/client/services/transaction-service";
+import { HTTPService } from "app/client/services/http-service";
 
 const INITIAL_DATE_RANGE_VALUE = {
   from: new Date(),
 }
 
+const httpService = new HTTPService();
+const transactionService = new TransactionService(httpService);
+
+const postTransaction = () => {
+  transactionService.create({
+    id: String(Date.now()),
+    description: "Novo depósito",
+    value: 450,
+    type: "debit",
+    date: new Date().toISOString(),
+  });
+}
+
 export default function Transaction() {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [filteredTransactions, setFilteredTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useState<ITransaction[]>([]);
+  const [filteredTransactions, setFilteredTransactions] = useState<ITransaction[]>([]);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [typeFilter, setTypeFilter] = useState<string | undefined>(undefined);
@@ -35,8 +51,8 @@ export default function Transaction() {
 
   useEffect(() => {
     const fetchTransactions = async () => {
-      const response = await fetch("/api/transactions");
-      const data = await response.json();
+      const data = await transactionService.getAll();
+
       setTransactions(data);
       setFilteredTransactions(data);
     };
@@ -136,7 +152,7 @@ export default function Transaction() {
       <TransactionsList transactions={filteredTransactions} />
 
       <div className="p-8 w-full flex items-center justify-end mt-4">
-        <Button size="lg">
+        <Button size="lg" onClick={postTransaction}>
           <SquarePlus />
 
           Nova transação

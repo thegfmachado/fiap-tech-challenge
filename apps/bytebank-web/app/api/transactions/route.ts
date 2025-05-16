@@ -1,31 +1,25 @@
-const JSON_SERVER_URL = 'http://localhost:3005/transactions';
+import { NextRequest, NextResponse } from "next/server";
+
+import { TransactionService } from "app/lib/services/transaction-service";
+import { handleResponseError } from "app/lib/utils/handle-response-error";
+
+const service = new TransactionService();
 
 export async function GET() {
-  const response = await fetch(JSON_SERVER_URL);
-
-  if (!response.ok) {
-    return new Response('Error fetching transactions', { status: 500 });
+  try {
+    const transactions = await service.getAll();
+    return NextResponse.json(transactions);
+  } catch (err) {
+    return handleResponseError(err);
   }
-
-  const data = await response.json();
-  return Response.json(data);
 }
 
-export async function POST(params: Request) {
-  const body = await params.json();
-
-  const response = await fetch(JSON_SERVER_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
-  });
-
-  if (!response.ok) {
-    return new Response('Error creating new transaction', { status: 500 });
+export async function POST(req: NextRequest) {
+  try {
+    const data = await req.json();
+    const transaction = await service.create(data);
+    return NextResponse.json(transaction);
+  } catch (err) {
+    return handleResponseError(err);
   }
-
-  const data = await response.json();
-  return Response.json(data);
 }

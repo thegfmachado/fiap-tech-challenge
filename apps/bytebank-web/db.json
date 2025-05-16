@@ -20,6 +20,34 @@
       "value": 500,
       "date": "2025-04-25T10:30:00Z",
       "description": "Depósito PPR"
+    },
+    {
+      "id": "1747432924366",
+      "description": "Pix",
+      "value": 300,
+      "type": "credit",
+      "date": "2025-05-16T22:02:04.366Z"
+    },
+    {
+      "id": "1747434359983",
+      "description": "Novo pagamento",
+      "value": 100,
+      "type": "credit",
+      "date": "2025-05-16T22:25:59.983Z"
+    },
+    {
+      "id": "1747435650378",
+      "description": "Novo depósito",
+      "value": 450,
+      "type": "credit",
+      "date": "2025-05-16T22:47:30.378Z"
+    },
+    {
+      "id": "1747435665213",
+      "description": "Condomínio",
+      "value": -450,
+      "type": "debit",
+      "date": "2025-05-16T22:47:45.213Z"
     }
   ]
 }
