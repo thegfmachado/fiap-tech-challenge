@@ -1,10 +1,10 @@
 "use client";
 
-import { Button } from "@fiap-tech-challenge/design-system/components";
 import { useEffect, useState } from "react";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
+
 import { TransactionsList } from "components/transactions-list";
 import type { Transaction } from "../shared/models/transaction.interface";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { formatCurrency } from "../../lib/formatters";
 
 const balance = 15460.75;
@@ -40,18 +40,17 @@ export default function Home() {
               {showBalance ? formatCurrency(balance) : `R$ *********`}
             </span>
             <span className="cursor-pointer">
-            {
-              showBalance
-                ? <EyeIcon onClick={handleToggleBalance} size={46}/>
-                : <EyeOffIcon onClick={handleToggleBalance} size={46}/>
-            }
+              {
+                showBalance
+                  ? <EyeIcon onClick={handleToggleBalance} size={46} />
+                  : <EyeOffIcon onClick={handleToggleBalance} size={46} />
+              }
             </span>
           </p>
         </div>
-        <Button>Nova transação</Button>
       </div>
 
-      <TransactionsList transactions={transactions}/>
+      <TransactionsList transactions={transactions} showAllTransactionsButton />
     </div>
   )
 }
