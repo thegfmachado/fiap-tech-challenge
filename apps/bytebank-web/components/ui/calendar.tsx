@@ -37,20 +37,18 @@ function Calendar({
         weekdays: "flex",
         weekday: "text-muted-foreground rounded-md w-8 font-normal text-[0.8rem]",
         week: "flex w-full mt-2",
-        day: cn(
-          "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-range-end)]:rounded-r-md",
-          props.mode === "range"
-            ? "[&:has(>.day-range-end)]:rounded-r-md [&:has(>.day-range-start)]:rounded-l-md first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md"
-            : "[&:has([aria-selected])]:rounded-md",
-        ),
+        day: "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 rounded-md",
         day_button: cn(
           buttonVariants({ variant: "ghost" }),
-          "size-8 p-0 font-normal aria-selected:opacity-100",
+          "size-8 p-0 font-normal",
         ),
-        range_start: "day-range-start aria-selected:bg-primary aria-selected:text-primary-foreground",
-        range_end: "day-range-end aria-selected:bg-primary aria-selected:text-primary-foreground",
-        range_middle: "aria-selected:bg-accent aria-selected:text-accent-foreground",
-        selected: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+        range_start: "day-range-start aria-selected:bg-primary aria-selected:text-primary-foreground rounded-l-md [&:not(.day-range-end)]:rounded-r-none",
+        range_end: "day-range-end aria-selected:bg-primary aria-selected:text-primary-foreground rounded-r-md [&:not(.day-range-start)]:rounded-l-none",
+        range_middle: "aria-selected:bg-accent aria-selected:text-accent-foreground rounded-none",
+        selected: cn(
+          "[&>button]:bg-inherit [&>button]:text-inherit [&>button]:hover:bg-inherit [&>button]:hover:text-inherit",
+          props.mode === "single" && "aria-selected:bg-primary aria-selected:text-primary-foreground rounded-md",
+        ),
         today: "bg-accent text-accent-foreground",
         outside: "day-outside text-muted-foreground aria-selected:text-muted-foreground",
         disabled: "text-muted-foreground opacity-50",
