@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { HttpError } from "../../lib/http-error";
+import { HttpError } from "../http-error";
 
 export function handleResponseError(err: unknown) {
   if (err instanceof HttpError) {

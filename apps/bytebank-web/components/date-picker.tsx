@@ -16,27 +16,44 @@ import { cn } from "@fiap-tech-challenge/design-system/lib/utils";
 
 import { formatDate } from "app/client/formatters"
 
-type DatePickerProps = {
+interface DatePickerBaseProps {
   className?: string
+  mode: "single" | "range"
+  fitParent?: boolean
+}
+
+type DatePickerSingleProps = DatePickerBaseProps & {
+  mode: "single"
+  value?: Date
+  onChange?: (date: Date | undefined) => void
+}
+
+type DatePickerRangeProps = DatePickerBaseProps & {
+  mode: "range"
   value?: DateRange
   onChange?: (range: DateRange | undefined) => void
 }
 
-export function DatePicker({
-  className,
-  value,
-  onChange,
-}: DatePickerProps) {
-  const [date, setDate] = React.useState<DateRange | undefined>(value)
+type DatePickerProps = DatePickerSingleProps | DatePickerRangeProps
 
-  React.useEffect(() => {
-    setDate(value)
-  }, [value])
+const isDayPickerRange = (props: DatePickerProps): props is DatePickerRangeProps => {
+  return props.mode === "range"
+}
 
-  const handleSelect = (range: DateRange | undefined) => {
-    setDate(range)
-    onChange?.(range)
+function DatePickerPlaceholder(props: DatePickerProps) {
+  if (isDayPickerRange(props)) {
+    const { from, to } = props.value || {}
+
+    return from && to
+      ? `${formatDate(from, "medium")} - ${formatDate(to, "medium")}`
+      : "Selecionar intervalo"
   }
+
+  return props.value ? formatDate(props.value, "medium") : "Selecionar data"
+}
+
+export function DatePicker(props: DatePickerProps) {
+  const { className, fitParent } = props
 
   return (
     <div className={cn("grid gap-2", className)}>
@@ -46,31 +63,22 @@ export function DatePicker({
             id="date"
             variant={"outline"}
             className={cn(
-              "w-[300px] justify-start text-left font-normal",
-              !date && "text-muted-foreground"
+              "justify-start text-left font-normal",
+              !props.value && "text-muted-foreground",
+              fitParent ? "w-full" : "w-[300px]",
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {date?.from ? (
-              date.to ? (
-                <>
-                  {formatDate(date.from, "medium")} - {formatDate(date.to, "medium")}
-                </>
-              ) : (
-                formatDate(date.from, "medium")
-              )
-            ) : (
-              <span>Pick a date</span>
-            )}
+            <DatePickerPlaceholder {...props} />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
+          {/* @ts-expect-error ignorando para simplicidade, os tipos do DatePicker garantem o tipo certo */}
           <Calendar
-            initialFocus
-            mode="range"
-            defaultMonth={date?.from}
-            selected={date}
-            onSelect={handleSelect}
+            autoFocus
+            mode={props.mode}
+            selected={props.value}
+            onSelect={props.onChange}
             numberOfMonths={1}
           />
         </PopoverContent>

@@ -1,4 +1,4 @@
-import { HttpError } from "../../lib/http-error";
+import { HttpError } from "../http-error";
 import { ITransaction } from "../../shared/models/transaction.interface";
 import { ITransactionService } from "./transaction-service.interface";
 

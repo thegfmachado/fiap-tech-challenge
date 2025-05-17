@@ -42,7 +42,7 @@ export function TransactionsList(props: TransactionsListProps) {
           <div className="flex items-center justify-between border-t py-4 px-7" key={transaction.id}>
             <div>
               <p>{transaction.description}</p>
-              <p>{formatDate(new Date(transaction.date), 'short')}</p>
+              <p className="text-muted-foreground">{formatDate(new Date(transaction.date), 'short')}</p>
             </div>
             <div>
               <p

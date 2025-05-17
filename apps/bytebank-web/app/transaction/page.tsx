@@ -135,6 +135,7 @@ export default function Transaction() {
               <DatePicker
                 className="w-full"
                 onChange={(range) => setDateRange(range ?? INITIAL_DATE_RANGE_VALUE)}
+                mode="range"
                 value={dateRange}
               />
             </div>
