@@ -80,7 +80,9 @@ export default function Page() {
           </div>
           <div className="flex items-center gap-4">
             <Button variant="ghost">Criar minha conta</Button>
-            <Button>Entrar</Button>
+            <Button asChild>
+              <Link href="/home">Entrar</Link>
+            </Button>
           </div>
         </div>
       </header>
@@ -95,7 +97,9 @@ export default function Page() {
             Gerencie seu dinheiro, acompanhe despesas e planeje seu futuro financeiro.
           </h2>
 
-          <Button>Comece agora</Button>
+          <Button asChild>
+            <Link href="/home">Comece agora</Link>
+          </Button>
 
           <div className="hidden md:block mb-32 md:mb-[300px] lg:mb-[250px]" />
 
