@@ -3,7 +3,7 @@ import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu"
 import { cva } from "class-variance-authority"
 import { ChevronDownIcon } from "lucide-react"
 
-import { cn } from "app/client/utils"
+import { cn } from "@fiap-tech-challenge/design-system/lib/utils";
 
 function NavigationMenu({
   className,

@@ -6,8 +6,7 @@ import { DayPicker } from "react-day-picker"
 import { ptBR } from "date-fns/locale"
 
 import { buttonVariants } from "@fiap-tech-challenge/design-system/components"
-
-import { cn } from "app/client/utils"
+import { cn } from "@fiap-tech-challenge/design-system/lib/utils";
 
 function Calendar({
   className,

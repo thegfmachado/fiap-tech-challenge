@@ -12,7 +12,8 @@ import {
 } from "./ui/popover"
 
 import { Button } from "@fiap-tech-challenge/design-system/components"
-import { cn } from "app/client/utils"
+import { cn } from "@fiap-tech-challenge/design-system/lib/utils";
+
 import { formatDate } from "app/client/formatters"
 
 type DatePickerProps = {

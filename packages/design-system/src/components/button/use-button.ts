@@ -34,11 +34,18 @@ export const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  }
+  },
 )
 
 export function useButton(props: ButtonProps) {
-  const { asChild = BUTTON_DEFAULT_PROPS.asChild, className, disabled = BUTTON_DEFAULT_PROPS.disabled, variant, size, ...rest } = props
+  const {
+    asChild = BUTTON_DEFAULT_PROPS.asChild,
+    className,
+    disabled = BUTTON_DEFAULT_PROPS.disabled,
+    variant,
+    size,
+    ...rest
+  } = props
 
   const combinedClassNames = cn(buttonVariants({ variant, size }), className)
 
