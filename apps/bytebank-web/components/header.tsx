@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import Link from "next/link";
 
-function Header() {
+export function Header() {
   return (
-    <header className="p-4 border-b border-gray-200 shadow-lg">
+    <header className="p-4 shadow-lg bg-white z-10">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-10">
           <Link href="/" className="flex items-center">
@@ -28,5 +28,3 @@ function Header() {
     </header>
   );
 }
-
-export default Header;

@@ -23,6 +23,8 @@ import type { ITransaction } from "../shared/models/transaction.interface";
 
 import { TransactionService } from "app/client/services/transaction-service";
 import { HTTPService } from "app/client/services/http-service";
+import { Header } from "components/header";
+import { TransactionAction } from "components/transaction-action";
 
 const INITIAL_DATE_RANGE_VALUE = {
   from: new Date(),
@@ -105,32 +107,34 @@ export default function Transaction() {
   }
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="flex flex-col items-center w-full p-8 gap-4 bg-radial-[350%_70%_at_50%_100%] from-primary/15 to-white from-0% to-20%">
-        <div className="w-full flex flex-col gap-4">
-          <h1 className="text-2xl font-bold">Transações</h1>
+    <div className="grid grid-rows-[auto_1fr] min-h-screen">
+      <Header />
+      <main className="flex flex-col items-center">
+        <div className="flex flex-col items-center w-full p-8 gap-4 bg-radial-[350%_70%_at_50%_100%] from-primary/15 to-white from-0% to-20% grow">
+          <div className="w-full flex flex-col gap-4">
+            <h1 className="text-2xl font-bold">Transações</h1>
 
-          <div className="flex gap-4 items-center justify-between">
-            <div className="grid grid-cols-3 gap-4">
-              <Input
-                className="w-full"
-                placeholder="Digite o valor ou nome da transação"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+            <div className="flex gap-4 items-center justify-between">
+              <div className="grid grid-cols-3 gap-4">
+                <Input
+                  className="w-full"
+                  placeholder="Digite o valor ou nome da transação"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
 
-              <Select
-                value={typeFilter}
-                onValueChange={(value) => setTypeFilter(value)}
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Tipo de transação" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="credit">Depósito</SelectItem>
-                  <SelectItem value="debit">Transferência</SelectItem>
-                </SelectContent>
-              </Select>
+                <Select
+                  value={typeFilter}
+                  onValueChange={(value) => setTypeFilter(value)}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Tipo de transação" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="credit">Depósito</SelectItem>
+                    <SelectItem value="debit">Transferência</SelectItem>
+                  </SelectContent>
+                </Select>
 
               <DatePicker
                 className="w-full"
@@ -140,25 +144,34 @@ export default function Transaction() {
               />
             </div>
 
-            <div className="flex gap-4">
-              <Button onClick={applyFilters}>Buscar</Button>
-              <Button variant="outline" onClick={clearFilters}>
-                Limpar filtros
-              </Button>
+              <div className="flex gap-4">
+                <Button onClick={applyFilters}>Buscar</Button>
+                <Button variant="outline" onClick={clearFilters}>
+                  Limpar filtros
+                </Button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <TransactionsList transactions={filteredTransactions} />
+        <TransactionsList
+          transactions={filteredTransactions}
+          renderActions={(transaction) => (
+            <>
+              <TransactionAction type="edit" onClick={() => console.log(transaction.id)} />
+              <TransactionAction type="delete" onClick={() => transactionService.delete(transaction.id)} />
+            </>
+          )}
+        />
 
-      <div className="p-8 w-full flex items-center justify-end mt-4">
-        <Button size="lg" onClick={postTransaction}>
-          <SquarePlus />
+        <div className="p-8 w-full flex items-center justify-end mt-4">
+          <Button size="lg" onClick={postTransaction}>
+            <SquarePlus />
 
-          Nova transação
-        </Button>
-      </div>
+            Nova transação
+          </Button>
+        </div>
+      </main>
     </div>
   );
 }
