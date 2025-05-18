@@ -5,9 +5,9 @@ import type { DateRange } from "react-day-picker";
 import { FunnelPlus } from "lucide-react";
 
 import { Button, Input } from "@fiap-tech-challenge/design-system/components";
-import { HTTPService } from "app/client/services/http-service";
-import { TransactionService } from "app/client/services/transaction-service";
-import type { ITransaction } from "../shared/models/transaction.interface";
+import { HTTPService } from "@bytebank/client/services/http-service";
+import { TransactionService } from "@bytebank/client/services/transaction-service";
+import type { ITransaction } from "@bytebank/shared/models/transaction.interface";
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "components/ui/select";
 import { DatePicker } from "components/date-picker";

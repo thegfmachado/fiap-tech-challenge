@@ -1,4 +1,4 @@
-import { formatCurrency } from "@bytebank/app/client/formatters";
+import { formatCurrency } from "@bytebank/client/formatters";
 import { useEffect } from "react";
 import * as React from "react";
 

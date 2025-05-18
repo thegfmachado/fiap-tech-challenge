@@ -1,7 +1,7 @@
 import { HTTPService } from "./http-service";
 
 import type { ITransactionService } from "./transaction-service.interface";
-import { ITransaction } from "app/shared/models/transaction.interface";
+import { ITransaction } from "@bytebank/shared/models/transaction.interface";
 
 export class TransactionService implements ITransactionService {
   constructor(private readonly httpService: HTTPService) { }

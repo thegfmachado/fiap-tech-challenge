@@ -14,7 +14,7 @@ import {
 import { Button } from "@fiap-tech-challenge/design-system/components"
 import { cn } from "@fiap-tech-challenge/design-system/lib/utils";
 
-import { formatDate } from "app/client/formatters"
+import { formatDate } from "@bytebank/client/formatters"
 
 interface DatePickerBaseProps {
   className?: string

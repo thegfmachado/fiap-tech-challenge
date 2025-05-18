@@ -1,4 +1,4 @@
-import { TransactionType } from "@bytebank/app/shared/enums/transaction-type.enum";
+import { TransactionType } from "@bytebank/shared/enums/transaction-type.enum";
 
 export interface ITransaction {
   id: string;

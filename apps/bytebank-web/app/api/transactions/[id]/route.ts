@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { RouteParams } from "app/shared/models/route-params.interface";
-import { TransactionService } from "app/lib/services/transaction-service";
-import { handleResponseError } from "app/lib/utils/handle-response-error";
+import { RouteParams } from "@bytebank/shared/models/route-params.interface";
+import { TransactionService } from "@bytebank/lib/services/transaction-service";
+import { handleResponseError } from "@bytebank/lib/utils/handle-response-error";
 
 const service = new TransactionService();
 

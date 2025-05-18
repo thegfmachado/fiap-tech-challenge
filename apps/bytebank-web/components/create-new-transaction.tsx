@@ -1,6 +1,6 @@
-import { HTTPService } from "@bytebank/app/client/services/http-service";
-import { TransactionService } from "@bytebank/app/client/services/transaction-service";
-import type { ITransaction } from "@bytebank/app/shared/models/transaction.interface";
+import { HTTPService } from "@bytebank/client/services/http-service";
+import { TransactionService } from "@bytebank/client/services/transaction-service";
+import type { ITransaction } from "@bytebank/shared/models/transaction.interface";
 import { TransactionsForm } from "@bytebank/components/transactions-form";
 import {
   Button,

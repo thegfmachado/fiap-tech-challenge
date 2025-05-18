@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { cva } from "class-variance-authority";
-import type { ITransaction } from "app/shared/models/transaction.interface";
+import type { ITransaction } from "@bytebank/shared/models/transaction.interface";
 import { Button } from "@fiap-tech-challenge/design-system/components";
-import { formatCurrency, formatDate } from "app/client/formatters";
-import { TransactionType } from "app/shared/enums/transaction-type.enum";
+import { formatCurrency, formatDate } from "@bytebank/client/formatters";
+import { TransactionType } from "@bytebank/shared/enums/transaction-type.enum";
 
 export type TransactionsListProps = {
   transactions: ITransaction[];

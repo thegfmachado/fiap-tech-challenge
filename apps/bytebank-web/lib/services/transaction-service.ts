@@ -1,5 +1,5 @@
 import { HttpError } from "../http-error";
-import { ITransaction } from "../../shared/models/transaction.interface";
+import { ITransaction } from "@bytebank/shared/models/transaction.interface";
 import { ITransactionService } from "./transaction-service.interface";
 
 const BASE_URL = 'http://localhost:3005/transactions';

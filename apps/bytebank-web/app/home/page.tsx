@@ -4,16 +4,16 @@ import { CreateNewTransaction } from "@bytebank/components/create-new-transactio
 import { useEffect, useMemo, useState } from "react";
 
 import { TransactionsList } from "components/transactions-list";
-import type { ITransaction } from "../shared/models/transaction.interface";
+import type { ITransaction } from "@bytebank/shared/models/transaction.interface";
 
-import { HTTPService } from "app/client/services/http-service";
-import { TransactionService } from "app/client/services/transaction-service";
+import { HTTPService } from "@bytebank/client/services/http-service";
+import { TransactionService } from "@bytebank/client/services/transaction-service";
 
 import { TransactionAction } from "@bytebank/components/transaction-action";
 import { Header } from "components/header";
-import { VisibilityToggler } from "../../components/visibility-toggler";
+import { VisibilityToggler } from "@bytebank/components/visibility-toggler";
 
-import { formatCurrency } from "../client/formatters";
+import { formatCurrency } from "@bytebank/client/formatters";
 
 const httpService = new HTTPService();
 const transactionService = new TransactionService(httpService);

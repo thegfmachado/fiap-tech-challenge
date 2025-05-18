@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { TransactionService } from "app/lib/services/transaction-service";
-import { handleResponseError } from "app/lib/utils/handle-response-error";
+import { TransactionService } from "@bytebank/lib/services/transaction-service";
+import { handleResponseError } from "@bytebank/lib/utils/handle-response-error";
 
 const service = new TransactionService();
 

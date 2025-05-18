@@ -1,4 +1,4 @@
-import { ITransaction } from "../../shared/models/transaction.interface";
+import { ITransaction } from "@bytebank/shared/models/transaction.interface";
 
 export interface ITransactionService {
   getAll(): Promise<ITransaction[]>;

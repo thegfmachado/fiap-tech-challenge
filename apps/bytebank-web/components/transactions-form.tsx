@@ -11,9 +11,9 @@ import {
   FormMessage,
   Button, RadioGroup, FormLabel, RadioGroupItem,
 } from "@fiap-tech-challenge/design-system/components";
-import { TransactionType } from "@bytebank/app/shared/enums/transaction-type.enum";
+import { TransactionType } from "@bytebank/shared/enums/transaction-type.enum";
 import { CurrencyInput } from "@bytebank/components/ui/currency-input";
-import { ITransaction } from "@bytebank/app/shared/models/transaction.interface";
+import { ITransaction } from "@bytebank/shared/models/transaction.interface";
 import { DatePicker } from "@bytebank/components/date-picker";
 
 export interface TransactionsFormProps {
