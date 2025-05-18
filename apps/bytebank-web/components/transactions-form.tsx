@@ -132,7 +132,9 @@ export function TransactionsForm(props: TransactionsFormProps) {
         />
 
         <div className="flex justify-center">
-          <Button disabled={disabled} size="lg" type="submit">Criar transação</Button>
+          <Button disabled={disabled} size="lg" type="submit">
+            {transaction ? "Editar transação" : "Criar transação"}
+          </Button>
         </div>
       </form>
     </Form>

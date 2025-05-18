@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-  DialogHeader, DialogDescription,
-} from "@fiap-tech-challenge/design-system/components";
+import { CreateNewTransaction } from "@bytebank/components/create-new-transaction";
 import { useEffect, useMemo, useState } from "react";
 
 import { TransactionsList } from "components/transactions-list";
@@ -18,15 +11,11 @@ import { TransactionService } from "app/client/services/transaction-service";
 import Header from "components/ui/header";
 import { VisibilityToggler } from "../../components/visibility-toggler";
 import { formatCurrency } from "../client/formatters";
-import { DialogBody } from "next/dist/client/components/react-dev-overlay/ui/components/dialog";
-import { TransactionsForm } from "../../components/transactions-form";
 
 const httpService = new HTTPService();
 const transactionService = new TransactionService(httpService);
 
 export default function Home() {
-  const [open, setOpen] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
   const [showBalance, setShowBalance] = useState(false);
 
@@ -50,21 +39,8 @@ export default function Home() {
     void fetchTransactions();
   }, []);
 
-  const handleOpenDialog = () => {
-    setOpen(true);
-  }
-
-  const handleCreateNewTransaction = async (transaction: ITransaction) => {
-    setSubmitting(true);
-    try {
-      await transactionService.create(transaction);
-
-      setTransactions(prevTransactions => [...prevTransactions, transaction]);
-      setSubmitting(false);
-      setOpen(false);
-    } catch (error) {
-      console.error("Error creating transaction", error);
-    }
+  const handleNewTransaction = (transaction: ITransaction) => {
+    setTransactions(prevTransactions => [...prevTransactions, transaction]);
   }
 
   const handleToggleBalance = () => {
@@ -89,22 +65,8 @@ export default function Home() {
               } onClick={handleToggleBalance} />
             </p>
           </div>
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-              <Button onClick={handleOpenDialog}>Nova transação</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Criar nova transação</DialogTitle>
-              </DialogHeader>
-              <DialogBody>
-                <DialogDescription className="sr-only">
-                  Formulário para criar uma nova transação
-                </DialogDescription>
-                <TransactionsForm disabled={submitting} onSubmit={handleCreateNewTransaction} />
-              </DialogBody>
-            </DialogContent>
-          </Dialog>
+
+          <CreateNewTransaction onSuccess={handleNewTransaction} />
         </div>
 
         <TransactionsList transactions={transactions} showAllTransactionsButton />

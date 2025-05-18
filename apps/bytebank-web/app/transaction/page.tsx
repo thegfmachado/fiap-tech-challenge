@@ -1,28 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { SquarePlus } from "lucide-react";
-import type { DateRange } from "react-day-picker";
+import { CreateNewTransaction } from "@bytebank/components/create-new-transaction";
 
-import { TransactionsList } from "components/transactions-list";
-import { DatePicker } from "components/date-picker";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "components/ui/select";
-
-import {
-  Button,
-  Input,
-} from "@fiap-tech-challenge/design-system/components";
-
-import type { ITransaction } from "../shared/models/transaction.interface";
+import { Button, Input } from "@fiap-tech-challenge/design-system/components";
+import { HTTPService } from "app/client/services/http-service";
 
 import { TransactionService } from "app/client/services/transaction-service";
-import { HTTPService } from "app/client/services/http-service";
+import { DatePicker } from "components/date-picker";
+
+import { TransactionsList } from "components/transactions-list";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "components/ui/select";
+import { useEffect, useState } from "react";
+import type { DateRange } from "react-day-picker";
+
+import type { ITransaction } from "../shared/models/transaction.interface";
 
 const INITIAL_DATE_RANGE_VALUE = {
   from: new Date(),
@@ -30,16 +21,6 @@ const INITIAL_DATE_RANGE_VALUE = {
 
 const httpService = new HTTPService();
 const transactionService = new TransactionService(httpService);
-
-const postTransaction = () => {
-  transactionService.create({
-    id: String(Date.now()),
-    description: "Novo depósito",
-    value: 450,
-    type: "debit",
-    date: new Date().toISOString(),
-  });
-}
 
 export default function Transaction() {
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
@@ -59,6 +40,10 @@ export default function Transaction() {
 
     void fetchTransactions();
   }, []);
+
+  const handleNewTransaction = (transaction: ITransaction) => {
+    setTransactions(prevTransactions => [...prevTransactions, transaction]);
+  }
 
   const applyFilters = () => {
     let filtered = [...transactions];
@@ -153,11 +138,7 @@ export default function Transaction() {
       <TransactionsList transactions={filteredTransactions} />
 
       <div className="p-8 w-full flex items-center justify-end mt-4">
-        <Button size="lg" onClick={postTransaction}>
-          <SquarePlus />
-
-          Nova transação
-        </Button>
+        <CreateNewTransaction onSuccess={handleNewTransaction} />
       </div>
     </div>
   );
