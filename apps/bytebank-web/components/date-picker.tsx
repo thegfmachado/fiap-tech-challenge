@@ -18,6 +18,7 @@ import { formatDate } from "app/client/formatters"
 
 interface DatePickerBaseProps {
   className?: string
+  disabled?: boolean
   mode: "single" | "range"
   fitParent?: boolean
 }
@@ -53,13 +54,14 @@ function DatePickerPlaceholder(props: DatePickerProps) {
 }
 
 export function DatePicker(props: DatePickerProps) {
-  const { className, fitParent } = props
+  const { className, disabled, fitParent } = props
 
   return (
     <div className={cn("grid gap-2", className)}>
       <Popover>
         <PopoverTrigger asChild>
           <Button
+            disabled={disabled}
             id="date"
             variant={"outline"}
             className={cn(

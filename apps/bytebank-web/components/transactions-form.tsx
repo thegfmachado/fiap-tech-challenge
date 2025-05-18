@@ -17,6 +17,7 @@ import { ITransaction } from "@bytebank/app/shared/models/transaction.interface"
 import { DatePicker } from "@bytebank/components/date-picker";
 
 export interface TransactionsFormProps {
+  disabled?: boolean;
   onSubmit: (transaction: ITransaction) => void;
   transaction?: ITransaction;
 }
@@ -24,8 +25,8 @@ export interface TransactionsFormProps {
 const createTransactionSchema = z.object({
   id: z.string(),
   type: z.enum([TransactionType.DEBIT, TransactionType.CREDIT]),
-  description: z.string().nonempty("Este campo é obrigatório"),
-  value: z.number().positive("O valor deve ser maior que zero"),
+  description: z.string({ required_error: "Este campo é obrigatório" }),
+  value: z.number({ required_error: "Este campo é obrigatório" }).min(1, "Valor deve ser maior que 0"),
   date: z.date({ required_error: "Este campo é obrigatório" }),
 })
 
@@ -42,23 +43,18 @@ const options = [
   },
 ]
 
-const defaultValues = {
-  type: TransactionType.DEBIT,
-  description: "",
-  value: undefined,
-  date: new Date(),
-}
-
 export function TransactionsForm(props: TransactionsFormProps) {
-  const { transaction, onSubmit } = props;
+  const { disabled, transaction, onSubmit } = props;
 
   const form = useForm<CreateTransactionSchema>({
     resolver: zodResolver(createTransactionSchema),
+    disabled,
     defaultValues: {
-      ...defaultValues,
+      type: TransactionType.DEBIT,
+      description: "",
+      id: Date.now().toString(),
       ...transaction,
-      id: transaction ? transaction.id : Date.now().toString(),
-      date: transaction ? new Date(transaction.date) : undefined,
+      date: transaction ? new Date(transaction.date) : new Date(),
     },
   })
 
@@ -79,7 +75,8 @@ export function TransactionsForm(props: TransactionsFormProps) {
             <FormItem className="space-y-2">
               <FormLabel>Tipo de transação</FormLabel>
               <FormControl>
-                <RadioGroup defaultValue={field.value} onValueChange={field.onChange} className="flex space-x-4">
+                <RadioGroup disabled={field.disabled} defaultValue={field.value} onValueChange={field.onChange}
+                            className="flex space-x-4">
                   {options.map(option => (
                     <FormItem key={option.value} className="flex items-center">
                       <FormControl>
@@ -135,7 +132,7 @@ export function TransactionsForm(props: TransactionsFormProps) {
         />
 
         <div className="flex justify-center">
-          <Button size="lg" type="submit">Criar transação</Button>
+          <Button disabled={disabled} size="lg" type="submit">Criar transação</Button>
         </div>
       </form>
     </Form>
