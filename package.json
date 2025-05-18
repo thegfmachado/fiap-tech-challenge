@@ -22,10 +22,10 @@
   "devDependencies": {
     "@fiap-tech-challenge/eslint-config": "file:./packages/eslint-config",
     "@fiap-tech-challenge/typescript-config": "file:./packages/typescript-config",
-    "cspell": "8.8.1",
-    "prettier": "^3.5.1",
-    "turbo": "^2.4.2",
-    "typescript": "5.7.3"
+    "cspell": "^8.19.4",
+    "prettier": "^3.5.3",
+    "turbo": "2.5.3",
+    "typescript": "^5"
   },
   "packageManager": "npm@10.8.2",
   "engines": {

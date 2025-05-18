@@ -12,26 +12,26 @@ const cards = [
   {
     title: "Monitoramento de despesas em tempo real",
     content: "Monitore seus gastos de onde estiver.",
-    image: "/images/landing/tracking.svg",
-    icon: "/images/landing/eye.svg"
+    image: "/images/tracking.svg",
+    icon: "/images/eye.svg"
   },
   {
     title: "Planejamento de orçamento",
     content: "Crie e gerencie orçamentos com facilidade.",
-    image: "/images/landing/budget.svg",
-    icon: "/images/landing/coin.svg"
+    image: "/images/budget.svg",
+    icon: "/images/coin.svg"
   },
   {
     title: "Insights financeiros",
     content: "Receba insights valiosos sobre suas finanças.",
-    image: "/images/landing/insight.svg",
-    icon: "/images/landing/presentation-chart.svg",
+    image: "/images/insight.svg",
+    icon: "/images/presentation-chart.svg",
   },
   {
     title: "Dados seguros",
     content: "Seus dados financeiros estão seguros conosco.",
-    image: "/images/landing/safe-data.svg",
-    icon: "/images/landing/shield-tick.svg"
+    image: "/images/safe-data.svg",
+    icon: "/images/shield-tick.svg"
   },
 ]
 
@@ -80,7 +80,9 @@ export default function Page() {
           </div>
           <div className="flex items-center gap-4">
             <Button variant="ghost">Criar minha conta</Button>
-            <Button>Entrar</Button>
+            <Button asChild>
+              <Link href="/home">Entrar</Link>
+            </Button>
           </div>
         </div>
       </header>
@@ -95,13 +97,15 @@ export default function Page() {
             Gerencie seu dinheiro, acompanhe despesas e planeje seu futuro financeiro.
           </h2>
 
-          <Button>Comece agora</Button>
+          <Button asChild>
+            <Link href="/home">Comece agora</Link>
+          </Button>
 
           <div className="hidden md:block mb-32 md:mb-[300px] lg:mb-[250px]" />
 
           <div className="hidden md:block absolute left-1/2 -translate-x-1/2 top-[520px] md:top-[460px] z-10 w-full max-w-3xl">
             <Image
-              src="/images/landing/hero.svg"
+              src="/images/hero.svg"
               alt="Hero Image"
               width={1024}
               height={720}
@@ -112,7 +116,7 @@ export default function Page() {
 
         <section className="md:hidden relative h-[380px]">
           <Image
-            src="/images/landing/hero-mobile.svg"
+            src="/images/hero-mobile.svg"
             alt="Hero Image"
             width={0}
             height={0}
