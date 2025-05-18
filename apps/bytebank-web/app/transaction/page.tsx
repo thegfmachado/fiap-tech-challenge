@@ -1,31 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FunnelPlus, SquarePlus } from "lucide-react";
 import type { DateRange } from "react-day-picker";
+import { FunnelPlus } from "lucide-react";
 
-import { TransactionsList } from "components/transactions-list";
-import { DatePicker } from "components/date-picker";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "components/ui/select";
-
-import {
-  Button,
-  Input,
-} from "@fiap-tech-challenge/design-system/components";
-
+import { Button, Input } from "@fiap-tech-challenge/design-system/components";
+import { HTTPService } from "app/client/services/http-service";
+import { TransactionService } from "app/client/services/transaction-service";
 import type { ITransaction } from "../shared/models/transaction.interface";
 
-import { TransactionService } from "app/client/services/transaction-service";
-import { HTTPService } from "app/client/services/http-service";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "components/ui/select";
+import { DatePicker } from "components/date-picker";
+import { TransactionsList } from "components/transactions-list";
+import { CreateNewTransaction } from "components/create-new-transaction";
 import { Header } from "components/header";
 import { TransactionAction } from "components/transaction-action";
-import { TransactionType } from "../shared/enums/transaction-type.enum";
+
 
 const INITIAL_DATE_RANGE_VALUE = {
   from: new Date(),
@@ -33,16 +23,6 @@ const INITIAL_DATE_RANGE_VALUE = {
 
 const httpService = new HTTPService();
 const transactionService = new TransactionService(httpService);
-
-const postTransaction = () => {
-  transactionService.create({
-    id: String(Date.now()),
-    description: "Novo depósito",
-    value: 450,
-    type: TransactionType.DEBIT,
-    date: new Date().toISOString(),
-  });
-}
 
 export default function Transaction() {
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
@@ -63,6 +43,10 @@ export default function Transaction() {
 
     void fetchTransactions();
   }, []);
+
+  const handleNewTransaction = (transaction: ITransaction) => {
+    setTransactions(prevTransactions => [...prevTransactions, transaction]);
+  }
 
   const applyFilters = () => {
     let filtered = [...transactions];
@@ -183,12 +167,8 @@ export default function Transaction() {
         />
 
         <div className="p-4 w-full flex items-center justify-end sticky bottom-0 bg-white border-t z-10">
-          <Button size="lg" onClick={postTransaction}>
-            <SquarePlus className="mr-2" />
-            Nova transação
-          </Button>
+          <CreateNewTransaction onSuccess={handleNewTransaction} />
         </div>
-
       </main>
     </div>
   );
