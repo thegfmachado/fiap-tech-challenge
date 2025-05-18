@@ -36,7 +36,7 @@ export function TransactionsList(props: TransactionsListProps) {
           </Button>
         )}
       </div>
-      <div className="overflow-y-auto max-h-[480px]">
+      <div>
         {transactions.length > 0 ? (
           transactions.map((transaction) => (
             <div
@@ -45,7 +45,7 @@ export function TransactionsList(props: TransactionsListProps) {
             >
               <div>
                 <p>{transaction.description}</p>
-                <p className="text-muted-foreground">{formatDate(new Date(transaction.date), "short")}</p>
+                <p className="text-muted-foreground">{formatDate(new Date(transaction.date))}</p>
               </div>
               <div className="flex items-center gap-4">
                 <p className={moneyVariants({ type: transaction.type })}>

@@ -16,6 +16,7 @@
   "dependencies": {
     "@fiap-tech-challenge/design-system": "file:./packages/design-system",
     "@hookform/resolvers": "5.0.1",
+    "@radix-ui/react-dialog": "^1.1.13",
     "@radix-ui/react-navigation-menu": "1.2.12",
     "@radix-ui/react-popover": "1.1.13",
     "@radix-ui/react-select": "2.2.4",
@@ -29,6 +30,7 @@
     "react-day-picker": "9.7.0",
     "react-dom": "19.1.0",
     "react-hook-form": "7.56.4",
+    "vaul": "^1.1.2",
     "zod": "3.24.4"
   },
   "devDependencies": {

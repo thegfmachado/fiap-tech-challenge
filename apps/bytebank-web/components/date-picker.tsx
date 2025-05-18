@@ -44,12 +44,16 @@ function DatePickerPlaceholder(props: DatePickerProps) {
   if (isDayPickerRange(props)) {
     const { from, to } = props.value || {}
 
-    return from && to
-      ? `${formatDate(from, "medium")} - ${formatDate(to, "medium")}`
-      : "Selecionar intervalo"
+    if (from && to) {
+      return from?.toISOString() === to?.toISOString()
+        ? `${formatDate(from)}`
+        : `${formatDate(from)} - ${formatDate(to)}`;
+    }
+
+    return "Selecionar data";
   }
 
-  return props.value ? formatDate(props.value, "medium") : "Selecionar data"
+  return props.value ? formatDate(props.value) : "Selecionar data"
 }
 
 export function DatePicker(props: DatePickerProps) {
