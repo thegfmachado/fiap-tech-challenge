@@ -13,7 +13,13 @@ export class HTTPService implements IHTTPService {
       throw new Error(`HTTP error ${res.status}: ${error}`);
     }
 
-    return res.json();
+    const isJson = res.headers.get("content-type")?.includes("application/json");
+
+    if (isJson) {
+      return res.json();
+    }
+
+    return undefined as T;
   }
 
   get<T>(url: string): Promise<T> {

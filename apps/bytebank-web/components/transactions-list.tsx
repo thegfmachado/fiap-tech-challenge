@@ -49,7 +49,7 @@ export function TransactionsList(props: TransactionsListProps) {
               </div>
               <div className="flex items-center gap-4">
                 <p className={moneyVariants({ type: transaction.type })}>
-                  {formatCurrency(transaction.value, { signDisplay: "always" })}
+                  {`${transaction.type === TransactionType.CREDIT ? "+" : "-"}${formatCurrency(transaction.value, { signDisplay: "never" })}`}
                 </p>
                 {renderActions && (
                   <div className="flex items-center gap-2">

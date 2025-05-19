@@ -16,9 +16,10 @@ import { CurrencyInput } from "@bytebank/components/ui/currency-input";
 import { ITransaction } from "@bytebank/shared/models/transaction.interface";
 import { DatePicker } from "@bytebank/components/date-picker";
 
-export interface TransactionsFormProps {
+export type TransactionsFormProps = {
   disabled?: boolean;
   onSubmit: (transaction: ITransaction) => void;
+  readOnly?: boolean;
   transaction?: ITransaction;
 }
 
@@ -44,7 +45,7 @@ const options = [
 ]
 
 export function TransactionsForm(props: TransactionsFormProps) {
-  const { disabled, transaction, onSubmit } = props;
+  const { disabled, transaction, onSubmit, readOnly } = props;
 
   const form = useForm<CreateTransactionSchema>({
     resolver: zodResolver(createTransactionSchema),
@@ -66,9 +67,10 @@ export function TransactionsForm(props: TransactionsFormProps) {
   }
 
   return (
-    <Form {...form} >
+    <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-5">
         <FormField
+          disabled={readOnly}
           control={form.control}
           name="type"
           render={({ field }) => (
@@ -76,7 +78,7 @@ export function TransactionsForm(props: TransactionsFormProps) {
               <FormLabel>Tipo de transação</FormLabel>
               <FormControl>
                 <RadioGroup disabled={field.disabled} defaultValue={field.value} onValueChange={field.onChange}
-                            className="flex space-x-4">
+                  className="flex space-x-4">
                   {options.map(option => (
                     <FormItem key={option.value} className="flex items-center">
                       <FormControl>
@@ -93,6 +95,7 @@ export function TransactionsForm(props: TransactionsFormProps) {
         />
 
         <FormField
+          disabled={readOnly}
           control={form.control}
           name="description"
           render={({ field }) => (
@@ -106,6 +109,7 @@ export function TransactionsForm(props: TransactionsFormProps) {
         />
 
         <FormField
+          disabled={readOnly}
           control={form.control}
           name="value"
           render={({ field }) => (
@@ -119,6 +123,7 @@ export function TransactionsForm(props: TransactionsFormProps) {
         />
 
         <FormField
+          disabled={readOnly}
           control={form.control}
           name="date"
           render={({ field }) => (
@@ -131,11 +136,12 @@ export function TransactionsForm(props: TransactionsFormProps) {
           )}
         />
 
-        <div className="flex justify-center">
-          <Button disabled={disabled} size="lg" type="submit">
-            {transaction ? "Editar transação" : "Criar transação"}
-          </Button>
-        </div>
+        {!readOnly
+          && <div className="flex justify-center">
+            <Button disabled={disabled} size="lg" type="submit">
+              {transaction ? "Editar transação" : "Criar transação"}
+            </Button>
+          </div>}
       </form>
     </Form>
   )

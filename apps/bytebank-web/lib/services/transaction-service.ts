@@ -41,7 +41,7 @@ export class TransactionService implements ITransactionService {
 
   async delete(id: string) {
     const response = await fetch(`${BASE_URL}/${id}`, { method: 'DELETE' });
-
     if (!response.ok) throw new HttpError(500, 'Error deleting transaction');
+    return response.json();
   }
 }

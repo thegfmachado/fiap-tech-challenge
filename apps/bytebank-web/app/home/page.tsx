@@ -1,7 +1,7 @@
 "use client";
 
-import { CreateNewTransaction } from "@bytebank/components/create-new-transaction";
 import { useEffect, useMemo, useState } from "react";
+import { CreateNewTransaction } from "@bytebank/components/create-new-transaction";
 
 import { TransactionsList } from "components/transactions-list";
 import type { ITransaction } from "@bytebank/shared/models/transaction.interface";
@@ -14,6 +14,7 @@ import { Header } from "components/header";
 import { VisibilityToggler } from "@bytebank/components/visibility-toggler";
 
 import { formatCurrency } from "@bytebank/client/formatters";
+import { EditTransaction } from "@bytebank/components/edit-transaction";
 
 const httpService = new HTTPService();
 const transactionService = new TransactionService(httpService);
@@ -21,6 +22,7 @@ const transactionService = new TransactionService(httpService);
 export default function Home() {
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
   const [showBalance, setShowBalance] = useState(false);
+  const [editFormTransaction, setEditFormTransaction] = useState<ITransaction | null>(null);
 
   const balance = useMemo(() => {
     return transactions.reduce((acc, curr) => {
@@ -78,13 +80,18 @@ export default function Home() {
           renderActions={(transaction) => (
             <TransactionAction
               type="details"
-              onClick={() => {
-                console.log("Details clicked:", transaction.id);
-              }}
+              onClick={() => setEditFormTransaction(transaction)}
             />
           )}
         />
 
+        {editFormTransaction && (
+          <EditTransaction
+            readOnly
+            onClose={() => setEditFormTransaction(null)}
+            transaction={editFormTransaction}
+          />
+        )}
       </main>
     </div>
   )

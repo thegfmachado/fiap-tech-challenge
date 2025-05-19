@@ -9,12 +9,14 @@ import { HTTPService } from "@bytebank/client/services/http-service";
 import { TransactionService } from "@bytebank/client/services/transaction-service";
 import type { ITransaction } from "@bytebank/shared/models/transaction.interface";
 
+import { EditTransaction } from "@bytebank/components/edit-transaction";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "components/ui/select";
 import { DatePicker } from "components/date-picker";
 import { TransactionsList } from "components/transactions-list";
 import { CreateNewTransaction } from "components/create-new-transaction";
 import { Header } from "components/header";
 import { TransactionAction } from "components/transaction-action";
+import { DeleteTransaction } from "@bytebank/components/delete-transaction";
 
 
 const INITIAL_DATE_RANGE_VALUE = {
@@ -32,6 +34,8 @@ export default function Transaction() {
   const [typeFilter, setTypeFilter] = useState<string | undefined>(undefined);
   const [dateRange, setDateRange] = useState<DateRange | undefined>(INITIAL_DATE_RANGE_VALUE);
   const [filtersVisible, setFiltersVisible] = useState(true);
+  const [editFormTransaction, setEditFormTransaction] = useState<ITransaction | null>(null);
+  const [deleteFormTransaction, setDeleteFormTransaction] = useState<ITransaction | null>(null);
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -44,9 +48,40 @@ export default function Transaction() {
     void fetchTransactions();
   }, []);
 
-  const handleNewTransaction = (transaction: ITransaction) => {
-    setTransactions(prevTransactions => [...prevTransactions, transaction]);
-  }
+  useEffect(() => {
+    setFilteredTransactions(transactions);
+  }, [transactions]);
+
+  const handleSyncTransactions = (
+    transaction: ITransaction,
+    action: "create" | "edit" | "delete"
+  ) => {
+    setTransactions(prevTransactions => {
+      if (action === "create") {
+        return [...prevTransactions, transaction];
+      }
+
+      const index = prevTransactions.findIndex(t => t.id === transaction.id);
+
+      if (index === -1) {
+        return prevTransactions;
+      }
+
+      if (action === "edit") {
+        const updated = [...prevTransactions];
+        updated[index] = transaction;
+        return updated;
+      }
+
+      if (action === "delete") {
+        return prevTransactions.filter(t => t.id !== transaction.id);
+      }
+
+      return prevTransactions;
+    });
+
+    setEditFormTransaction(null);
+  };
 
   const applyFilters = () => {
     let filtered = [...transactions];
@@ -160,15 +195,31 @@ export default function Transaction() {
           transactions={filteredTransactions}
           renderActions={(transaction) => (
             <>
-              <TransactionAction type="edit" onClick={() => console.log(transaction.id)} />
-              <TransactionAction type="delete" onClick={() => transactionService.delete(transaction.id)} />
+              <TransactionAction type="edit" onClick={() => setEditFormTransaction(transaction)} />
+              <TransactionAction type="delete" onClick={() => setDeleteFormTransaction(transaction)} />
             </>
           )}
         />
 
         <div className="p-4 w-full flex items-center justify-end sticky bottom-0 bg-white border-t z-10">
-          <CreateNewTransaction onSuccess={handleNewTransaction} />
+          <CreateNewTransaction onSuccess={(transaction) => handleSyncTransactions(transaction, "create")} />
         </div>
+
+        {editFormTransaction && (
+          <EditTransaction
+            onClose={() => setEditFormTransaction(null)}
+            onSuccess={(transaction) => handleSyncTransactions(transaction, "edit")}
+            transaction={editFormTransaction}
+          />
+        )}
+
+        {deleteFormTransaction && (
+          <DeleteTransaction
+            transaction={deleteFormTransaction}
+            onClose={() => setDeleteFormTransaction(null)}
+            onSuccess={(transaction) => handleSyncTransactions(transaction, "delete")}
+          />
+        )}
       </main>
     </div>
   );
