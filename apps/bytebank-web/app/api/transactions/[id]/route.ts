@@ -34,8 +34,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<Rout
 export async function DELETE(_req: NextRequest, { params }: { params: Promise<RouteParams> }) {
   try {
     const { id } = await params;
-    await service.delete(id);
-    return new NextResponse('Transaction deleted successfully');
+    const deleted = await service.delete(id);
+    return NextResponse.json(deleted);
   } catch (err) {
     return handleResponseError(err);
   }
