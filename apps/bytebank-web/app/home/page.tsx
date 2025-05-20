@@ -36,7 +36,7 @@ export default function Home() {
 
   useEffect(() => {
     const fetchTransactions = async () => {
-      const data = await transactionService.getAll();
+      const data = await transactionService.getAll({ _limit: 5, _sort: '-date' });
 
       setTransactions(data);
     }

@@ -5,8 +5,12 @@ import { ITransactionService } from "./transaction-service.interface";
 const BASE_URL = 'http://localhost:3005/transactions';
 
 export class TransactionService implements ITransactionService {
-  async getAll() {
-    const response = await fetch(BASE_URL);
+  async getAll(params?: Record<string, string | number>) {
+    const queryString = params
+      ? '?' + String(new URLSearchParams(params as Record<string, string>))
+      : '';
+
+    const response = await fetch(`${BASE_URL}${queryString}`);
     if (!response.ok) throw new HttpError(500, 'Error fetching transactions');
     return response.json();
   }

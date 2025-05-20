@@ -5,9 +5,17 @@ import { handleResponseError } from "@bytebank/lib/utils/handle-response-error";
 
 const service = new TransactionService();
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const transactions = await service.getAll();
+    const { searchParams } = new URL(request.url);
+
+    const params: Record<string, string> = {};
+
+    for (const [key, value] of searchParams) {
+      params[key] = value;
+    }
+
+    const transactions = await service.getAll(params);
     return NextResponse.json(transactions);
   } catch (err) {
     return handleResponseError(err);

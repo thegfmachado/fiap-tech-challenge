@@ -34,7 +34,7 @@ export default function Transaction() {
 
   useEffect(() => {
     const fetchTransactions = async () => {
-      const data = await transactionService.getAll();
+      const data = await transactionService.getAll({ _sort: '-date' });
 
       setTransactions(data);
       setFilteredTransactions(data);
