@@ -43,16 +43,16 @@ export function TransactionsList(props: TransactionsListProps) {
               className="flex items-center justify-between border-t py-4 px-7"
               key={transaction.id}
             >
-              <div>
-                <p>{transaction.description}</p>
-                <p className="text-muted-foreground">{formatDate(new Date(transaction.date))}</p>
+              <div className="grow">
+                <p className="text-sm sm:text-base">{transaction.description}</p>
+                <p className="text-sm sm:text-base text-muted-foreground">{formatDate(new Date(transaction.date))}</p>
               </div>
-              <div className="flex items-center gap-4">
-                <p className={moneyVariants({ type: transaction.type })}>
+              <div className="flex justify-between items-center gap-1.5">
+                <p className={`whitespace-nowrap text-sm sm:text-base ${moneyVariants({ type: transaction.type })}`}>
                   {`${transaction.type === TransactionType.CREDIT ? "+" : "-"}${formatCurrency(transaction.value, { signDisplay: "never" })}`}
                 </p>
                 {renderActions && (
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center">
                     {renderActions(transaction)}
                   </div>
                 )}
