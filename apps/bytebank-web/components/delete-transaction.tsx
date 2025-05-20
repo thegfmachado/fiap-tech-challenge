@@ -52,9 +52,9 @@ export function DeleteTransaction(props: DeleteTransactionProps) {
       <DialogContent>
         <DialogHeader className="flex flex-col items-center gap-4">
           <OctagonAlert size={76} className="text-primary-light" />
-          <DialogTitle className="text-3xl text-center">Você tem certeza que quer deletar essa transação?</DialogTitle>
+          <DialogTitle className="text-2xl sm:text-3xl text-center">Você tem certeza que quer deletar essa transação?</DialogTitle>
         </DialogHeader>
-        <p className="text-center text-lg">Esta ação não poderá ser desfeita.</p>
+        <p className="text-md sm:text-lg text-center">Esta ação não poderá ser desfeita.</p>
         <div className="flex justify-center">
           <Button onClick={handleDeleteTransaction}>Deletar transação</Button>
         </div>
