@@ -14,9 +14,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "c
 import { DatePicker } from "components/date-picker";
 import { TransactionsList } from "components/transactions-list";
 import { CreateNewTransaction } from "components/create-new-transaction";
-import { Header } from "components/header";
+import { Header } from "@bytebank/components/template/header";
 import { TransactionAction } from "components/transaction-action";
 import { DeleteTransaction } from "@bytebank/components/delete-transaction";
+import { Sidebar } from "@bytebank/components/template/sidebar";
+import { Main } from "@bytebank/components/template/main";
+import { Layout } from "@bytebank/components/template/layout";
 
 const httpService = new HTTPService();
 const transactionService = new TransactionService(httpService);
@@ -127,9 +130,11 @@ export default function Transaction() {
   }
 
   return (
-    <div className="grid grid-rows-[auto_1fr]">
+    <Layout>
       <Header />
-      <main className="flex flex-col items-center">
+      <Sidebar />
+
+      <Main>
         <div className="flex flex-col items-center w-full p-8 gap-4 bg-radial-[350%_70%_at_50%_100%] from-primary/15 to-white from-0% to-20% grow">
           <div className="w-full flex flex-col gap-4">
 
@@ -149,8 +154,8 @@ export default function Transaction() {
 
 
             {filtersVisible && (
-              <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full">
                   <Input
                     className="w-full"
                     placeholder="Digite o valor ou nome da transação"
@@ -177,7 +182,7 @@ export default function Transaction() {
                   />
                 </div>
 
-                <div className="flex flex-col gap-2 md:flex-row md:gap-4">
+                <div className="flex flex-col gap-2 lg:flex-row lg:gap-4">
                   <Button onClick={applyFilters}>Buscar</Button>
                   <Button variant="outline" onClick={clearFilters}>
                     Limpar filtros
@@ -217,7 +222,7 @@ export default function Transaction() {
             onSuccess={(transaction) => handleSyncTransactions(transaction, "delete")}
           />
         )}
-      </main>
-    </div>
+      </Main>
+    </Layout>
   );
 }

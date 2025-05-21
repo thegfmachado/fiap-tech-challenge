@@ -11,7 +11,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "./ui/drawer";
+} from "../ui/drawer";
 import { Button } from "@fiap-tech-challenge/design-system/components";
 
 const navLinks = [
@@ -53,7 +53,7 @@ export function Header() {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
-    <header className="p-4 shadow-lg bg-white z-10">
+    <header className="p-4 shadow-lg bg-white z-20 md:fixed w-full md:col-span-2">
       <div className="flex justify-between items-center">
         <Link href="/" className="hidden sm:flex items-center gap-10">
           <Image src="/images/logo.svg" width={112} height={32} alt="Logo" />
