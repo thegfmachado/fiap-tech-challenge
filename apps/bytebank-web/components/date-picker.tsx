@@ -21,6 +21,7 @@ interface DatePickerBaseProps {
   disabled?: boolean
   mode: "single" | "range"
   fitParent?: boolean
+  readOnly?: boolean
 }
 
 type DatePickerSingleProps = DatePickerBaseProps & {
@@ -58,7 +59,7 @@ function DatePickerPlaceholder(props: DatePickerProps) {
 }
 
 export function DatePicker(props: DatePickerProps) {
-  const { className, disabled, fitParent } = props
+  const { className, disabled, fitParent, readOnly } = props
 
   return (
     <div className={cn("grid gap-2", className)}>
@@ -66,6 +67,7 @@ export function DatePicker(props: DatePickerProps) {
         <PopoverTrigger asChild>
           <Button
             disabled={disabled}
+            readOnly={readOnly}
             id="date"
             variant={"outline"}
             className={cn(

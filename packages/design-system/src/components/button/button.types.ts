@@ -6,4 +6,5 @@ import { buttonVariants } from "./use-button"
 export type ButtonProps = React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
   asChild?: boolean
+  readOnly?: boolean
 }
