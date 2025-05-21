@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { FunnelPlus } from "lucide-react";
 
@@ -14,14 +14,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "c
 import { DatePicker } from "components/date-picker";
 import { TransactionsList } from "components/transactions-list";
 import { CreateNewTransaction } from "components/create-new-transaction";
-import { Header } from "components/header";
+import { Header } from "@bytebank/components/template/header";
 import { TransactionAction } from "components/transaction-action";
 import { DeleteTransaction } from "@bytebank/components/delete-transaction";
-
-
-const INITIAL_DATE_RANGE_VALUE = {
-  from: new Date(),
-}
+import { Sidebar } from "@bytebank/components/template/sidebar";
+import { Main } from "@bytebank/components/template/main";
+import { Layout } from "@bytebank/components/template/layout";
 
 const httpService = new HTTPService();
 const transactionService = new TransactionService(httpService);
@@ -31,15 +29,15 @@ export default function Transaction() {
   const [filteredTransactions, setFilteredTransactions] = useState<ITransaction[]>([]);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [typeFilter, setTypeFilter] = useState<string | undefined>(undefined);
-  const [dateRange, setDateRange] = useState<DateRange | undefined>(INITIAL_DATE_RANGE_VALUE);
+  const [typeFilter, setTypeFilter] = useState<string | undefined>();
+  const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [filtersVisible, setFiltersVisible] = useState(true);
   const [editFormTransaction, setEditFormTransaction] = useState<ITransaction | null>(null);
   const [deleteFormTransaction, setDeleteFormTransaction] = useState<ITransaction | null>(null);
 
   useEffect(() => {
     const fetchTransactions = async () => {
-      const data = await transactionService.getAll();
+      const data = await transactionService.getAll({ _sort: '-date' });
 
       setTransactions(data);
       setFilteredTransactions(data);
@@ -83,42 +81,44 @@ export default function Transaction() {
     setEditFormTransaction(null);
   };
 
-  const applyFilters = () => {
-    let filtered = [...transactions];
-
-    if (searchTerm.trim()) {
-      const lowerSearch = searchTerm.toLowerCase();
-      filtered = filtered.filter((tx) =>
-        tx.description.toLowerCase().includes(lowerSearch) ||
-        tx.value.toString().includes(lowerSearch)
-      );
-    }
-
-    if (typeFilter) {
-      filtered = filtered.filter((tx) => tx.type === typeFilter);
-    }
-
-    if (dateRange) {
-      if (dateRange.from || dateRange.to) {
-        filtered = filtered.filter((tx) => {
-          if (!dateRange.from) return true;
-
-          const txDate = new Date(tx.date);
-
-          const from = new Date(dateRange.from);
-          from.setHours(0, 0, 0, 0);
-
-          const to = dateRange.to
-            ? new Date(dateRange.to)
-            : new Date(dateRange.from);
-          to.setHours(23, 59, 59, 999);
-
-          return txDate >= from && txDate <= to;
-        });
+  const filterTransaction = useCallback(
+    (transaction: ITransaction) => {
+      if (searchTerm.trim()) {
+        const lowerSearch = searchTerm.toLowerCase();
+        if (
+          !transaction.description.toLowerCase().includes(lowerSearch) &&
+          !transaction.value.toString().includes(lowerSearch)
+        ) {
+          return false;
+        }
       }
-    }
 
-    setFilteredTransactions(filtered);
+      if (typeFilter && transaction.type !== typeFilter) {
+        return false;
+      }
+
+      if (dateRange && (dateRange.from || dateRange.to)) {
+        const txDate = new Date(transaction.date);
+        const from = new Date(dateRange.from ?? new Date());
+        from.setHours(0, 0, 0, 0);
+
+        const to = dateRange.to
+          ? new Date(dateRange.to)
+          : new Date(dateRange.from ?? new Date());
+        to.setHours(23, 59, 59, 999);
+
+        if (txDate < from || txDate > to) {
+          return false;
+        }
+      }
+
+      return true;
+    },
+    [searchTerm, typeFilter, dateRange]
+  );
+
+  const applyFilters = () => {
+    setFilteredTransactions(transactions.filter(filterTransaction));
   };
 
   const clearFilters = () => {
@@ -130,9 +130,11 @@ export default function Transaction() {
   }
 
   return (
-    <div className="grid grid-rows-[auto_1fr]">
+    <Layout>
       <Header />
-      <main className="flex flex-col items-center">
+      <Sidebar />
+
+      <Main>
         <div className="flex flex-col items-center w-full p-8 gap-4 bg-radial-[350%_70%_at_50%_100%] from-primary/15 to-white from-0% to-20% grow">
           <div className="w-full flex flex-col gap-4">
 
@@ -152,8 +154,8 @@ export default function Transaction() {
 
 
             {filtersVisible && (
-              <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full">
                   <Input
                     className="w-full"
                     placeholder="Digite o valor ou nome da transação"
@@ -180,7 +182,7 @@ export default function Transaction() {
                   />
                 </div>
 
-                <div className="flex flex-col gap-2 md:flex-row md:gap-4">
+                <div className="flex flex-col gap-2 lg:flex-row lg:gap-4">
                   <Button onClick={applyFilters}>Buscar</Button>
                   <Button variant="outline" onClick={clearFilters}>
                     Limpar filtros
@@ -220,7 +222,7 @@ export default function Transaction() {
             onSuccess={(transaction) => handleSyncTransactions(transaction, "delete")}
           />
         )}
-      </main>
-    </div>
+      </Main>
+    </Layout>
   );
 }

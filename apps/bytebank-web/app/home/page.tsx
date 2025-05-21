@@ -10,11 +10,14 @@ import { HTTPService } from "@bytebank/client/services/http-service";
 import { TransactionService } from "@bytebank/client/services/transaction-service";
 
 import { TransactionAction } from "@bytebank/components/transaction-action";
-import { Header } from "components/header";
+import { Header } from "@bytebank/components/template/header";
 import { VisibilityToggler } from "@bytebank/components/visibility-toggler";
 
 import { formatCurrency } from "@bytebank/client/formatters";
 import { EditTransaction } from "@bytebank/components/edit-transaction";
+import { Sidebar } from "@bytebank/components/template/sidebar";
+import { Layout } from "@bytebank/components/template/layout";
+import { Main } from "@bytebank/components/template/main";
 
 const httpService = new HTTPService();
 const transactionService = new TransactionService(httpService);
@@ -36,7 +39,7 @@ export default function Home() {
 
   useEffect(() => {
     const fetchTransactions = async () => {
-      const data = await transactionService.getAll();
+      const data = await transactionService.getAll({ _limit: 5, _sort: '-date' });
 
       setTransactions(data);
     }
@@ -53,9 +56,10 @@ export default function Home() {
   }
 
   return (
-    <div className="grid grid-rows-[auto_1fr] min-h-screen">
+    <Layout>
       <Header />
-      <main className="flex flex-col items-center">
+      <Sidebar />
+      <Main>
         <div
           className="flex flex-col items-center w-full p-10 gap-4 bg-radial-[350%_70%_at_50%_100%] from-primary/15 to-white from-0% to-20% grow">
           <h1 className="text-5xl sm:text-6xl font-bold">Olá, Ana Silva</h1>
@@ -92,7 +96,7 @@ export default function Home() {
             transaction={editFormTransaction}
           />
         )}
-      </main>
-    </div>
+      </Main>
+    </Layout>
   )
 }

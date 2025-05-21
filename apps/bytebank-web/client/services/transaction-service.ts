@@ -6,9 +6,14 @@ import { ITransaction } from "@bytebank/shared/models/transaction.interface";
 export class TransactionService implements ITransactionService {
   constructor(private readonly httpService: HTTPService) { }
 
-  async getAll(): Promise<ITransaction[]> {
-    return this.httpService.get("/api/transactions");
+  async getAll(params?: Record<string, string | number>): Promise<ITransaction[]> {
+    const queryString = params
+      ? '?' + new URLSearchParams(params as Record<string, string>).toString()
+      : '';
+
+    return this.httpService.get(`/api/transactions${queryString}`);
   }
+
 
   async create(transaction: ITransaction): Promise<ITransaction> {
     return this.httpService.post("/api/transactions", transaction);
