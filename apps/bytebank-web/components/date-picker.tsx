@@ -52,7 +52,7 @@ function DatePickerPlaceholder(props: DatePickerProps) {
         : `${formatDate(from)} - ${formatDate(to)}`;
     }
 
-    return "Selecionar data";
+    return "Selecionar datas";
   }
 
   return props.value ? formatDate(props.value) : "Selecionar data"

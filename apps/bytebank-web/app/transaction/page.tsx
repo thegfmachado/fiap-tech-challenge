@@ -52,7 +52,7 @@ export default function Transaction() {
 
   const handleSyncTransactions = (
     transaction: ITransaction,
-    action: "create" | "edit" | "delete"
+    action: "create" | "edit" | "delete",
   ) => {
     setTransactions(prevTransactions => {
       if (action === "create") {
@@ -114,7 +114,7 @@ export default function Transaction() {
 
       return true;
     },
-    [searchTerm, typeFilter, dateRange]
+    [searchTerm, typeFilter, dateRange],
   );
 
   const applyFilters = () => {
@@ -135,7 +135,8 @@ export default function Transaction() {
       <Sidebar />
 
       <Main>
-        <div className="flex flex-col items-center w-full p-8 gap-4 bg-radial-[350%_70%_at_50%_100%] from-primary/15 to-white from-0% to-20% grow">
+        <div
+          className="flex flex-col items-center w-full p-8 gap-4 bg-radial-[350%_70%_at_50%_100%] from-primary/15 to-white from-0% to-20% grow">
           <div className="w-full flex flex-col gap-4">
 
             <div className="flex items-center justify-between">
@@ -156,22 +157,32 @@ export default function Transaction() {
             {filtersVisible && (
               <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full">
-                  <Input
-                    className="w-full"
-                    placeholder="Digite o valor ou nome da transação"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
+                  <div className="relative">
+                    <label className="absolute text-[0.75rem] -top-[25%] left-2 bg-white px-1 text-muted-foreground">
+                      Buscar transações
+                    </label>
+                    <Input
+                      className="w-full"
+                      placeholder="Digite o valor ou nome da transação"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                  </div>
 
-                  <Select value={typeFilter} onValueChange={(value) => setTypeFilter(value)}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Tipo de transação" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="credit">Depósito</SelectItem>
-                      <SelectItem value="debit">Transferência</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <div className="relative">
+                    <label className="absolute text-[0.75rem] -top-[25%] left-2 bg-white px-1 text-muted-foreground">
+                      Tipo de transação
+                    </label>
+                    <Select value={typeFilter} onValueChange={(value) => setTypeFilter(value)}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Selecione o tipo da transação" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="credit">Depósito</SelectItem>
+                        <SelectItem value="debit">Transferência</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
 
                   <DatePicker
                     fitParent
