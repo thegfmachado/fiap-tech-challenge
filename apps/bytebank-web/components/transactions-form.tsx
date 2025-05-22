@@ -77,8 +77,8 @@ export function TransactionsForm(props: TransactionsFormProps) {
             <FormItem className="space-y-2">
               <FormLabel>Tipo de transação</FormLabel>
               <FormControl>
-                <RadioGroup disabled={field.disabled} defaultValue={field.value} onValueChange={field.onChange}
-                  className="flex space-x-4">
+                <RadioGroup disabled={field.disabled} defaultValue={field.value} onValueChange={field.onChange} readOnly={readOnly}
+                            className="flex space-x-4">
                   {options.map(option => (
                     <FormItem key={option.value} className="flex items-center">
                       <FormControl>
@@ -95,13 +95,12 @@ export function TransactionsForm(props: TransactionsFormProps) {
         />
 
         <FormField
-          disabled={readOnly}
           control={form.control}
           name="description"
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="Descrição" {...field} />
+                <Input placeholder="Descrição" readOnly={readOnly} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -109,13 +108,12 @@ export function TransactionsForm(props: TransactionsFormProps) {
         />
 
         <FormField
-          disabled={readOnly}
           control={form.control}
           name="value"
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <CurrencyInput placeholder="R$ 0,00" {...field} />
+                <CurrencyInput placeholder="R$ 0,00" readOnly={readOnly} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -123,25 +121,25 @@ export function TransactionsForm(props: TransactionsFormProps) {
         />
 
         <FormField
-          disabled={readOnly}
           control={form.control}
           name="date"
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <DatePicker fitParent mode="single" {...field} />
+                <DatePicker fitParent mode="single" readOnly={readOnly} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        {!readOnly
-          && <div className="flex justify-center">
+        {!readOnly && (
+          <div className="flex justify-center">
             <Button disabled={disabled} size="lg" type="submit">
               {transaction ? "Editar transação" : "Criar transação"}
             </Button>
-          </div>}
+          </div>
+        )}
       </form>
     </Form>
   )
