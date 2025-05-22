@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { FunnelPlus } from "lucide-react";
 
-import { Button, Input } from "@fiap-tech-challenge/design-system/components";
+import { Button, Input, Label } from "@fiap-tech-challenge/design-system/components";
 import { HTTPService } from "@bytebank/client/services/http-service";
 import { TransactionService } from "@bytebank/client/services/transaction-service";
 import type { ITransaction } from "@bytebank/shared/models/transaction.interface";
@@ -136,7 +136,7 @@ export default function Transaction() {
 
       <Main>
         <div
-          className="flex flex-col items-center w-full p-8 gap-4 bg-radial-[350%_70%_at_50%_100%] from-primary/15 to-white from-0% to-20% grow">
+          className="flex flex-col items-center w-full p-8 gap-4 bg-radial-[350%_70%_at_50%_100%] from-primary/15 to-white from-0% to-20%">
           <div className="w-full flex flex-col gap-4">
 
             <div className="flex items-center justify-between">
@@ -158,9 +158,9 @@ export default function Transaction() {
               <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full">
                   <div className="relative">
-                    <label className="absolute text-[0.75rem] -top-[25%] left-2 bg-white px-1 text-muted-foreground">
+                    <Label className="absolute text-[0.75rem] -top-[25%] left-2 bg-white px-1 text-muted-foreground">
                       Buscar transações
-                    </label>
+                    </Label>
                     <Input
                       className="w-full"
                       placeholder="Digite o valor ou nome da transação"
@@ -170,9 +170,9 @@ export default function Transaction() {
                   </div>
 
                   <div className="relative">
-                    <label className="absolute text-[0.75rem] -top-[25%] left-2 bg-white px-1 text-muted-foreground">
+                    <Label className="absolute text-[0.75rem] -top-[25%] left-2 bg-white px-1 text-muted-foreground">
                       Tipo de transação
-                    </label>
+                    </Label>
                     <Select value={typeFilter} onValueChange={(value) => setTypeFilter(value)}>
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Selecione o tipo da transação" />
