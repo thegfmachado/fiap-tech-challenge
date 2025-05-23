@@ -7,9 +7,9 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start",
+    "start": "concurrently \"next start\" \"npm run server\"",
     "lint": "next lint",
-    "server": "npx json-server --watch db.json --port 3005",
+    "server": "node api/server.js",
     "lint:fix": "next lint --fix",
     "typecheck": "tsc --noEmit"
   },
@@ -22,7 +22,7 @@
     "@radix-ui/react-select": "2.2.4",
     "@radix-ui/react-slot": "1.2.2",
     "date-fns": "3.6.0",
-    "json-server": "1.0.0-beta.3",
+    "json-server": "0.17.4",
     "lucide-react": "0.511.0",
     "next": "15.3.2",
     "next-themes": "0.4.6",
@@ -39,6 +39,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "concurrently": "^9.1.2",
     "typescript": "^5"
   }
 }

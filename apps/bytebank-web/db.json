@@ -3,51 +3,79 @@
     {
       "id": "1",
       "type": "credit",
-      "value": 500,
-      "date": "2025-04-25T10:30:00Z",
-      "description": "Depósito salário"
+      "value": 3820.75,
+      "date": "2025-04-25T08:15:00Z",
+      "description": "Depósito salário - Empresa XYZ"
     },
     {
       "id": "2",
       "type": "debit",
-      "value": 200,
-      "date": "2025-04-24T14:00:00Z",
-      "description": "Transferência para João"
+      "value": 250.00,
+      "date": "2025-04-24T17:22:00Z",
+      "description": "Transferência Pix para João M."
     },
     {
-      "id": "db31",
-      "type": "credit",
-      "value": 500,
-      "date": "2025-04-25T10:30:00Z",
-      "description": "Depósito PPR"
-    },
-    {
-      "id": "1747432924366",
-      "description": "Pix",
-      "value": 300,
-      "type": "credit",
-      "date": "2025-05-16T22:02:04.366Z"
-    },
-    {
-      "id": "1747435665213",
-      "description": "Condomínio",
-      "value": 450,
+      "id": "3",
       "type": "debit",
-      "date": "2025-05-16T22:47:45.213Z"
+      "value": 145.89,
+      "date": "2025-04-26T12:45:00Z",
+      "description": "Supermercado Carrefour"
     },
     {
-      "id": "1747535762376",
-      "type": "debit",
-      "description": "Pix",
-      "value": 100,
-      "date": "2025-05-18T02:36:02.376Z"
-    },
-    {
-      "id": "1747535940625",
+      "id": "4",
       "type": "credit",
-      "description": "Pix",
-      "value": 50,
-      "date": "2025-05-18T02:39:00.625Z"
+      "value": 500.00,
+      "date": "2025-04-27T09:05:00Z",
+      "description": "Reembolso despesas - RH"
+    },
+    {
+      "id": "5",
+      "type": "debit",
+      "value": 89.90,
+      "date": "2025-05-02T19:15:00Z",
+      "description": "iFood - Restaurante Japonês"
+    },
+    {
+      "id": "6",
+      "type": "debit",
+      "value": 450.00,
+      "date": "2025-05-05T09:00:00Z",
+      "description": "Pagamento condomínio"
+    },
+    {
+      "id": "7",
+      "type": "credit",
+      "value": 300.00,
+      "date": "2025-05-10T21:30:00Z",
+      "description": "Pix recebido de Maria S."
+    },
+    {
+      "id": "8",
+      "type": "debit",
+      "value": 129.90,
+      "date": "2025-05-14T11:50:00Z",
+      "description": "Assinatura Netflix + Spotify"
+    },
+    {
+      "id": "9",
+      "type": "credit",
+      "value": 50.00,
+      "date": "2025-05-18T02:39:00Z",
+      "description": "Pix recebido de Thiago R."
+    },
+    {
+      "id": "10",
+      "type": "debit",
+      "value": 75.00,
+      "date": "2025-05-18T02:36:02Z",
+      "description": "Pix enviado para Pedro C."
+    },
+    {
+      "id": "11",
+      "type": "debit",
+      "value": 38.50,
+      "date": "2025-05-20T16:05:00Z",
+      "description": "Café - Starbucks"
     }
   ]
 }
