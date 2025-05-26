@@ -39,7 +39,7 @@ export default function Home() {
 
   useEffect(() => {
     const fetchTransactions = async () => {
-      const data = await transactionService.getAll({ _limit: 5, _sort: '-date' });
+      const data = await transactionService.getAll({ _sort: '-date' });
 
       setTransactions(data);
     }
@@ -48,7 +48,7 @@ export default function Home() {
   }, []);
 
   const handleNewTransaction = (transaction: ITransaction) => {
-    setTransactions(prevTransactions => [...prevTransactions, transaction]);
+    setTransactions(prevTransactions => [transaction, ...prevTransactions]);
   }
 
   const handleToggleBalance = () => {
@@ -79,7 +79,7 @@ export default function Home() {
         </div>
 
         <TransactionsList
-          transactions={transactions}
+          transactions={transactions.slice(0, 5)}
           showAllTransactionsButton
           renderActions={(transaction) => (
             <TransactionAction
