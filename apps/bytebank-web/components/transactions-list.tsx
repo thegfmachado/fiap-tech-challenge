@@ -4,6 +4,7 @@ import type { ITransaction } from "@bytebank/shared/models/transaction.interface
 import { Button } from "@fiap-tech-challenge/design-system/components";
 import { formatCurrency, formatDate } from "@bytebank/client/formatters";
 import { TransactionType } from "@bytebank/shared/enums/transaction-type.enum";
+import { useMemo } from "react";
 
 export type TransactionsListProps = {
   transactions: ITransaction[];
@@ -23,8 +24,18 @@ const moneyVariants = cva("", {
   },
 });
 
+function sortTransactionsByDate(transactions: ITransaction[]): ITransaction[] {
+  return [...transactions].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+}
+
 export function TransactionsList(props: TransactionsListProps) {
   const { showAllTransactionsButton, transactions, renderActions } = props;
+
+  const sortedTransactions = useMemo(() => {
+    return sortTransactionsByDate(transactions);
+  }, [transactions]);
 
   return (
     <div className="flex flex-col w-full">
@@ -37,8 +48,8 @@ export function TransactionsList(props: TransactionsListProps) {
         )}
       </div>
       <div>
-        {transactions.length > 0 ? (
-          transactions.map((transaction) => (
+        {sortedTransactions.length > 0 ? (
+          sortedTransactions.map((transaction) => (
             <div
               className="flex items-center justify-between border-t py-4 px-7"
               key={transaction.id}
