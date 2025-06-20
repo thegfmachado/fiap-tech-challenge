@@ -61,6 +61,7 @@ export function TransactionsForm(props: TransactionsFormProps) {
 
   const handleSubmit = (values: CreateTransactionSchema) => {
     onSubmit({
+      accountId: '6850a729af1ef45a19b0422f',
       ...values,
       date: values.date.toISOString(),
     });
@@ -78,7 +79,7 @@ export function TransactionsForm(props: TransactionsFormProps) {
               <FormLabel>Tipo de transação</FormLabel>
               <FormControl>
                 <RadioGroup disabled={field.disabled} defaultValue={field.value} onValueChange={field.onChange} readOnly={readOnly}
-                            className="flex space-x-4">
+                  className="flex space-x-4">
                   {options.map(option => (
                     <FormItem key={option.value} className="flex items-center">
                       <FormControl>

@@ -15,7 +15,7 @@ const options = {
           scheme: 'bearer',
           bearerFormat: 'JWT',
         }
-    
+
       }
     },
     security: [
@@ -25,7 +25,7 @@ const options = {
     ],
     servers: [
       {
-        url: 'http://localhost:3000',
+        url: 'http://localhost:3005',
         description: 'Servidor de Desenvolvimento',
       },
     ],

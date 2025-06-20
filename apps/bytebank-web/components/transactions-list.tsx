@@ -15,8 +15,8 @@ export type TransactionsListProps = {
 const moneyVariants = cva("", {
   variants: {
     type: {
-      credit: "text-green-500",
-      debit: "text-red-500",
+      Credit: "text-green-500",
+      Debit: "text-red-500",
     },
   },
   defaultVariants: {

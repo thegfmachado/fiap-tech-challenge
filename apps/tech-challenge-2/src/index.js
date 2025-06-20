@@ -4,7 +4,7 @@ const routes = require('./routes')
 const connectDB = require('./infra/mongoose/mongooseConect');
 const app = new Express()
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocs =  require('./swagger')
+const swaggerDocs = require('./swagger')
 const UserController = require('./controller/User')
 const cors = require('cors')
 
@@ -29,8 +29,8 @@ app.use((req, res, next) => {
 app.use(routes)
 
 connectDB().then(() => {
-    app.listen(3000, () => {
-        console.log('Servidor rodando na porta 3000');
+    app.listen(3005, () => {
+        console.log('Servidor rodando na porta 3005');
     });
 });
 
