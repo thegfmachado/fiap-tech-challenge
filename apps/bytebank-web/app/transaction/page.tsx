@@ -178,8 +178,8 @@ export default function Transaction() {
                         <SelectValue placeholder="Selecione o tipo da transação" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="credit">Depósito</SelectItem>
-                        <SelectItem value="debit">Transferência</SelectItem>
+                        <SelectItem value="Credit">Depósito</SelectItem>
+                        <SelectItem value="Debit">Transferência</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>

@@ -29,7 +29,7 @@ export default function Home() {
 
   const balance = useMemo(() => {
     return transactions.reduce((acc, curr) => {
-      if (curr.type === 'credit') {
+      if (curr.type === 'Credit') {
         return acc + curr.value;
       }
 
