@@ -86,7 +86,7 @@ export default function Transaction() {
       if (searchTerm.trim()) {
         const lowerSearch = searchTerm.toLowerCase();
         if (
-          !transaction.description.toLowerCase().includes(lowerSearch) &&
+          !transaction.from.toLowerCase().includes(lowerSearch) &&
           !transaction.value.toString().includes(lowerSearch)
         ) {
           return false;

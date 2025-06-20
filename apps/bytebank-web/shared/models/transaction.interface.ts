@@ -6,5 +6,7 @@ export interface ITransaction {
   type: TransactionType;
   value: number;
   date: string;
-  description: string;
+  from: string;
+  to?: string;
+  anexo?: string;
 }
