@@ -1,4 +1,4 @@
 export enum TransactionType {
-    CREDIT = "credit",
-    DEBIT = "debit",
+    CREDIT = "Credit",
+    DEBIT = "Debit",
 }

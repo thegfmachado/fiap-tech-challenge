@@ -15,8 +15,8 @@ export type TransactionsListProps = {
 const moneyVariants = cva("", {
   variants: {
     type: {
-      credit: "text-green-500",
-      debit: "text-red-500",
+      Credit: "text-green-500",
+      Debit: "text-red-500",
     },
   },
   defaultVariants: {
@@ -55,7 +55,7 @@ export function TransactionsList(props: TransactionsListProps) {
               key={transaction.id}
             >
               <div className="grow">
-                <p className="text-sm sm:text-base">{transaction.description}</p>
+                <p className="text-sm sm:text-base">{transaction.from}</p>
                 <p className="text-sm sm:text-base text-muted-foreground">{formatDate(new Date(transaction.date))}</p>
               </div>
               <div className="flex justify-between items-center gap-1.5">
