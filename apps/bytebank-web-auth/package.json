@@ -1,15 +1,14 @@
 {
-  "name": "bytebank-web",
+  "name": "bytebank-web-auth",
   "version": "0.0.1",
   "type": "module",
   "private": true,
   "description": "FIAP tech challenge finance app",
   "scripts": {
-    "dev": "next dev --turbopack --port 3000",
+    "dev": "next dev --turbopack --port 3001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "server": "npx json-server --watch db.json --port 3005",
     "lint:fix": "next lint --fix",
     "typecheck": "tsc --noEmit"
   },

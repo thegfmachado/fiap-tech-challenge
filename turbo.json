@@ -1,6 +1,11 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
+  "globalEnv": [
+    "BYTEBANK_WEB_DOMAIN",
+    "BYTEBANK_WEB_AUTH_DOMAIN",
+    "BYTEBANK_WEB_AUTH_STATIC_PATH"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
@@ -19,9 +24,6 @@
     "dev": {
       "cache": false,
       "persistent": true
-    },
-    "server": {
-      "dependsOn": ["^server"]
     }
   }
 }

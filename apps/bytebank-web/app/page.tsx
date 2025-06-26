@@ -3,10 +3,17 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { Card, CardContent, CardHeader, CardTitle } from "components/ui/card";
-import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "components/ui/navigation-menu";
-
-import { Button } from "@fiap-tech-challenge/design-system/components";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from "@fiap-tech-challenge/design-system/components";
 
 const cards = [
   {
@@ -79,9 +86,11 @@ export default function Page() {
             </NavigationMenu>
           </div>
           <div className="flex items-center gap-4">
-            <Button variant="ghost">Criar minha conta</Button>
+            <Button variant="ghost">
+              <a href="/auth/signup">Criar minha conta</a>
+            </Button>
             <Button asChild>
-              <Link href="/home">Entrar</Link>
+              <a href="/auth/login">Entrar</a>
             </Button>
           </div>
         </div>
@@ -98,7 +107,7 @@ export default function Page() {
           </h2>
 
           <Button asChild>
-            <Link href="/home">Comece agora</Link>
+            <a href="/auth/login">Comece agora</a>
           </Button>
 
           <div className="hidden md:block mb-32 md:mb-[300px] lg:mb-[250px]" />
