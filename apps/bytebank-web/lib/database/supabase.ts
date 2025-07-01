@@ -1,4 +1,3 @@
-// Configuração do Supabase com cliente oficial
 import { createServiceSupabase } from '../supabase';
 import type { ITransaction } from '@bytebank/shared/models/transaction.interface';
 
