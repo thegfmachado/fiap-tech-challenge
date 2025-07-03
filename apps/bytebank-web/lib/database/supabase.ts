@@ -88,11 +88,15 @@ export const queries = {
       .delete()
       .eq('id', id)
       .select()
-      .single();
+      .maybeSingle();
     
     if (error) {
       console.error('Supabase error:', error);
       throw new Error(`Error deleting transaction: ${error.message}`);
+    }
+    
+    if (!data) {
+      throw new Error(`Transaction with id ${id} not found`);
     }
     
     return data;

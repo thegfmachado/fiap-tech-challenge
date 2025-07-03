@@ -62,15 +62,13 @@ export class TransactionService implements ITransactionService {
 
   async delete(id: string): Promise<void> {
     try {
-      const transaction = await queries.deleteTransaction(id);
-      if (!transaction) {
-        throw new HttpError(404, 'Transaction not found');
-      }
-      
+      await queries.deleteTransaction(id);
       return;
     } catch (error) {
-      if (error instanceof HttpError) throw error;
       console.error('Error deleting transaction:', error);
+      if (error instanceof Error && error.message.includes('not found')) {
+        throw new HttpError(404, 'Transaction not found');
+      }
       throw new HttpError(500, 'Error deleting transaction');
     }
   }
