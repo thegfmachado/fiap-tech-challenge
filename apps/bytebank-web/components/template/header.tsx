@@ -12,7 +12,8 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "../ui/drawer";
-import { Button } from "@fiap-tech-challenge/design-system/components";
+import { Button, Skeleton } from "@fiap-tech-challenge/design-system/components";
+import { useCurrentUser } from "@bytebank/hooks/use-current-user";
 
 const navLinks = [
   { href: "/home", label: "Início", Icon: House },
@@ -49,6 +50,7 @@ export function NavLinks(props: NavLinksProps) {
 }
 
 export function Header() {
+  const { user, loading } = useCurrentUser()
   const pathname = usePathname();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -100,7 +102,7 @@ export function Header() {
 
         <div className="flex items-center gap-4">
           <Image src="/images/user.svg" width={24} height={24} alt="Imagem do usuário" />
-          <span className="hidden sm:block">Ana Silva</span>
+          <span className="hidden sm:block">{loading ? <Skeleton className="h-4 w-24" /> : user?.user_metadata?.name}</span>
         </div>
       </div>
     </header>

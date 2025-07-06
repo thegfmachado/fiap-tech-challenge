@@ -28,6 +28,7 @@
     "bytebank",
     "fiap",
     "IHTTP",
+    "supabase",
     "Turborepo",
     "vaul"
   ]

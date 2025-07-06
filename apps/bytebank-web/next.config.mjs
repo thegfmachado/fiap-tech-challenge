@@ -1,4 +1,4 @@
-import process from 'process';
+import process from "process";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -9,8 +9,12 @@ const nextConfig = {
       destination: `${process.env.BYTEBANK_WEB_AUTH_DOMAIN}/:path+`,
     },
     {
-      source: `/${process.env.BYTEBANK_WEB_AUTH_STATIC_PATH}/:path+`,
-      destination: `${process.env.BYTEBANK_WEB_AUTH_DOMAIN}/${process.env.BYTEBANK_WEB_AUTH_STATIC_PATH}/:path+`,
+      source: `/api/auth`,
+      destination: `${process.env.BYTEBANK_WEB_AUTH_DOMAIN}/api/auth`,
+    },
+    {
+      source: `/bytebank-web-auth-static/:path+`,
+      destination: `${process.env.BYTEBANK_WEB_AUTH_DOMAIN}/bytebank-web-auth-static/:path+`,
     },
   ],
 };

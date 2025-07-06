@@ -1,23 +1,24 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { CreateNewTransaction } from "@bytebank/components/create-new-transaction";
 
 import { TransactionsList } from "components/transactions-list";
-import type { ITransaction } from "@bytebank/shared/models/transaction.interface";
 
 import { HTTPService } from "@bytebank/client/services/http-service";
 import { TransactionService } from "@bytebank/client/services/transaction-service";
 
-import { TransactionAction } from "@bytebank/components/transaction-action";
 import { Header } from "@bytebank/components/template/header";
-import { VisibilityToggler } from "@bytebank/components/visibility-toggler";
-
-import { formatCurrency } from "@bytebank/client/formatters";
-import { EditTransaction } from "@bytebank/components/edit-transaction";
 import { Sidebar } from "@bytebank/components/template/sidebar";
 import { Layout } from "@bytebank/components/template/layout";
 import { Main } from "@bytebank/components/template/main";
+
+import { TransactionAction } from "@bytebank/components/transaction-action";
+import { VisibilityToggler } from "@bytebank/components/visibility-toggler";
+import { CreateNewTransaction } from "@bytebank/components/create-new-transaction";
+import { EditTransaction } from "@bytebank/components/edit-transaction";
+
+import { formatCurrency } from "@bytebank/client/formatters";
+import type { ITransaction } from "@bytebank/shared/models/transaction.interface";
 
 const httpService = new HTTPService();
 const transactionService = new TransactionService(httpService);

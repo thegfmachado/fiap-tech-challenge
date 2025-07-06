@@ -1,13 +1,12 @@
 "use client";
 
+import * as React from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChartColumn, ChartPie, Shield, TrendingUp } from "lucide-react";
 
 import Image from "next/image";
-
-import { redirect } from 'next/navigation'
 
 import {
   Card,
@@ -27,7 +26,14 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
+  Skeleton,
 } from "@fiap-tech-challenge/design-system/components";
+
+import { HTTPService } from "@bytebank-web-auth/client/services/http-service";
+import { AuthService } from "@bytebank-web-auth/client/services/auth-service";
+
+const httpService = new HTTPService();
+const authService = new AuthService(httpService);
 
 const cards = [
   {
@@ -49,6 +55,7 @@ const cards = [
 ]
 
 const loginFormSchema = z.object({
+  name: z.string({ required_error: "Este campo é obrigatório" }).min(2, "O nome deve ter pelo menos 2 caracteres"),
   email: z.string({ required_error: "Este campo é obrigatório" }).email("Email inválido"),
   password: z.string({ required_error: "Este campo é obrigatório" }).min(6, "A senha deve ter pelo menos 6 caracteres"),
   confirmPassword: z.string({ required_error: "Este campo é obrigatório" }).min(6, "A senha deve ter pelo menos 6 caracteres")
@@ -60,22 +67,31 @@ const loginFormSchema = z.object({
 type LoginFormSchemaType = z.infer<typeof loginFormSchema>;
 
 export default function Page() {
+  const [isLoading, setIsLoading] = React.useState(false)
+
   const form = useForm<LoginFormSchemaType>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
       confirmPassword: "",
     },
-  })
+  });
 
-  const handleSubmit = (values: LoginFormSchemaType) => {
-    console.log({
-      values
-    });
+  const handleSubmit = async (values: LoginFormSchemaType) => {
+    setIsLoading(true);
 
-    redirect('/home');
-  }
+    const user = await authService.signUp(values);
+
+    if (!user) {
+      return;
+    }
+
+    setIsLoading(false);
+
+    form.reset();
+  };
 
   return (
     <div className="grid grid-rows-[auto_1fr] min-h-screen">
@@ -166,83 +182,113 @@ export default function Page() {
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-5">
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            type="email"
-                            placeholder="seu@email.com"
-                          />
-
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Senha</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            type="password"
-                            placeholder="Digite sua senha"
-                            showPasswordToggle
-                          />
-
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="confirmPassword"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Confirmação de senha</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            type="password"
-                            placeholder="Confirme sua senha"
-                            showPasswordToggle
-                          />
-
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <Button className="w-full" size="lg" type="submit">
-                    Enviar
-                  </Button>
-
-                  <div className="flex flex-col md:flex-row justify-center items-center gap-2 mt-2 p-4">
-                    <p className="text-center text-muted-foreground">
-                      Já tem uma conta?
-                    </p>
-                    <a className="text-primary font-medium" href="/auth/login">Entrar agora</a>
+              {
+                isLoading ? (
+                  <div className="p-5 w-full max-w-lg grid gap-2">
+                    <Skeleton className="h-9 w-full rounded-md mb-2" />
+                    <Skeleton className="h-9 w-full rounded-md mb-2" />
+                    <Skeleton className="h-9 w-full rounded-md mb-2" />
+                    <Skeleton className="h-9 w-full rounded-md mb-2" />
+                    <Skeleton className="w-full h-12 rounded-md mt-4" />
                   </div>
-                </form>
-              </Form>
+                ) : (
+                  <Form {...form}>
+                    <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-5">
+                      <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Nome</FormLabel>
+                            <FormControl>
+                              <Input
+                                {...field}
+                                type="text"
+                                placeholder="Digite seu nome"
+                              />
+
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                              <Input
+                                {...field}
+                                type="email"
+                                placeholder="seu@email.com"
+                              />
+
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Senha</FormLabel>
+                            <FormControl>
+                              <Input
+                                {...field}
+                                type="password"
+                                placeholder="Digite sua senha"
+                                showPasswordToggle
+                              />
+
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="confirmPassword"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Confirmação de senha</FormLabel>
+                            <FormControl>
+                              <Input
+                                {...field}
+                                type="password"
+                                placeholder="Confirme sua senha"
+                                showPasswordToggle
+                              />
+
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <Button className="w-full" size="lg" type="submit">
+                        Enviar
+                      </Button>
+
+                      <div className="flex flex-col md:flex-row justify-center items-center gap-2 mt-2 p-4">
+                        <p className="text-center text-muted-foreground">
+                          Já tem uma conta?
+                        </p>
+                        <a className="text-primary font-medium" href="/auth/login">Entrar agora</a>
+                      </div>
+                    </form>
+                  </Form>
+                )
+              }
             </CardContent>
           </Card>
         </section>
       </main>
-    </div>
+    </div >
   )
 }

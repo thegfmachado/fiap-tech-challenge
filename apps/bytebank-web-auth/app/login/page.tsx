@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,8 +8,6 @@ import { ChartColumn, ChartPie, Shield, TrendingUp } from "lucide-react";
 
 import Image from "next/image";
 import Link from "next/link";
-
-import { redirect } from 'next/navigation'
 
 import {
   Card,
@@ -29,7 +28,14 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
+  Skeleton,
 } from "@fiap-tech-challenge/design-system/components";
+
+import { HTTPService } from "@bytebank-web-auth/client/services/http-service";
+import { AuthService } from "@bytebank-web-auth/client/services/auth-service";
+
+const httpService = new HTTPService();
+const authService = new AuthService(httpService);
 
 const cards = [
   {
@@ -54,26 +60,34 @@ const loginFormSchema = z.object({
   email: z.string({ required_error: "Este campo é obrigatório" }).email("Email inválido"),
   password: z.string({ required_error: "Este campo é obrigatório" }).min(6, "A senha deve ter pelo menos 6 caracteres"),
   rememberMe: z.boolean().optional(),
-})
+});
 
 type LoginFormSchemaType = z.infer<typeof loginFormSchema>;
 
 export default function Page() {
+  const [isLoading, setIsLoading] = React.useState(false);
+
   const form = useForm<LoginFormSchemaType>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: "",
       password: "",
-      rememberMe: false,
+      rememberMe: true,
     },
-  })
+  });
 
-  const handleSubmit = (values: LoginFormSchemaType) => {
-    console.log({
-      values
-    });
+  const handleSubmit = async (values: LoginFormSchemaType) => {
+    setIsLoading(true);
 
-    redirect('/home');
+    const user = await authService.signIn(values.email, values.password);
+
+    if (!user) {
+      setIsLoading(false);
+      return;
+    }
+
+    // next/navigation does not support redirects to external domains
+    window.location.href = "/home";
   }
 
   return (
@@ -165,82 +179,99 @@ export default function Page() {
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-5">
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            type="email"
-                            placeholder="seu@email.com"
-                          />
-
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Senha</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            type="password"
-                            placeholder="Digite sua senha"
-                            showPasswordToggle
-                          />
-
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <div className="flex items-center justify-between py-2">
-                    <FormField
-                      control={form.control}
-                      name="rememberMe"
-                      render={({ field }) => (
-                        <FormItem className="flex items-center">
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                              name={field.name}
-                              ref={field.ref}
-                            />
-                          </FormControl>
-                          <FormLabel>Lembrar de mim</FormLabel>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <Link className="text-primary text-sm" href="/forgotPassword">Esqueci minha senha</Link>
+              {
+                isLoading ? (
+                  <div className="p-5 w-full max-w-lg grid gap-2">
+                    <Skeleton className="h-9 w-full rounded-md mb-2" />
+                    <Skeleton className="h-9 w-full rounded-md mb-2" />
+                    <div className="flex items-center gap-2 justify-between">
+                      <div className="flex items-center gap-2 justify-between">
+                        <Skeleton className="w-5 h-5 rounded" />
+                        <Skeleton className="w-30 h-5 rounded" />
+                      </div>
+                      <Skeleton className="w-50 h-4 rounded" />
+                    </div>
+                    <Skeleton className="w-full h-12 rounded-md mt-4" />
                   </div>
+                ) : (
+                  <Form {...form}>
+                    <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-5">
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                              <Input
+                                {...field}
+                                type="email"
+                                placeholder="seu@email.com"
+                              />
 
-                  <Button className="w-full" size="lg" type="submit">
-                    Entrar
-                  </Button>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                  <div className="flex flex-col md:flex-row justify-center items-center gap-2 mt-2 p-4">
-                    <p className="text-center text-muted-foreground">
-                      Ainda não tem uma conta?
-                    </p>
-                    <a className="text-primary font-medium" href="/auth/signup">Criar conta gratuita</a>
-                  </div>
-                </form>
-              </Form>
+                      <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Senha</FormLabel>
+                            <FormControl>
+                              <Input
+                                {...field}
+                                type="password"
+                                placeholder="Digite sua senha"
+                                showPasswordToggle
+                              />
+
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <div className="flex items-center justify-between py-2">
+                        <FormField
+                          control={form.control}
+                          name="rememberMe"
+                          render={({ field }) => (
+                            <FormItem className="flex items-center">
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                  name={field.name}
+                                  ref={field.ref}
+                                />
+                              </FormControl>
+                              <FormLabel>Lembrar de mim</FormLabel>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <Link className="text-primary text-sm" href="/forgotPassword">Esqueci minha senha</Link>
+                      </div>
+
+                      <Button className="w-full" size="lg" type="submit">
+                        Entrar
+                      </Button>
+
+                      <div className="flex flex-col md:flex-row justify-center items-center gap-2 mt-2 p-4">
+                        <p className="text-center text-muted-foreground">
+                          Ainda não tem uma conta?
+                        </p>
+                        <a className="text-primary font-medium" href="/auth/signup">Criar conta gratuita</a>
+                      </div>
+                    </form>
+                  </Form>
+                )
+              }
             </CardContent>
           </Card>
         </section>

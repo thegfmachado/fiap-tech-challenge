@@ -3,8 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { RouteParams } from "@bytebank/shared/models/route-params.interface";
 import { TransactionService } from "@bytebank/lib/services/transaction-service";
 import { handleResponseError } from "@bytebank/lib/utils/handle-response-error";
+import { queries } from "@bytebank/lib/database/queries";
 
-const service = new TransactionService();
+const service = new TransactionService(queries);
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<RouteParams> }) {
   try {
