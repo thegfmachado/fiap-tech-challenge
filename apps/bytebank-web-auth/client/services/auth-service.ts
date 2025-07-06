@@ -24,7 +24,7 @@ export class AuthService implements IAuthService {
 
       return createdUser as User;
     } catch (err) {
-      toast("Erro ao criar usuário")
+      toast.error("Erro ao criar usuário")
       throw err;
     }
   }
@@ -34,7 +34,7 @@ export class AuthService implements IAuthService {
       const data = await this.httpService.post("/api/auth", { email, password });
       return data as User;
     } catch (err) {
-      toast("Erro ao fazer login")
+      toast.error("Erro ao fazer login")
       throw err;
     }
   }
@@ -44,7 +44,7 @@ export class AuthService implements IAuthService {
       const data = await this.httpService.get("/api/auth");
       return data as User;
     } catch (err) {
-      toast("Erro ao buscar usuário logado")
+      toast.error("Erro ao buscar usuário logado")
       throw err;
     }
   }

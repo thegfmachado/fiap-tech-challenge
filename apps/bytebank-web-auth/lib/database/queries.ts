@@ -14,6 +14,7 @@ export type IQueries = {
     signUp: (user: IUser) => Promise<User | null>;
     signInWithPassword: (email: string, password: string) => Promise<User | null>;
     getCurrentUser: () => Promise<User | null>;
+    signOut: () => Promise<void>;
   };
 }
 
@@ -66,6 +67,14 @@ export const queries: IQueries = {
 
       return data.user;
     },
-  }
+    signOut: async (): Promise<void> => {
+      const supabase = await createClient();
+      const { error } = await supabase.auth.signOut();
 
+      if (error) {
+        console.error('Supabase error:', error);
+        throw new Error(`Error signing out user: ${error.message}`);
+      }
+    },
+  },
 };

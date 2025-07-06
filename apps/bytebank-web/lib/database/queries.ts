@@ -1,4 +1,3 @@
-import type { User } from '@supabase/supabase-js';
 import { createClient } from '@bytebank/shared/utils/supabase/server';
 import { createClient as client } from '@bytebank/shared/utils/supabase/client';
 import type { ITransaction } from '@bytebank/shared/models/transaction.interface';
@@ -8,9 +7,6 @@ export const TABLES = {
 } as const;
 
 export type IQueries = {
-  auth: {
-    getCurrentUser: () => Promise<User | null>;
-  };
   transaction: {
     getAllTransactions: (params?: Record<string, string | number>) => Promise<ITransaction[]>;
     getTransactionById: (id: string) => Promise<ITransaction>;
@@ -21,19 +17,6 @@ export type IQueries = {
 }
 
 export const queries: IQueries = {
-  auth: {
-    getCurrentUser: async (): Promise<User | null> => {
-      const supabase = await createClient();
-      const { data, error } = await supabase.auth.getUser();
-
-      if (error) {
-        console.error('Supabase error:', error);
-        throw new Error(`Error fetching user: ${error.message}`);
-      }
-
-      return data.user;
-    },
-  },
   transaction: {
     getAllTransactions: async (params?: Record<string, string | number>): Promise<ITransaction[]> => {
       const supabase = client();

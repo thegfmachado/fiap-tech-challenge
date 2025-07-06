@@ -59,4 +59,13 @@ export class AuthService implements IAuthService {
       throw new HttpError(500, 'Error fetching logged user');
     }
   }
+
+  async signOut() {
+    try {
+      await this.queries.auth.signOut();
+    } catch (error) {
+      console.error('Error signing out user:', error);
+      throw new HttpError(500, 'Error signing out user');
+    }
+  }
 }

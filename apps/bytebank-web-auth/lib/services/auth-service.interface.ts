@@ -6,4 +6,5 @@ export interface IAuthService {
   signUp(user: IUser): Promise<User | null>;
   signInWithPassword(email: string, password: string): Promise<User>;
   getCurrentUser(): Promise<User>;
+  signOut(): Promise<void>;
 }

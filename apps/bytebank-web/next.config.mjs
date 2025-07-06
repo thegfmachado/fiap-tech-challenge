@@ -13,6 +13,10 @@ const nextConfig = {
       destination: `${process.env.BYTEBANK_WEB_AUTH_DOMAIN}/api/auth`,
     },
     {
+      source: `/api/auth/:path+`,
+      destination: `${process.env.BYTEBANK_WEB_AUTH_DOMAIN}/api/auth/:path+`,
+    },
+    {
       source: `/bytebank-web-auth-static/:path+`,
       destination: `${process.env.BYTEBANK_WEB_AUTH_DOMAIN}/bytebank-web-auth-static/:path+`,
     },
