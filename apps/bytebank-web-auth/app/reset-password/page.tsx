@@ -4,7 +4,7 @@ import * as React from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChartColumn, ChartPie, Shield, TrendingUp } from "lucide-react";
+import { ChartColumn, ChartPie, Loader2, Shield, TrendingUp } from "lucide-react";
 
 import Image from "next/image";
 
@@ -32,6 +32,8 @@ import {
 
 import { HTTPService } from "@bytebank-web-auth/client/services/http-service";
 import { AuthService } from "@bytebank-web-auth/client/services/auth-service";
+
+import { createClient } from "@bytebank-web-auth/shared/utils/supabase/client";
 
 const httpService = new HTTPService();
 const authService = new AuthService(httpService);
@@ -66,18 +68,18 @@ const loginFormSchema = z.object({
 type LoginFormSchemaType = z.infer<typeof loginFormSchema>;
 
 export default function Page() {
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isAuthLoading, setIsAuthLoading] = React.useState(true);
+  const [isFormLoading, setIsFormLoading] = React.useState(false);
 
-  // React.useEffect(() => {
-  //   const supabase = createClient();
+  React.useEffect(() => {
+    const supabase = createClient();
 
-  //   supabase.auth.onAuthStateChange(async (event, session) => {
-  //     console.log({
-  //       event,
-  //       session,
-  //     })
-  //   })
-  // }, [])
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === "SIGNED_IN" && session?.user) {
+        setIsAuthLoading(false);
+      }
+    })
+  }, [])
 
   const form = useForm<LoginFormSchemaType>({
     resolver: zodResolver(loginFormSchema),
@@ -88,7 +90,7 @@ export default function Page() {
   });
 
   const handleSubmit = async (values: LoginFormSchemaType) => {
-    setIsLoading(true);
+    setIsFormLoading(true);
 
     try {
       await authService.updateUserPassword(values.password);
@@ -105,7 +107,7 @@ export default function Page() {
     } catch (error) {
       console.error("Erro ao atualizar senha do usuário.", error);
     } finally {
-      setIsLoading(false);
+      setIsFormLoading(false);
     }
   };
 
@@ -199,69 +201,80 @@ export default function Page() {
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
               {
-                isLoading ? (
-                  <div className="p-5 w-full max-w-lg grid gap-2">
-                    <Skeleton className="h-9 w-full rounded-md mb-2" />
-                    <Skeleton className="h-9 w-full rounded-md mb-2" />
-                    <Skeleton className="h-9 w-full rounded-md mb-2" />
-                    <Skeleton className="h-9 w-full rounded-md mb-2" />
-                    <Skeleton className="w-full h-12 rounded-md mt-4" />
+                isAuthLoading ? (
+                  <div className="flex items-center justify-center w-full h-20 gap-4">
+                    <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground">Autenticando seu usuário</p>
                   </div>
                 ) : (
-                  <Form {...form}>
-                    <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-5">
-                      <FormField
-                        control={form.control}
-                        name="password"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Senha</FormLabel>
-                            <FormControl>
-                              <Input
-                                {...field}
-                                type="password"
-                                placeholder="Digite sua senha"
-                                showPasswordToggle
-                              />
+                  <div className="flex flex-col gap-4">
+                    {
+                      isFormLoading ? (
+                        <div className="p-5 w-full max-w-lg grid gap-2">
+                          <Skeleton className="h-9 w-full rounded-md mb-2" />
+                          <Skeleton className="h-9 w-full rounded-md mb-2" />
+                          <Skeleton className="h-9 w-full rounded-md mb-2" />
+                          <Skeleton className="h-9 w-full rounded-md mb-2" />
+                          <Skeleton className="w-full h-12 rounded-md mt-4" />
+                        </div>
+                      ) : (
+                        <Form {...form}>
+                          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-5">
+                            <FormField
+                              control={form.control}
+                              name="password"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Senha</FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      {...field}
+                                      type="password"
+                                      placeholder="Digite sua senha"
+                                      showPasswordToggle
+                                    />
 
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
 
-                      <FormField
-                        control={form.control}
-                        name="confirmPassword"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Confirmação de senha</FormLabel>
-                            <FormControl>
-                              <Input
-                                {...field}
-                                type="password"
-                                placeholder="Confirme sua senha"
-                                showPasswordToggle
-                              />
+                            <FormField
+                              control={form.control}
+                              name="confirmPassword"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Confirmação de senha</FormLabel>
+                                  <FormControl>
+                                    <Input
+                                      {...field}
+                                      type="password"
+                                      placeholder="Confirme sua senha"
+                                      showPasswordToggle
+                                    />
 
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
 
-                      <Button className="w-full" size="lg" type="submit">
-                        Enviar
-                      </Button>
+                            <Button className="w-full" size="lg" type="submit">
+                              Enviar
+                            </Button>
 
-                      <div className="flex flex-col md:flex-row justify-center items-center gap-2 mt-2 p-4">
-                        <p className="text-center text-muted-foreground">
-                          Lembrou a senha?
-                        </p>
-                        <a className="text-primary font-medium" href="/auth/login">Voltar para login</a>
-                      </div>
-                    </form>
-                  </Form>
+                            <div className="flex flex-col md:flex-row justify-center items-center gap-2 mt-2 p-4">
+                              <p className="text-center text-muted-foreground">
+                                Lembrou a senha?
+                              </p>
+                              <a className="text-primary font-medium" href="/auth/login">Voltar para login</a>
+                            </div>
+                          </form>
+                        </Form>
+                      )
+                    }
+                  </div>
                 )
               }
             </CardContent>
