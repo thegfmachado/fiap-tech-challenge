@@ -7,7 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChartColumn, ChartPie, Shield, TrendingUp } from "lucide-react";
 
 import Image from "next/image";
-import Link from "next/link";
 
 import {
   Card,
@@ -23,7 +22,6 @@ import {
   FormMessage,
   Button,
   FormLabel,
-  Checkbox,
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
@@ -58,9 +56,11 @@ const cards = [
 ]
 
 const loginFormSchema = z.object({
-  email: z.string({ required_error: "Este campo é obrigatório" }).email("Email inválido"),
   password: z.string({ required_error: "Este campo é obrigatório" }).min(6, "A senha deve ter pelo menos 6 caracteres"),
-  rememberMe: z.boolean().optional(),
+  confirmPassword: z.string({ required_error: "Este campo é obrigatório" }).min(6, "A senha deve ter pelo menos 6 caracteres")
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Senhas não coincidem",
+  path: ["confirmPassword"],
 });
 
 type LoginFormSchemaType = z.infer<typeof loginFormSchema>;
@@ -68,12 +68,22 @@ type LoginFormSchemaType = z.infer<typeof loginFormSchema>;
 export default function Page() {
   const [isLoading, setIsLoading] = React.useState(false);
 
+  // React.useEffect(() => {
+  //   const supabase = createClient();
+
+  //   supabase.auth.onAuthStateChange(async (event, session) => {
+  //     console.log({
+  //       event,
+  //       session,
+  //     })
+  //   })
+  // }, [])
+
   const form = useForm<LoginFormSchemaType>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      email: "",
       password: "",
-      rememberMe: true,
+      confirmPassword: "",
     },
   });
 
@@ -81,18 +91,23 @@ export default function Page() {
     setIsLoading(true);
 
     try {
-      const user = await authService.signIn(values.email, values.password);
+      await authService.updateUserPassword(values.password);
 
-      if (user) {
-        // next/navigation does not support redirects to external domains
-        window.location.href = "/home";
-      }
+      form.reset();
+
+      toast.success(`Senha atualizada com sucesso! Você será redirecionado para a página de login em 3 segundos.`, {
+        duration: 3000,
+        onAutoClose: () => {
+          // next/navigation does not support redirects to external domains
+          window.location.href = "/auth/login";
+        }
+      });
     } catch (error) {
+      console.error("Erro ao atualizar senha do usuário.", error);
+    } finally {
       setIsLoading(false);
-      toast.error("Erro ao fazer login. Verifique suas credenciais e tente novamente.");
-      console.error("Erro ao fazer login:", error);
     }
-  }
+  };
 
   return (
     <div className="grid grid-rows-[auto_1fr] min-h-screen">
@@ -177,9 +192,9 @@ export default function Page() {
         <section className="p-5 md:p-10 flex flex-col items-center justify-center w-full max-w-3xl mx-auto">
           <Card className="w-full max-w-lg border-gray-50">
             <CardHeader>
-              <CardTitle>Entrar na sua conta</CardTitle>
+              <CardTitle>Redefinir Senha</CardTitle>
               <CardDescription>
-                Digite seu email e senha para acessar o FinTrack
+                Defina sua nova senha de acesso ao FinTrack
               </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
@@ -188,37 +203,13 @@ export default function Page() {
                   <div className="p-5 w-full max-w-lg grid gap-2">
                     <Skeleton className="h-9 w-full rounded-md mb-2" />
                     <Skeleton className="h-9 w-full rounded-md mb-2" />
-                    <div className="flex items-center gap-2 justify-between">
-                      <div className="flex items-center gap-2 justify-between">
-                        <Skeleton className="w-5 h-5 rounded" />
-                        <Skeleton className="w-30 h-5 rounded" />
-                      </div>
-                      <Skeleton className="w-50 h-4 rounded" />
-                    </div>
+                    <Skeleton className="h-9 w-full rounded-md mb-2" />
+                    <Skeleton className="h-9 w-full rounded-md mb-2" />
                     <Skeleton className="w-full h-12 rounded-md mt-4" />
                   </div>
                 ) : (
                   <Form {...form}>
                     <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-5">
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Email</FormLabel>
-                            <FormControl>
-                              <Input
-                                {...field}
-                                type="email"
-                                placeholder="seu@email.com"
-                              />
-
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
                       <FormField
                         control={form.control}
                         name="password"
@@ -239,38 +230,35 @@ export default function Page() {
                         )}
                       />
 
-                      <div className="flex items-center justify-between py-2">
-                        <FormField
-                          control={form.control}
-                          name="rememberMe"
-                          render={({ field }) => (
-                            <FormItem className="flex items-center">
-                              <FormControl>
-                                <Checkbox
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                  name={field.name}
-                                  ref={field.ref}
-                                />
-                              </FormControl>
-                              <FormLabel>Lembrar de mim</FormLabel>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                      <FormField
+                        control={form.control}
+                        name="confirmPassword"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Confirmação de senha</FormLabel>
+                            <FormControl>
+                              <Input
+                                {...field}
+                                type="password"
+                                placeholder="Confirme sua senha"
+                                showPasswordToggle
+                              />
 
-                        <Link className="text-primary text-sm" href="/auth/forgot-password">Esqueci minha senha</Link>
-                      </div>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
                       <Button className="w-full" size="lg" type="submit">
-                        Entrar
+                        Enviar
                       </Button>
 
                       <div className="flex flex-col md:flex-row justify-center items-center gap-2 mt-2 p-4">
                         <p className="text-center text-muted-foreground">
-                          Ainda não tem uma conta?
+                          Lembrou a senha?
                         </p>
-                        <a className="text-primary font-medium" href="/auth/signup">Criar conta gratuita</a>
+                        <a className="text-primary font-medium" href="/auth/login">Voltar para login</a>
                       </div>
                     </form>
                   </Form>
@@ -280,6 +268,6 @@ export default function Page() {
           </Card>
         </section>
       </main>
-    </div>
+    </div >
   )
 }

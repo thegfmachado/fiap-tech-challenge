@@ -1,4 +1,4 @@
-
+import process from "process";
 
 import type { User } from '@supabase/supabase-js';
 import { createClient } from '@bytebank-web-auth/shared/utils/supabase/server';
@@ -15,6 +15,8 @@ export type IQueries = {
     signInWithPassword: (email: string, password: string) => Promise<User | null>;
     getCurrentUser: () => Promise<User | null>;
     signOut: () => Promise<void>;
+    forgotPassword: (email: string) => Promise<void>;
+    updateUser: (user: Partial<IUser>) => Promise<User | null>;
   };
 }
 
@@ -76,5 +78,35 @@ export const queries: IQueries = {
         throw new Error(`Error signing out user: ${error.message}`);
       }
     },
+    forgotPassword: async (email: string): Promise<void> => {
+      const supabase = await createClient();
+
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${process.env.BYTEBANK_WEB_DOMAIN}/auth/reset-password`,
+      });
+
+      if (error) {
+        console.error('Supabase error:', error);
+        throw new Error(`Error sending password reset email: ${error.message}`);
+      }
+    },
+    updateUser: async (user: Partial<IUser>): Promise<User> => {
+      const supabase = await createClient();
+
+      const { data, error } = await supabase.auth.updateUser({
+        email: user.email,
+        password: user.password,
+        data: {
+          name: user.name,
+        },
+      });
+
+      if (error) {
+        console.error('Supabase error:', error);
+        throw new Error(`Error updating user: ${error.message}`);
+      }
+
+      return data.user;
+    }
   },
 };

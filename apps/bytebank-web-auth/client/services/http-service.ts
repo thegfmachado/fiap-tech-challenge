@@ -34,6 +34,10 @@ export class HTTPService implements IHTTPService {
     return this.request<T>(url, "PATCH", body);
   }
 
+  put<T>(url: string, body: unknown): Promise<T> {
+    return this.request<T>(url, "PUT", body);
+  }
+
   delete<T>(url: string): Promise<T> {
     return this.request<T>(url, "DELETE");
   }

@@ -1,5 +1,4 @@
 import { createClient } from '@bytebank/shared/utils/supabase/server';
-import { createClient as client } from '@bytebank/shared/utils/supabase/client';
 import type { ITransaction } from '@bytebank/shared/models/transaction.interface';
 
 export const TABLES = {
@@ -19,7 +18,7 @@ export type IQueries = {
 export const queries: IQueries = {
   transaction: {
     getAllTransactions: async (params?: Record<string, string | number>): Promise<ITransaction[]> => {
-      const supabase = client();
+      const supabase = await createClient();
 
       let query = supabase
         .from('transactions')
@@ -75,7 +74,7 @@ export const queries: IQueries = {
     },
 
     updateTransaction: async (id: string, updateData: Partial<ITransaction>): Promise<ITransaction> => {
-      const supabase = client();
+      const supabase = await createClient();
 
       const { data, error } = await supabase
         .from('transactions')
@@ -93,7 +92,7 @@ export const queries: IQueries = {
     },
 
     deleteTransaction: async (id: string): Promise<ITransaction> => {
-      const supabase = client();
+      const supabase = await createClient();
 
       const { data, error } = await supabase
         .from('transactions')

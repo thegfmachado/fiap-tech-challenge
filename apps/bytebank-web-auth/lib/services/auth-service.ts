@@ -28,14 +28,8 @@ export class AuthService implements IAuthService {
       }
 
       return user;
-    }
-    catch (error) {
+    } catch (error) {
       console.error('Error logging in user:', error);
-
-      if (error instanceof HttpError) {
-        throw error;
-      }
-
       throw new HttpError(500, 'Error logging in user');
     }
   }
@@ -51,11 +45,6 @@ export class AuthService implements IAuthService {
       return user;
     } catch (error) {
       console.error('Error fetching logged user:', error);
-
-      if (error instanceof HttpError) {
-        throw error;
-      }
-
       throw new HttpError(500, 'Error fetching logged user');
     }
   }
@@ -66,6 +55,35 @@ export class AuthService implements IAuthService {
     } catch (error) {
       console.error('Error signing out user:', error);
       throw new HttpError(500, 'Error signing out user');
+    }
+  }
+
+  async forgotPassword(email: string) {
+    try {
+      await this.queries.auth.forgotPassword(email);
+    } catch (error) {
+      console.error('Error sending forgot password email:', error);
+      throw new HttpError(500, 'Error sending forgot password email');
+    }
+  }
+
+  async updateUser(user: Partial<IUser>) {
+    try {
+      const updatedUser = await this.queries.auth.updateUser(user);
+      return updatedUser;
+    } catch (error) {
+      console.error('Error updating user:', error);
+      throw new HttpError(500, 'Error updating user');
+    }
+  }
+
+  async updateUserPassword(password: string) {
+    try {
+      const updatedUser = await this.queries.auth.updateUser({ password });
+      return updatedUser;
+    } catch (error) {
+      console.error('Error updating user password:', error);
+      throw new HttpError(500, 'Error updating user password');
     }
   }
 }

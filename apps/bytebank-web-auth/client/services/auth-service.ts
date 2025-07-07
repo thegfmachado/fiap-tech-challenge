@@ -30,13 +30,8 @@ export class AuthService implements IAuthService {
   }
 
   async signIn(email: string, password: string): Promise<User> {
-    try {
-      const data = await this.httpService.post("/api/auth", { email, password });
-      return data as User;
-    } catch (err) {
-      toast.error("Erro ao fazer login")
-      throw err;
-    }
+    const data = await this.httpService.post("/api/auth", { email, password });
+    return data as User;
   }
 
   async getCurrentUser(): Promise<User> {
@@ -45,6 +40,35 @@ export class AuthService implements IAuthService {
       return data as User;
     } catch (err) {
       toast.error("Erro ao buscar usuário logado")
+      throw err;
+    }
+  }
+
+  async forgotPassword(email: string): Promise<void> {
+    try {
+      await this.httpService.post("/api/auth/forgot-password", { email });
+    } catch (err) {
+      toast.error("Erro ao enviar email de recuperação. Verifique o email informado e tente novamente.");
+      throw err;
+    }
+  }
+
+  async updateUser(user: Partial<IUser>): Promise<User> {
+    try {
+      const updatedUser = await this.httpService.put("/api/auth", user);
+      return updatedUser as User;
+    } catch (err) {
+      toast.error("Erro ao atualizar usuário");
+      throw err;
+    }
+  }
+
+  async updateUserPassword(password: string): Promise<User> {
+    try {
+      const updatedUser = await this.httpService.patch("/api/auth/reset-password", { password });
+      return updatedUser as User;
+    } catch (err) {
+      toast.error("Erro ao atualizar senha do usuário.");
       throw err;
     }
   }
