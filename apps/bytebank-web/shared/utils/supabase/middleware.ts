@@ -1,5 +1,16 @@
-import { createServerClient } from '@supabase/ssr'
-import { NextResponse, type NextRequest } from 'next/server'
+import { createServerClient } from '@supabase/ssr';
+import { NextResponse, type NextRequest } from 'next/server';
+
+const PUBLIC_PATHS = [
+  '/',
+  '/auth/login',
+  '/auth/signup',
+  '/auth/forgot-password',
+  '/auth/reset-password',
+  '/api/auth',
+  '/api/auth/forgot-password',
+  '/api/auth/reset-password',
+];
 
 /**
  * Middleware responsible for managing and refreshing the Supabase Auth session.
@@ -52,17 +63,21 @@ export async function updateSession(request: NextRequest) {
 
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = await supabase.auth.getUser();
 
-  if (
-    !user &&
-    !request.nextUrl.pathname.match('/auth/login') &&
-    !request.nextUrl.pathname.match('/')
-  ) {
-    // no user, potentially respond by redirecting the user to the login page
-    const url = request.nextUrl.clone()
-    url.pathname = '/auth/login'
-    return NextResponse.redirect(url)
+  const pathname = request.nextUrl.pathname;
+  const isPublic = PUBLIC_PATHS.includes(pathname);
+
+  if (!user && !isPublic) {
+    // For the sake of debugging 😎
+    console.error({
+      message: 'User not found, redirecting to login',
+      pathname: request.nextUrl.pathname,
+    })
+
+    const url = request.nextUrl.clone();
+    url.pathname = '/auth/login';
+    return NextResponse.redirect(url);
   }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is.
@@ -78,5 +93,5 @@ export async function updateSession(request: NextRequest) {
   // If this is not done, you may be causing the browser and server to go out
   // of sync and terminate the user's session prematurely!
 
-  return supabaseResponse
+  return supabaseResponse;
 }

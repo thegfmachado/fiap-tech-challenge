@@ -81,8 +81,9 @@ export default function Page() {
 
     const user = await authService.signIn(values.email, values.password);
 
+    setIsLoading(false);
+
     if (!user) {
-      setIsLoading(false);
       return;
     }
 
