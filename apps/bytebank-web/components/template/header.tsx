@@ -1,9 +1,21 @@
+"use client";
+
 import { useState } from "react";
 import { House, PanelLeft, X, ArrowRightLeft, ChartNoAxesColumn } from "lucide-react";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+
+import {
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+  Skeleton,
+} from "@fiap-tech-challenge/design-system/components";
 
 import {
   Drawer,
@@ -12,7 +24,15 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "../ui/drawer";
-import { Button } from "@fiap-tech-challenge/design-system/components";
+
+
+import { HTTPService } from "@bytebank/client/services/http-service";
+import { AuthService } from "@bytebank/client/services/auth-service";
+
+import { useCurrentUser } from "@bytebank/hooks/use-current-user";
+
+const httpService = new HTTPService();
+const authService = new AuthService(httpService);
 
 const navLinks = [
   { href: "/home", label: "Início", Icon: House },
@@ -50,8 +70,21 @@ export function NavLinks(props: NavLinksProps) {
 }
 
 export function Header() {
-  const pathname = usePathname();
+  const { user, loading } = useCurrentUser();
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    try {
+      await authService.signOut();
+
+      router.push("/");
+    } catch (error) {
+      console.error("Erro ao deslogar usuário:", error);
+    }
+  };
 
   return (
     <header className="p-4 shadow-lg bg-white z-20 md:fixed w-full md:col-span-2">
@@ -99,10 +132,22 @@ export function Header() {
           />
         </Link>
 
-        <div className="flex items-center gap-4">
-          <Image src="/images/user.svg" width={24} height={24} alt="Imagem do usuário" />
-          <span className="hidden sm:block">Ana Silva</span>
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button asChild variant="ghost">
+              <div className="flex items-center gap-4">
+                <Image src="/images/user.svg" width={24} height={24} alt="Imagem do usuário" />
+                <span className="hidden sm:block">{loading ? <Skeleton className="h-4 w-24" /> : user?.user_metadata?.name}</span>
+              </div>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56" align="start">
+            <DropdownMenuLabel>Minha conta</DropdownMenuLabel>
+            <DropdownMenuItem onClick={handleSignOut}>
+              Sair
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );

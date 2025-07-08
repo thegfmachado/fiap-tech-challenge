@@ -158,7 +158,7 @@ export default function Transaction() {
               <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full">
                   <div className="relative">
-                    <Label className="absolute text-[0.75rem] -top-[25%] left-2 bg-white px-1 text-muted-foreground">
+                    <Label className="z-1 absolute text-[0.75rem] -top-[25%] left-2 bg-white px-1 text-muted-foreground">
                       Buscar transações
                     </Label>
                     <Input
@@ -170,7 +170,7 @@ export default function Transaction() {
                   </div>
 
                   <div className="relative">
-                    <Label className="absolute text-[0.75rem] -top-[25%] left-2 bg-white px-1 text-muted-foreground">
+                    <Label className="z-1 absolute text-[0.75rem] -top-[25%] left-2 bg-white px-1 text-muted-foreground">
                       Tipo de transação
                     </Label>
                     <Select value={typeFilter} onValueChange={(value) => setTypeFilter(value)}>

@@ -23,7 +23,9 @@ export default {
 export const Default: StoryObj<typeof Input> = {
   render: function Default(props: React.ComponentProps<"input">) {
     return (
-      <Input {...props} />
+      <div className="flex items-center">
+        <Input {...props} />
+      </div>
     );
   },
 };

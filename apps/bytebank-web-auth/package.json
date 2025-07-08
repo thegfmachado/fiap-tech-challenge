@@ -1,0 +1,43 @@
+{
+  "name": "bytebank-web-auth",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "description": "FIAP tech challenge finance app",
+  "scripts": {
+    "dev": "next dev --turbopack --port 3001",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fiap-tech-challenge/design-system": "file:./packages/design-system",
+    "@hookform/resolvers": "5.0.1",
+    "@supabase/supabase-js": "2.50.1",
+    "@supabase/ssr": "0.6.1",
+    "@radix-ui/react-dialog": "^1.1.13",
+    "@radix-ui/react-popover": "1.1.13",
+    "@radix-ui/react-select": "2.2.4",
+    "@radix-ui/react-slot": "1.2.2",
+    "date-fns": "3.6.0",
+    "lucide-react": "0.511.0",
+    "next": "15.3.2",
+    "next-themes": "0.4.6",
+    "react": "19.1.0",
+    "react-day-picker": "9.7.0",
+    "react-dom": "19.1.0",
+    "react-hook-form": "7.56.4",
+    "vaul": "^1.1.2",
+    "zod": "3.24.4"
+  },
+  "devDependencies": {
+    "@fiap-tech-challenge/eslint-config": "file:./packages/eslint-config",
+    "@fiap-tech-challenge/typescript-config": "file:./packages/typescript-config",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"
+  }
+}
