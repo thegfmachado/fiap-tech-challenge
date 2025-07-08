@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, ArrowLeftRight } from "lucide-react"
+import { Home, ArrowLeftRight, ChartNoAxesColumn } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@fiap-tech-challenge/design-system/components";
 import { usePathname } from "next/navigation";
@@ -16,6 +16,11 @@ const sidebarItems = [
     label: "Transações",
     icon: ArrowLeftRight
   },
+  {
+    href: "/dashboard",
+    label: "Dashboard",
+    icon: ChartNoAxesColumn
+  }
 ];
 
 export function Sidebar() {

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { House, PanelLeft, X, ArrowRightLeft } from "lucide-react";
+import { House, PanelLeft, X, ArrowRightLeft, ChartNoAxesColumn } from "lucide-react";
 
 import { usePathname } from "next/navigation";
 import Image from "next/image";
@@ -17,6 +17,7 @@ import { Button } from "@fiap-tech-challenge/design-system/components";
 const navLinks = [
   { href: "/home", label: "Início", Icon: House },
   { href: "/transaction", label: "Transações", Icon: ArrowRightLeft },
+  { href: "/dashboard", label: "Dashboard", Icon: ChartNoAxesColumn },
 ];
 
 interface NavLinksProps {
