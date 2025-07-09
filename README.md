@@ -16,15 +16,15 @@
   <a href="#-como-executar-o-projeto">Executando</a> 
 </p>
 
-## 📖 Sobre o Projeto 
+## 📖 Sobre o Projeto
 
 Este repositório contém a entrega do Tech Challenge de Front-end Engineering da FIAP. O projeto é dividido em dois pacotes principais:
 
 - **@fiap-tech-challenge/design-system**: biblioteca de componentes reutilizáveis construída com Vite, Tailwind e Storybook.
 - **bytebank-web**: aplicação de controle financeiro que consome os componentes do design system. Permite cadastrar transações de crédito (+) e débito (-), calculando o balanço total com base nas transações.
 
-
 ## 📋 Serviços
+
 O projeto inclui os seguintes serviços:
 
 - **App Principal**: [http://localhost:3000](http://localhost:3000)
@@ -63,20 +63,21 @@ cp .env.example .env
 ```
 
 ### 2. Modo de Desenvolvimento
+
 Para iniciar o projeto em modo de desenvolvimento, execute o seguinte comando na raiz do repositório:
+
 ```bash
 npm run dev
 ```
 
 Este comando inicia o TurboRepo e executa as tasks necessárias para o desenvolvimento:
 
-
 - `@fiap-tech-challenge/design-system`
 - `bytebank-web`
 
 O terminal exibirá um painel semelhante a este:
 
-```
+```text
 • Packages: 
   - @fiap-tech-challenge/design-system (http://localhost:60140)
   - bytebank-web (http://localhost:3000)
@@ -87,7 +88,9 @@ As portas podem variar, então fique atento às URLs exibidas no terminal após 
 > 💡 **Dica:** Você pode navegar no painel do terminal usando as setas ↑ ↓ para visualizar os logs de cada task individualmente.
 
 ### 3. Docker
+
 Para executar o projeto em Docker, utilize os seguintes comandos:
+
 ```bash
 npm run docker:up        # Iniciar containers
 npm run docker:down      # Parar containers
