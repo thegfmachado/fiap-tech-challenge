@@ -24,10 +24,9 @@ export class TransactionService implements ITransactionService {
       return data as ITransaction;
     }
     catch (err) {
-      toast("Erro ao criar transação")
+      toast.error("Erro ao criar transação")
       throw err;
     }
-    
   }
 
   async update(id: string, updates: Partial<ITransaction>): Promise<ITransaction> {

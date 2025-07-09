@@ -2,6 +2,8 @@
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "globalEnv": [
+    "BYTEBANK_WEB_DOMAIN",
+    "BYTEBANK_WEB_AUTH_DOMAIN",
     "DATABASE_URL",
     "NEXT_PUBLIC_SUPABASE_URL",
     "NEXT_PUBLIC_SUPABASE_ANON_KEY",
@@ -25,9 +27,6 @@
     "dev": {
       "cache": false,
       "persistent": true
-    },
-    "server": {
-      "dependsOn": ["^server"]
     }
   }
 }

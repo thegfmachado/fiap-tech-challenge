@@ -1,12 +1,18 @@
 import { HttpError } from "../http-error";
 import { ITransaction } from "@bytebank/shared/models/transaction.interface";
 import { ITransactionService } from "./transaction-service.interface";
-import { queries } from "../database/supabase";
+import { IQueries } from "../database/queries";
 
 export class TransactionService implements ITransactionService {
+  private queries: IQueries['transaction'];
+
+  constructor(queries: IQueries) {
+    this.queries = queries.transaction;
+  }
+
   async getAll(params?: Record<string, string | number>) {
     try {
-      const transactions = await queries.getAllTransactions(params);
+      const transactions = await this.queries.getAllTransactions(params);
       return transactions;
     } catch (error) {
       console.error('Error fetching transactions:', error);
@@ -16,7 +22,7 @@ export class TransactionService implements ITransactionService {
 
   async getById(id: string) {
     try {
-      const transaction = await queries.getTransactionById(id);
+      const transaction = await this.queries.getTransactionById(id);
       if (!transaction) {
         throw new HttpError(404, 'Transaction not found');
       }
@@ -37,8 +43,8 @@ export class TransactionService implements ITransactionService {
         value: data.value,
         date: data.date || new Date().toISOString(),
       };
-      
-      const transaction = await queries.createTransaction(transactionData);
+
+      const transaction = await this.queries.createTransaction(transactionData);
       return transaction;
     } catch (error) {
       console.error('Error creating transaction:', error);
@@ -48,7 +54,7 @@ export class TransactionService implements ITransactionService {
 
   async update(id: string, data: Partial<ITransaction>) {
     try {
-      const transaction = await queries.updateTransaction(id, data);
+      const transaction = await this.queries.updateTransaction(id, data);
       if (!transaction) {
         throw new HttpError(404, 'Transaction not found');
       }
@@ -62,7 +68,7 @@ export class TransactionService implements ITransactionService {
 
   async delete(id: string): Promise<void> {
     try {
-      await queries.deleteTransaction(id);
+      await this.queries.deleteTransaction(id);
       return;
     } catch (error) {
       console.error('Error deleting transaction:', error);
