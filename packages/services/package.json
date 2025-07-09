@@ -1,0 +1,35 @@
+{
+  "name": "@fiap-tech-challenge/services",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "description": "Shared services for FIAP tech challenge",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./http": {
+      "types": "./dist/http/index.d.ts",
+      "import": "./dist/http/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint src --ext .ts,.tsx"
+  },
+  "dependencies": {
+    "@fiap-tech-challenge/database": "file:../database",
+    "@fiap-tech-challenge/models": "file:../models",
+    "@supabase/supabase-js": "2.50.1"
+  },
+  "devDependencies": {
+    "@fiap-tech-challenge/eslint-config": "file:../eslint-config",
+    "@fiap-tech-challenge/typescript-config": "file:../typescript-config",
+    "@types/node": "^20",
+    "typescript": "^5"
+  }
+}

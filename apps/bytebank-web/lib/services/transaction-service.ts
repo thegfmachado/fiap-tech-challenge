@@ -1,4 +1,4 @@
-import { HttpError } from "../http-error";
+import { HttpError } from "@fiap-tech-challenge/services";
 import { ITransaction } from "@bytebank/shared/models/transaction.interface";
 import { ITransactionService } from "./transaction-service.interface";
 import { IQueries } from "../database/queries";

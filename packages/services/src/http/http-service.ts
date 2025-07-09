@@ -1,4 +1,4 @@
-import { IHTTPService } from "./http-service.interface";
+import { IHTTPService } from "./http-service.interface.js";
 
 export class HTTPService implements IHTTPService {
   private async request<T>(url: string, method: string, body?: unknown): Promise<T> {
@@ -26,7 +26,7 @@ export class HTTPService implements IHTTPService {
     return this.request<T>(url, "GET");
   }
 
-  post<T>(url: string, body: unknown): Promise<T> {
+  post<T>(url: string, body?: unknown): Promise<T> {
     return this.request<T>(url, "POST", body);
   }
 
