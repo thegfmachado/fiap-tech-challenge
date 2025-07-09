@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardContent, CardFooter, CardTitle } from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@fiap-tech-challenge/design-system/components";
 import Image from "next/image";
 
 export function DashboardCard({
@@ -9,7 +9,7 @@ export function DashboardCard({
   percentage
 }: {
   title: string;
-  value: string;
+  value: number;
   iconSrc: string;
   valueColor: string;
   percentage: string
