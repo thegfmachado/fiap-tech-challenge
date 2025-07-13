@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 import { TransactionService } from "@bytebank/lib/services/transaction-service";
 import { handleResponseError } from "@bytebank/lib/utils/handle-response-error";
