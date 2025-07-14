@@ -4,7 +4,6 @@ import process from "process";
 const nextConfig = {
   transpilePackages: ["@fiap-tech-challenge/design-system"],
   output: 'standalone',
-}
   rewrites: async () => [
     {
       source: `/auth/:path+`,
