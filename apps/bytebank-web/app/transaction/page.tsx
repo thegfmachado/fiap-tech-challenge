@@ -20,6 +20,7 @@ import { DeleteTransaction } from "@bytebank/components/delete-transaction";
 import { Sidebar } from "@bytebank/components/template/sidebar";
 import { Main } from "@bytebank/components/template/main";
 import { Layout } from "@bytebank/components/template/layout";
+import { TransactionSkeleton } from "@bytebank/components/transaction-skeleton";
 
 const httpService = new HTTPService();
 const transactionService = new TransactionService(httpService);
@@ -34,6 +35,7 @@ export default function Transaction() {
   const [filtersVisible, setFiltersVisible] = useState(true);
   const [editFormTransaction, setEditFormTransaction] = useState<ITransaction | null>(null);
   const [deleteFormTransaction, setDeleteFormTransaction] = useState<ITransaction | null>(null);
+  const [loadingTransaction, setLoadingTransaction] = useState(true);
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -41,6 +43,7 @@ export default function Transaction() {
 
       setTransactions(data);
       setFilteredTransactions(data);
+      setLoadingTransaction(false);
     };
 
     void fetchTransactions();
@@ -158,7 +161,7 @@ export default function Transaction() {
               <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full">
                   <div className="relative">
-                    <Label className="absolute text-[0.75rem] -top-[25%] left-2 bg-white px-1 text-muted-foreground">
+                    <Label className="z-1 absolute text-[0.75rem] -top-[25%] left-2 bg-white px-1 text-muted-foreground">
                       Buscar transações
                     </Label>
                     <Input
@@ -170,7 +173,7 @@ export default function Transaction() {
                   </div>
 
                   <div className="relative">
-                    <Label className="absolute text-[0.75rem] -top-[25%] left-2 bg-white px-1 text-muted-foreground">
+                    <Label className="z-1 absolute text-[0.75rem] -top-[25%] left-2 bg-white px-1 text-muted-foreground">
                       Tipo de transação
                     </Label>
                     <Select value={typeFilter} onValueChange={(value) => setTypeFilter(value)}>
@@ -204,15 +207,19 @@ export default function Transaction() {
           </div>
         </div>
 
-        <TransactionsList
-          transactions={filteredTransactions}
-          renderActions={(transaction) => (
-            <>
-              <TransactionAction type="edit" onClick={() => setEditFormTransaction(transaction)} />
-              <TransactionAction type="delete" onClick={() => setDeleteFormTransaction(transaction)} />
-            </>
-          )}
-        />
+        {loadingTransaction ? (
+          <TransactionSkeleton />
+        ) : (
+          <TransactionsList
+            transactions={filteredTransactions}
+            renderActions={(transaction) => (
+              <>
+                <TransactionAction type="edit" onClick={() => setEditFormTransaction(transaction)} />
+                <TransactionAction type="delete" onClick={() => setDeleteFormTransaction(transaction)} />
+              </>
+            )}
+          />
+        )}
 
         <div className="p-4 w-full flex items-center justify-end sticky bottom-0 bg-white border-t z-10">
           <CreateNewTransaction onSuccess={(transaction) => handleSyncTransactions(transaction, "create")} />

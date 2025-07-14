@@ -1,22 +1,44 @@
 import * as React from "react"
+import { Eye, EyeOff } from "lucide-react";
 
-import { cn } from "@fiap-tech-challenge/design-system/lib/utils"
+import type { InputProps } from "./input.types";
+import { useInput } from "./use-input";
 
-export function Input({ className, disabled, readOnly, ...props }: React.ComponentProps<"input">) {
+const Input = React.forwardRef<
+  HTMLInputElement,
+  InputProps
+>((props, ref) => {
+  const {
+    className,
+    isPassword,
+    showPasswordToggle = true,
+    handleSetVisible,
+    visible,
+    type,
+    ...otherProps
+  } = useInput(props);
+
   return (
-    <input
-      data-slot="input"
-      disabled={disabled || readOnly}
-      className={cn(
-        "placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-10 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none md:text-sm",
-        "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
-        "file:text-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium",
-        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
-        "disabled:pointer-events-none disabled:cursor-not-allowed",
-        disabled && !readOnly && "disabled:opacity-50",
-        className
+    <div className="relative w-full">
+      <input
+        {...otherProps}
+        type={type}
+        className={className}
+        ref={ref}
+      />
+      {isPassword && showPasswordToggle && (
+        <button
+          type="button"
+          className="absolute inset-y-0 right-3 flex items-center text-muted-foreground cursor-pointer"
+          onClick={handleSetVisible}
+        >
+          {visible ? <EyeOff size={18} /> : <Eye size={18} />}
+        </button>
       )}
-      {...props}
-    />
-  )
-}
+    </div>
+  );
+});
+
+Input.displayName = "Input";
+
+export { Input };

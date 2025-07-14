@@ -26,7 +26,7 @@ export class HTTPService implements IHTTPService {
     return this.request<T>(url, "GET");
   }
 
-  post<T>(url: string, body: unknown): Promise<T> {
+  post<T>(url: string, body?: unknown): Promise<T> {
     return this.request<T>(url, "POST", body);
   }
 

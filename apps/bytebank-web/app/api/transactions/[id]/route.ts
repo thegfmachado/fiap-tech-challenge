@@ -3,8 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { RouteParams } from "@bytebank/shared/models/route-params.interface";
 import { TransactionService } from "@bytebank/lib/services/transaction-service";
 import { handleResponseError } from "@bytebank/lib/utils/handle-response-error";
+import { queries } from "@bytebank/lib/database/queries";
 
-const service = new TransactionService();
+const service = new TransactionService(queries);
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<RouteParams> }) {
   try {
@@ -34,8 +35,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<Rout
 export async function DELETE(_req: NextRequest, { params }: { params: Promise<RouteParams> }) {
   try {
     const { id } = await params;
-    const deleted = await service.delete(id);
-    return NextResponse.json(deleted);
+    await service.delete(id);
+    return NextResponse.json({ message: 'Transaction deleted successfully' });
   } catch (err) {
     return handleResponseError(err);
   }
