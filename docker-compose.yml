@@ -1,0 +1,34 @@
+services:
+  bytebank-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bytebank-web-app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+    restart: unless-stopped
+    networks:
+      - bytebank-network
+
+  storybook:
+    build:
+      context: .
+      dockerfile: Dockerfile.storybook
+    container_name: bytebank-storybook
+    ports:
+      - "6006:6006"
+    environment:
+      - NODE_ENV=development
+    restart: unless-stopped
+    networks:
+      - bytebank-network
+
+networks:
+  bytebank-network:
+    driver: bridge
