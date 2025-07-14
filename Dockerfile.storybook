@@ -1,0 +1,48 @@
+FROM node:20-alpine AS base
+
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+
+COPY package*.json ./
+COPY turbo.json ./
+COPY packages/ ./packages/
+
+RUN npm ci
+
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+RUN cd packages/design-system && npm run build-storybook
+
+FROM nginx:alpine AS runner
+WORKDIR /usr/share/nginx/html
+
+COPY --from=builder /app/packages/design-system/storybook-static ./
+
+COPY <<EOF /etc/nginx/conf.d/default.conf
+server {
+    listen 6006;
+    server_name localhost;
+    root /usr/share/nginx/html;
+    index index.html index.htm;
+
+    location / {
+        try_files \$uri \$uri/ /index.html;
+        add_header Cache-Control "no-cache, no-store, must-revalidate";
+        add_header Pragma "no-cache";
+        add_header Expires "0";
+    }
+
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+}
+EOF
+
+EXPOSE 6006
+
+CMD ["nginx", "-g", "daemon off;"]
