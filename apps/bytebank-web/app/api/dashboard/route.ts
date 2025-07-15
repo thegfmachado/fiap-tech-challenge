@@ -15,22 +15,24 @@ const MONTHS = [
 ];
 
 function getIncomeByMonth(transactions: ITransaction[]): IIncomeByMonth[] {
+  const currentYear = new Date().getFullYear();
   const incomeByMonth = Array(12).fill(0);
-  transactions
-    .filter((t) => {
-      const date = new Date(t.date);
-      return date.getFullYear() === new Date().getFullYear();
-    })
-    .forEach((t) => {
-      const date = new Date(t.date);
-      const month = date.getMonth();
-      if (t.type === TransactionType.CREDIT) {
-        incomeByMonth[month] += t.value;
-      } else if (t.type === TransactionType.DEBIT) {
-        incomeByMonth[month] -= t.value;
-      }
-    });
 
+  for (const t of transactions) {
+    const date = new Date(t.date);
+
+    if (date.getFullYear() !== currentYear) {
+      continue;
+    }
+
+    const month = date.getMonth();
+
+    if (t.type === TransactionType.CREDIT) {
+      incomeByMonth[month] += t.value;
+    } else if (t.type === TransactionType.DEBIT) {
+      incomeByMonth[month] -= t.value;
+    }
+  }
   return MONTHS.map((month, i) => ({
     month,
     income: incomeByMonth[i],
@@ -38,23 +40,25 @@ function getIncomeByMonth(transactions: ITransaction[]): IIncomeByMonth[] {
 }
 
 function getAmountAndExpensesByMonth(transactions: ITransaction[]): IAmountAndExpensesByMonth[] {
+  const currentYear = new Date().getFullYear();
   const amountByMonth = Array(12).fill(0);
   const expensesByMonth = Array(12).fill(0);
 
-  transactions
-    .filter((t) => {
-      const date = new Date(t.date);
-      return date.getFullYear() === new Date().getFullYear();
-    })
-    .forEach((t) => {
-      const date = new Date(t.date);
-      const month = date.getMonth();
-      if (t.type === TransactionType.CREDIT) {
-        amountByMonth[month] += t.value;
-      } else if (t.type === TransactionType.DEBIT) {
-        expensesByMonth[month] += t.value;
-      }
-    });
+  for (const t of transactions) {
+    const date = new Date(t.date);
+
+    if (date.getFullYear() !== currentYear) {
+      continue;
+    }
+
+    const month = date.getMonth();
+
+    if (t.type === TransactionType.CREDIT) {
+      amountByMonth[month] += t.value;
+    } else if (t.type === TransactionType.DEBIT) {
+      expensesByMonth[month] += t.value;
+    }
+  }
 
   return MONTHS.map((month, i) => ({
     month,
@@ -95,8 +99,7 @@ function isInCurrentPeriod(transactionDate: string, period: string) {
 
 function getTotalByType(transactions: ITransaction[], type: TransactionType): number {
   return transactions
-    .filter((t) => t.type === type)
-    .reduce((sum, t) => sum + t.value, 0);
+    .reduce((sum, transaction) => transaction.type === type ? sum + transaction.value : sum, 0);
 }
 
 export async function GET(request: Request) {

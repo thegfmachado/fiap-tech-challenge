@@ -21,17 +21,21 @@ const dashboardService = new DashboardService(httpService);
 export default function Dashboard() {
   const [dashboard, setDashboard] = useState<IDashboardData>({ amount: 0, expenses: 0, income: 0, incomeByMonth: [], amountAndExpensesByMonth: [] });
   const [period, setPeriod] = useState("year");
-  console.log('period', period)
 
   useEffect(() => {
     const fetchTransactions = async () => {
       const data = await dashboardService.get({ period });
-      console.log('data', data)
       setDashboard(data);
     };
 
     void fetchTransactions();
   }, [period]);
+
+  function barChartTooltipFormatter(value: string, name: string) {
+    if (name === "amount") return [value, "Receita"];
+    if (name === "expenses") return [value, "Despesas"];
+    return [value, name];
+  }
 
   return (
     <Layout>
@@ -44,7 +48,7 @@ export default function Dashboard() {
           <div className="w-full flex flex-col">
 
             <div className="flex flex-col">
-              <div className="flex flex-row w-full mb-[20px] items-center gap-4 justify-between">
+              <div className="flex flex-row w-full mb-5 items-center gap-4 justify-between">
                 <h1 className="text-2xl font-bold flex-1 m-0">Dashboard</h1>
 
                 <div className="flex items-center justify-end">
@@ -61,7 +65,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="flex flex-col md:flex-row w-full gap-2 mb-[20px]">
+              <div className="flex flex-col md:flex-row w-full gap-2 mb-5">
                 <DashboardCard
                   title="Receita total"
                   value={dashboard.income}
@@ -119,11 +123,7 @@ export default function Dashboard() {
                           <CartesianGrid strokeDasharray="3 3" />
                           <XAxis dataKey="month" />
                           <YAxis />
-                          <Tooltip formatter={(value, name) => {
-                            if (name === "amount") return [value, "Receita"];
-                            if (name === "expenses") return [value, "Despesas"];
-                            return [value, name];
-                          }} />
+                          <Tooltip formatter={barChartTooltipFormatter} />
                           <Bar dataKey="amount" fill="#22c55e" />
                           <Bar dataKey="expenses" fill="#92400e" />
                         </BarChart>
