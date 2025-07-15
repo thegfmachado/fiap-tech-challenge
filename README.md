@@ -3,7 +3,7 @@
 </div>
 
 <p align="center">
-      <img alt="Amanda Lima" src="https://img.shields.io/badge/Tech Challenge-553860?style=flat&logo=Linkedin&logoColor=white" />
+      <img alt="Tech Challenge" src="https://img.shields.io/badge/Tech Challenge-553860?style=flat&logo=Linkedin&logoColor=white" />
   <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/thegfmachado/fiap-tech-challenge?color=553860"/>
   <img alt="Repository size" src="https://img.shields.io/github/repo-size/thegfmachado/fiap-tech-challenge?color=553860"/>
 </p>
@@ -89,7 +89,7 @@ As portas podem variar, então fique atento às URLs exibidas no terminal após 
 ### 3. Docker
 Para executar o projeto em Docker, utilize os seguintes comandos:
 ```bash
-npm run docker           # Iniciar containers
+npm run docker:up        # Iniciar containers
 npm run docker:down      # Parar containers
 npm run docker:logs      # Ver logs
 npm run docker:build     # Rebuild containers
