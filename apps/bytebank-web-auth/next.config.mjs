@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ["@fiap-tech-challenge/design-system"],
+  output: 'standalone',
   assetPrefix: "/bytebank-web-auth-static",
   rewrites: async () => [
     {
