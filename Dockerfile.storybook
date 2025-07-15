@@ -1,5 +1,7 @@
+# Base: Node.js Alpine
 FROM node:20-alpine AS base
 
+# Deps: Instala dependências
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
@@ -10,18 +12,23 @@ COPY packages/ ./packages/
 
 RUN npm ci
 
+# Builder: Compila Storybook
 FROM base AS builder
 WORKDIR /app
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# Gera arquivos estáticos do Storybook
 RUN cd packages/design-system && npm run build-storybook
 
+# Runner: Serve via nginx
 FROM nginx:alpine AS runner
 WORKDIR /usr/share/nginx/html
 
 COPY --from=builder /app/packages/design-system/storybook-static ./
 
+# Configuração nginx para SPA e cache otimizado
 COPY <<EOF /etc/nginx/conf.d/default.conf
 server {
     listen 6006;
@@ -29,6 +36,7 @@ server {
     root /usr/share/nginx/html;
     index index.html index.htm;
 
+    # SPA fallback
     location / {
         try_files \$uri \$uri/ /index.html;
         add_header Cache-Control "no-cache, no-store, must-revalidate";
@@ -36,6 +44,7 @@ server {
         add_header Expires "0";
     }
 
+    # Cache para assets estáticos
     location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
         expires 1y;
         add_header Cache-Control "public, immutable";
