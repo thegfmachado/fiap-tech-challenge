@@ -3,9 +3,31 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        BYTEBANK_WEB_AUTH_DOMAIN: http://bytebank-web-auth-app:3001
     container_name: bytebank-web-app
     ports:
       - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - BYTEBANK_WEB_AUTH_DOMAIN=http://bytebank-web-auth-app:3001
+    restart: unless-stopped
+    networks:
+      - bytebank-network
+    depends_on:
+      - bytebank-web-auth
+
+  bytebank-web-auth:
+    build:
+      context: .
+      dockerfile: Dockerfile.auth
+    container_name: bytebank-web-auth-app
+    ports:
+      - "3001:3001"
     environment:
       - NODE_ENV=production
       - DATABASE_URL=${DATABASE_URL}
