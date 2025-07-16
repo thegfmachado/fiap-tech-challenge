@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { House, PanelLeft, X, ArrowRightLeft } from "lucide-react";
+import { House, PanelLeft, X, ArrowRightLeft, ChartNoAxesColumn } from "lucide-react";
 
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
@@ -37,6 +37,7 @@ const authService = new AuthService(httpService);
 const navLinks = [
   { href: "/home", label: "Início", Icon: House },
   { href: "/transaction", label: "Transações", Icon: ArrowRightLeft },
+  { href: "/dashboard", label: "Dashboard", Icon: ChartNoAxesColumn },
 ];
 
 interface NavLinksProps {
