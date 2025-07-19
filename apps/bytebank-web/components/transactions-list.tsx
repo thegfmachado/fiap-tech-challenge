@@ -1,10 +1,12 @@
+import { useMemo } from "react";
 import Link from "next/link";
 import { cva } from "class-variance-authority";
-import type { ITransaction } from "@bytebank/shared/models/transaction.interface";
+
 import { Button } from "@fiap-tech-challenge/design-system/components";
+import type { ITransaction } from "@fiap-tech-challenge/database/types";
+import { TransactionType } from "@fiap-tech-challenge/models";
+
 import { formatCurrency, formatDate } from "@bytebank/client/formatters";
-import { TransactionType } from "@bytebank/shared/enums/transaction-type.enum";
-import { useMemo } from "react";
 
 export type TransactionsListProps = {
   transactions: ITransaction[];

@@ -11,9 +11,10 @@ import {
   FormMessage,
   Button, RadioGroup, FormLabel, RadioGroupItem,
 } from "@fiap-tech-challenge/design-system/components";
-import { TransactionType } from "@bytebank/shared/enums/transaction-type.enum";
+import type { ITransaction } from "@fiap-tech-challenge/database/types";
+import { TransactionType } from "@fiap-tech-challenge/models";
+
 import { CurrencyInput } from "@bytebank/components/ui/currency-input";
-import { ITransaction } from "@bytebank/shared/models/transaction.interface";
 import { DatePicker } from "@bytebank/components/date-picker";
 
 export type TransactionsFormProps = {
@@ -25,7 +26,7 @@ export type TransactionsFormProps = {
 
 const createTransactionSchema = z.object({
   id: z.string(),
-  type: z.enum([TransactionType.DEBIT, TransactionType.CREDIT]),
+  type: z.enum([TransactionType.CREDIT, TransactionType.DEBIT]),
   description: z.string({ required_error: "Este campo é obrigatório" }),
   value: z.number({ required_error: "Este campo é obrigatório" }).min(1, "Valor deve ser maior que 0"),
   date: z.date({ required_error: "Este campo é obrigatório" }),

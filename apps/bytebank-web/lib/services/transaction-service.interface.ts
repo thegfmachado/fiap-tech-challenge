@@ -1,9 +1,9 @@
-import { ITransaction } from "@bytebank/shared/models/transaction.interface";
+import type { ITransaction, ITransactionInsert, ITransactionUpdate } from "@fiap-tech-challenge/database/types";
 
 export interface ITransactionService {
   getAll(): Promise<ITransaction[]>;
   getById(id: string): Promise<ITransaction>;
-  create(data: Partial<ITransaction>): Promise<ITransaction>;
-  update(id: string, data: Partial<ITransaction>): Promise<ITransaction>;
+  create(data: ITransactionInsert): Promise<ITransaction>;
+  update(id: string, data: ITransactionUpdate): Promise<ITransaction>;
   delete(id: string): Promise<void>;
 }
