@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
 
-import { queries } from "@bytebank-web-auth/lib/database/queries";
 import { AuthService } from "@bytebank-web-auth/lib/services/auth-service";
 import { handleResponseError } from "@fiap-tech-challenge/services/http";
 
-const service = new AuthService(queries);
+const service = new AuthService();
 
 export async function POST() {
   try {
