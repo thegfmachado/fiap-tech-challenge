@@ -1,11 +1,13 @@
 # Configuração do Supabase
 
 ## 1. Criar Projeto no Supabase
+
 1. Acesse [supabase.com](https://supabase.com)
 2. Crie um novo projeto
 3. Anote as credenciais: URL e API Key
 
 ## 2. Configurar Banco de Dados
+
 Execute o script SQL no painel do Supabase:
 
 ```sql
@@ -23,6 +25,7 @@ CREATE TABLE transactions (
 ## 3. Configurar Variáveis de Ambiente
 
 ### Para Desenvolvimento Local
+
 Edite o arquivo `apps/bytebank-web/.env.local`:
 
 ```bash
@@ -33,6 +36,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=[ANON-KEY]
 ```
 
 ### Para Docker/Produção
+
 Edite o arquivo `.env` (na raiz do projeto):
 
 ```bash
@@ -43,6 +47,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=[ANON-KEY]
 ```
 
 ## 4. Executar
+
 ```bash
 npm run dev
 ```

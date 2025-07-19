@@ -26,9 +26,9 @@ import {
 } from "../ui/drawer";
 
 
-import { HTTPService } from "@bytebank/client/services/http-service";
-import { AuthService } from "@bytebank/client/services/auth-service";
+import { HTTPService } from "@fiap-tech-challenge/services";
 
+import { AuthService } from "@bytebank/client/services/auth-service";
 import { useCurrentUser } from "@bytebank/hooks/use-current-user";
 
 const httpService = new HTTPService();

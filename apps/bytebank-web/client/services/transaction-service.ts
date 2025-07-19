@@ -1,4 +1,4 @@
-import { HTTPService } from "./http-service";
+import { HTTPService } from "@fiap-tech-challenge/services";
 
 import type { ITransactionService } from "./transaction-service.interface";
 import { ITransaction } from "@bytebank/shared/models/transaction.interface";
@@ -18,10 +18,10 @@ export class TransactionService implements ITransactionService {
 
   async create(transaction: ITransaction): Promise<ITransaction> {
     try {
-      const data = await this.httpService.post("/api/transactions", transaction);
+      const data = await this.httpService.post<ITransaction>("/api/transactions", transaction);
       toast.success("Transação criada com sucesso")
 
-      return data as ITransaction;
+      return data;
     }
     catch (err) {
       toast.error("Erro ao criar transação")
@@ -31,10 +31,10 @@ export class TransactionService implements ITransactionService {
 
   async update(id: string, updates: Partial<ITransaction>): Promise<ITransaction> {
     try {
-      const data = await this.httpService.patch(`/api/transactions/${id}`, updates);
+      const data = await this.httpService.patch<ITransaction>(`/api/transactions/${id}`, updates);
       toast.success("Transação atualizada com sucesso")
 
-      return data as ITransaction;
+      return data;
     }
     catch (err) {
       toast.error("Erro ao editar transação")

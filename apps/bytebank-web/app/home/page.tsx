@@ -3,8 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { Skeleton } from "@fiap-tech-challenge/design-system/components";
+import { HTTPService } from "@fiap-tech-challenge/services";
 
-import { HTTPService } from "@bytebank/client/services/http-service";
 import { TransactionService } from "@bytebank/client/services/transaction-service";
 
 import { Header } from "@bytebank/components/template/header";

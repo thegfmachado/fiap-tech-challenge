@@ -2,7 +2,7 @@
   "name": "fiap-tech-challenge",
   "version": "0.0.1",
   "private": true,
-  "description": "FIAP Front-end engeneering tech challenge",
+  "description": "FIAP Front-end engineering tech challenge",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/thegfmachado/fiap-tech-challenge.git",
@@ -25,6 +25,7 @@
   "devDependencies": {
     "@fiap-tech-challenge/eslint-config": "file:./packages/eslint-config",
     "@fiap-tech-challenge/typescript-config": "file:./packages/typescript-config",
+    "@fiap-tech-challenge/services": "file:./packages/services",
     "cspell": "^8.19.4",
     "prettier": "^3.5.3",
     "turbo": "2.5.3",
