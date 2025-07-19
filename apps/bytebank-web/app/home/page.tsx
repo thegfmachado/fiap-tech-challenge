@@ -19,7 +19,7 @@ import { CreateNewTransaction } from "@bytebank/components/create-new-transactio
 import { EditTransaction } from "@bytebank/components/edit-transaction";
 
 import { formatCurrency } from "@bytebank/client/formatters";
-import type { ITransaction } from "@bytebank/shared/models/transaction.interface";
+import type { ITransaction } from "@fiap-tech-challenge/database/types";
 import { useCurrentUser } from "@bytebank/hooks/use-current-user";
 import { TransactionSkeleton } from "@bytebank/components/transaction-skeleton";
 

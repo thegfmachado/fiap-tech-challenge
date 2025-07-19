@@ -1,4 +1,4 @@
-import { IDashboardData } from "@bytebank/shared/models/dashboard-data.interface";
+import { IDashboardData } from "@fiap-tech-challenge/models";
 
 export interface IDashboardService {
   get(params?: Record<string, string | number>): Promise<IDashboardData>;
