@@ -1,6 +1,6 @@
 "use client";
 
-import { HTTPService } from "@bytebank/client/services/http-service";
+import { HTTPService } from "@fiap-tech-challenge/services/http";
 
 import { Header } from "@bytebank/components/template/header";
 import { Sidebar } from "@bytebank/components/template/sidebar";
@@ -8,7 +8,7 @@ import { Main } from "@bytebank/components/template/main";
 import { Layout } from "@bytebank/components/template/layout";
 import { DashboardCard } from "@bytebank/components/template/dashboard/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bytebank/components/ui/tabs";
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, AreaChart, Area, CartesianGrid } from 'recharts'
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, AreaChart, Area, CartesianGrid } from 'recharts';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@bytebank/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@fiap-tech-challenge/design-system/components";
 import { DashboardService } from "@bytebank/client/services/dashboard-service";

@@ -1,4 +1,4 @@
-import { HTTPService } from "./http-service";
+import { HTTPService } from "@fiap-tech-challenge/services/http";
 
 import { IDashboardService } from "./dashboard-service.interface";
 import { IDashboardData } from "@bytebank/shared/models/dashboard-data.interface";
