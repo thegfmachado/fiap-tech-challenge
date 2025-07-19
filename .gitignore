@@ -27,7 +27,6 @@ out/
 build
 dist
 
-
 # Debug
 npm-debug.log*
 
@@ -37,4 +36,7 @@ npm-debug.log*
 .idea
 *.log
 storybook-static
+
+# Supabase
+.branches
 .temp
