@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { TransactionService } from "@bytebank/lib/services/transaction-service";
-import { handleResponseError } from "@bytebank/lib/utils/handle-response-error";
+import { handleResponseError } from "@fiap-tech-challenge/services/http";
 import { queries } from "@bytebank/lib/database/queries";
 import { TransactionType } from "@bytebank/shared/enums/transaction-type.enum";
 import { IAmountAndExpensesByMonth, IDashboardData, IIncomeByMonth } from "@bytebank/shared/models/dashboard-data.interface";

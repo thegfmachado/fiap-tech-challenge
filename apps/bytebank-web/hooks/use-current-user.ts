@@ -3,7 +3,8 @@
 import * as React from 'react';
 import type { User } from '@supabase/supabase-js';
 
-import { HTTPService } from '@bytebank/client/services/http-service';
+import { HTTPService } from '@fiap-tech-challenge/services';
+
 import { AuthService } from '@bytebank/client/services/auth-service';
 
 const httpService = new HTTPService();

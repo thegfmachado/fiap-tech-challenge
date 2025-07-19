@@ -8,7 +8,8 @@ import {
   DialogTitle,
 } from "@fiap-tech-challenge/design-system/components";
 
-import { HTTPService } from "@bytebank/client/services/http-service";
+import { HTTPService } from "@fiap-tech-challenge/services";
+
 import { TransactionService } from "@bytebank/client/services/transaction-service";
 import type { ITransaction } from "@bytebank/shared/models/transaction.interface";
 import { OctagonAlert } from "lucide-react";

@@ -2,7 +2,7 @@ import type { User } from "@supabase/supabase-js";
 
 import { toast } from "@fiap-tech-challenge/design-system/components";
 
-import { HTTPService } from "./http-service";
+import { HTTPService } from "@fiap-tech-challenge/services";
 
 import type { IAuthService } from "./auth-service.interface";
 import type { IUser } from "@bytebank-web-auth/shared/models/user.interface";

@@ -1,4 +1,4 @@
-import { HttpError } from "../http-error";
+import { HttpError } from "@fiap-tech-challenge/services";
 import type { IUser } from "../../shared/models/user.interface";
 import { IQueries } from "../database/queries";
 import type { IAuthService } from "./auth-service.interface";
