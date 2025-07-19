@@ -37,3 +37,4 @@ npm-debug.log*
 .idea
 *.log
 storybook-static
+.temp
