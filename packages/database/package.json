@@ -33,13 +33,13 @@
   "dependencies": {
     "@fiap-tech-challenge/models": "file:../models",
     "@supabase/ssr": "0.6.1",
-    "@supabase/supabase-js": "2.50.1"
+    "@supabase/supabase-js": "2.52.0"
   },
   "devDependencies": {
     "@fiap-tech-challenge/eslint-config": "file:../eslint-config",
     "@fiap-tech-challenge/typescript-config": "file:../typescript-config",
     "@types/node": "^20",
-    "supabase": "2.30.4",
+    "supabase": "2.31.4",
     "typescript": "^5"
   }
 }

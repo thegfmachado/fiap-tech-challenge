@@ -14,6 +14,8 @@
   ],
   "scripts": {
     "build": "turbo build",
+    "db:local:start": "npm run db:local:start --workspace=@fiap-tech-challenge/database",
+    "db:generate:types": "npm run db:generate:types --workspace=@fiap-tech-challenge/database",
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
@@ -25,13 +27,12 @@
   "devDependencies": {
     "@fiap-tech-challenge/eslint-config": "file:./packages/eslint-config",
     "@fiap-tech-challenge/typescript-config": "file:./packages/typescript-config",
-    "@fiap-tech-challenge/services": "file:./packages/services",
-    "cspell": "^8.19.4",
-    "prettier": "^3.5.3",
-    "turbo": "2.5.3",
-    "typescript": "^5"
+    "cspell": "9.1.3",
+    "prettier": "3.6.2",
+    "turbo": "2.5.4",
+    "typescript": "5.8.3"
   },
-  "packageManager": "npm@10.8.2",
+  "packageManager": "npm@11.4.2",
   "engines": {
     "node": ">=20"
   }
