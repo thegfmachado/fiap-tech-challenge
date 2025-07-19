@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { Skeleton } from "@fiap-tech-challenge/design-system/components";
-import { HTTPService } from "@fiap-tech-challenge/services";
+import type { ITransaction } from "@fiap-tech-challenge/database/types";
 
 import { TransactionService } from "@bytebank/client/services/transaction-service";
 
@@ -19,12 +19,10 @@ import { CreateNewTransaction } from "@bytebank/components/create-new-transactio
 import { EditTransaction } from "@bytebank/components/edit-transaction";
 
 import { formatCurrency } from "@bytebank/client/formatters";
-import type { ITransaction } from "@bytebank/shared/models/transaction.interface";
 import { useCurrentUser } from "@bytebank/hooks/use-current-user";
 import { TransactionSkeleton } from "@bytebank/components/transaction-skeleton";
 
-const httpService = new HTTPService();
-const transactionService = new TransactionService(httpService);
+const transactionService = new TransactionService();
 
 export default function Home() {
   const [transactions, setTransactions] = useState<ITransaction[]>([]);

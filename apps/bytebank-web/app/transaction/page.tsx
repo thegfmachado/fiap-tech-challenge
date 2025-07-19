@@ -5,10 +5,9 @@ import type { DateRange } from "react-day-picker";
 import { FunnelPlus } from "lucide-react";
 
 import { Button, Input, Label } from "@fiap-tech-challenge/design-system/components";
-import { HTTPService } from "@fiap-tech-challenge/services";
+import type { ITransaction } from "@fiap-tech-challenge/database/types";
 
 import { TransactionService } from "@bytebank/client/services/transaction-service";
-import type { ITransaction } from "@bytebank/shared/models/transaction.interface";
 
 import { EditTransaction } from "@bytebank/components/edit-transaction";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "components/ui/select";
@@ -23,8 +22,7 @@ import { Main } from "@bytebank/components/template/main";
 import { Layout } from "@bytebank/components/template/layout";
 import { TransactionSkeleton } from "@bytebank/components/transaction-skeleton";
 
-const httpService = new HTTPService();
-const transactionService = new TransactionService(httpService);
+const transactionService = new TransactionService();
 
 export default function Transaction() {
   const [transactions, setTransactions] = useState<ITransaction[]>([]);

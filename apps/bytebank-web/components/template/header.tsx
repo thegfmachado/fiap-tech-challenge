@@ -25,14 +25,10 @@ import {
   DrawerTrigger,
 } from "../ui/drawer";
 
-
-import { HTTPService } from "@fiap-tech-challenge/services";
-
 import { AuthService } from "@bytebank/client/services/auth-service";
 import { useCurrentUser } from "@bytebank/hooks/use-current-user";
 
-const httpService = new HTTPService();
-const authService = new AuthService(httpService);
+const authService = new AuthService();
 
 const navLinks = [
   { href: "/home", label: "Início", Icon: House },

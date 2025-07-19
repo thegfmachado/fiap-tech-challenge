@@ -27,13 +27,11 @@ import {
 import { Header } from "@bytebank-web-auth/components/template/header";
 import { WelcomeHero } from "@bytebank-web-auth/components/welcome-hero";
 
-import { HTTPService } from "@fiap-tech-challenge/services/http";
 import { AuthService } from "@bytebank-web-auth/client/services/auth-service";
 
-import { createClient } from "@bytebank-web-auth/shared/utils/supabase/client";
+import { createClient } from "@fiap-tech-challenge/database/client";
 
-const httpService = new HTTPService();
-const authService = new AuthService(httpService);
+const authService = new AuthService();
 
 const cards = [
   {

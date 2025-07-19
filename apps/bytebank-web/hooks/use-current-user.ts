@@ -3,12 +3,9 @@
 import * as React from 'react';
 import type { User } from '@supabase/supabase-js';
 
-import { HTTPService } from '@fiap-tech-challenge/services';
-
 import { AuthService } from '@bytebank/client/services/auth-service';
 
-const httpService = new HTTPService();
-const authService = new AuthService(httpService);
+const authService = new AuthService();
 
 export function useCurrentUser() {
   const [user, setUser] = React.useState<User | null>(null)

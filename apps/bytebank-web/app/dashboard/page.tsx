@@ -1,7 +1,5 @@
 "use client";
 
-import { HTTPService } from "@fiap-tech-challenge/services/http";
-
 import { Header } from "@bytebank/components/template/header";
 import { Sidebar } from "@bytebank/components/template/sidebar";
 import { Main } from "@bytebank/components/template/main";
@@ -15,8 +13,7 @@ import { DashboardService } from "@bytebank/client/services/dashboard-service";
 import { useEffect, useState } from "react";
 import { IDashboardData } from "@bytebank/shared/models/dashboard-data.interface";
 
-const httpService = new HTTPService();
-const dashboardService = new DashboardService(httpService);
+const dashboardService = new DashboardService();
 
 export default function Dashboard() {
   const [dashboard, setDashboard] = useState<IDashboardData>({ amount: 0, expenses: 0, income: 0, incomeByMonth: [], amountAndExpensesByMonth: [] });

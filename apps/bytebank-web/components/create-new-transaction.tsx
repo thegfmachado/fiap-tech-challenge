@@ -1,7 +1,6 @@
-import { HTTPService } from "@fiap-tech-challenge/services";
+import { type ITransaction } from "@fiap-tech-challenge/database/types";
 
 import { TransactionService } from "@bytebank/client/services/transaction-service";
-import type { ITransaction } from "@bytebank/shared/models/transaction.interface";
 import { TransactionsForm } from "@bytebank/components/transactions-form";
 import {
   Button,
@@ -15,8 +14,7 @@ import {
 import { SquarePlus } from "lucide-react";
 import { useState } from "react";
 
-const httpService = new HTTPService();
-const transactionService = new TransactionService(httpService);
+const transactionService = new TransactionService();
 
 export interface CreateNewTransactionProps {
   onSuccess?: (transaction: ITransaction) => void;

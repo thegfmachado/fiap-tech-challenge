@@ -6,11 +6,7 @@ import { HTTPService } from "@fiap-tech-challenge/services";
 import type { IAuthService } from "./auth-service.interface";
 
 export class AuthService implements IAuthService {
-  private readonly httpService: HTTPService
-
-  constructor(httpService: HTTPService) {
-    this.httpService = httpService;
-  }
+  private readonly httpService = new HTTPService();
 
   async getCurrentUser(): Promise<User> {
     try {

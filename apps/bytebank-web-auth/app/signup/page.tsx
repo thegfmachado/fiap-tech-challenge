@@ -26,11 +26,9 @@ import {
 import { Header } from "@bytebank-web-auth/components/template/header";
 import { WelcomeHero } from "@bytebank-web-auth/components/welcome-hero";
 
-import { HTTPService } from "@fiap-tech-challenge/services/http";
 import { AuthService } from "@bytebank-web-auth/client/services/auth-service";
 
-const httpService = new HTTPService();
-const authService = new AuthService(httpService);
+const authService = new AuthService();
 
 const cards = [
   {
@@ -127,6 +125,7 @@ export default function Page() {
                             <FormControl>
                               <Input
                                 {...field}
+                                autoComplete="name"
                                 type="text"
                                 placeholder="Digite seu nome"
                               />
@@ -145,6 +144,7 @@ export default function Page() {
                             <FormControl>
                               <Input
                                 {...field}
+                                autoComplete="email"
                                 type="email"
                                 placeholder="seu@email.com"
                               />
@@ -164,6 +164,7 @@ export default function Page() {
                             <FormControl>
                               <Input
                                 {...field}
+                                autoComplete="new-password"
                                 type="password"
                                 placeholder="Digite sua senha"
                                 showPasswordToggle
@@ -184,6 +185,7 @@ export default function Page() {
                             <FormControl>
                               <Input
                                 {...field}
+                                autoComplete="new-password"
                                 type="password"
                                 placeholder="Confirme sua senha"
                                 showPasswordToggle
