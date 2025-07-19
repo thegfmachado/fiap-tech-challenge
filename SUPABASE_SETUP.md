@@ -2,56 +2,57 @@
 
 ## 1. Criar Projeto no Supabase
 
+### Para desenvolvimento local
+
+1. Execute o script `npm run db:local:start` para instanciar o Supabase localmente
+2. Acesse o Supabase local em http://localhost:54323
+3. Anote as credenciais: URL e API Key
+
+### Para ambiente online
+
 1. Acesse [supabase.com](https://supabase.com)
 2. Crie um novo projeto
 3. Anote as credenciais: URL e API Key
 
 ## 2. Configurar Banco de Dados
 
-Execute o script SQL no painel do Supabase:
-
-```sql
--- Criar tabela de transações
-CREATE TABLE transactions (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  type VARCHAR(10) NOT NULL CHECK (type IN ('credit', 'debit')),
-  description TEXT NOT NULL,
-  value DECIMAL(10,2) NOT NULL,
-  date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
-```
+Execute o script de [setup](./packages/database/setup.sql) do banco de dados no seu projeto Supabase.
 
 ## 3. Configurar Variáveis de Ambiente
 
 ### Para Desenvolvimento Local
 
-Edite o arquivo `apps/bytebank-web/.env.local`:
+Crie ou edite o arquivo `apps/bytebank-web/.env.local`:
 
 ```bash
 # Supabase
-DATABASE_URL=postgresql://postgres.[PROJECT-ID]:[PASSWORD]@aws-0-sa-east-1.pooler.supabase.com:6543/postgres
 NEXT_PUBLIC_SUPABASE_URL=https://[PROJECT-ID].supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=[ANON-KEY]
 ```
 
 ### Para Docker/Produção
 
-Edite o arquivo `.env` (na raiz do projeto):
+Crie ou edite o arquivo `.env` (na raiz do projeto):
 
 ```bash
 # Supabase
-DATABASE_URL=postgresql://postgres.[PROJECT-ID]:[PASSWORD]@aws-0-sa-east-1.pooler.supabase.com:6543/postgres
 NEXT_PUBLIC_SUPABASE_URL=https://[PROJECT-ID].supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=[ANON-KEY]
 ```
 
+**Nota:** Substitua `[PROJECT-ID]` e `[ANON-KEY]` pelos valores reais do seu projeto Supabase.
+
 ## 4. Executar
+
+### Desenvolvimento Local
 
 ```bash
 npm run dev
 ```
 
----
+### Docker/Produção
 
-**Dica**: Use Transaction Pooler (porta 6543) para melhor performance.
+```bash
+npm run docker:build
+npm run docker:up
+```
