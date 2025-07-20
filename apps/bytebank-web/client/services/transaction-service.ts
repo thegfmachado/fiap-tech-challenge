@@ -1,7 +1,7 @@
 import { HTTPService } from "@fiap-tech-challenge/services";
 
 import type { ITransactionService } from "./transaction-service.interface";
-import { ITransaction } from "@bytebank/shared/models/transaction.interface";
+import type { ITransaction } from "@fiap-tech-challenge/database/types";
 import { toast } from "@fiap-tech-challenge/design-system/components";
 
 export class TransactionService implements ITransactionService {

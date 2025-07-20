@@ -1,4 +1,4 @@
-import { ITransaction } from "@bytebank/shared/models/transaction.interface";
+import { ITransaction } from "@fiap-tech-challenge/database/types";
 
 export interface ITransactionService {
   getAll(params?: Record<string, string | number>): Promise<ITransaction[]>;

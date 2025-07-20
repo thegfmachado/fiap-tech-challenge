@@ -11,7 +11,7 @@ import {
 import { HTTPService } from "@fiap-tech-challenge/services";
 
 import { TransactionService } from "@bytebank/client/services/transaction-service";
-import type { ITransaction } from "@bytebank/shared/models/transaction.interface";
+import type { ITransaction } from "@fiap-tech-challenge/database/types";
 import { OctagonAlert } from "lucide-react";
 
 const httpService = new HTTPService();

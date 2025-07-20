@@ -1,7 +1,7 @@
 import { HTTPService } from "@fiap-tech-challenge/services";
 
 import { TransactionService } from "@bytebank/client/services/transaction-service";
-import type { ITransaction } from "@bytebank/shared/models/transaction.interface";
+import type { ITransaction } from "@fiap-tech-challenge/database/types";
 import { TransactionsForm } from "@bytebank/components/transactions-form";
 import {
   Button,

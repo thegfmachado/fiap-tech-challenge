@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle } from "@fiap-tech-challenge/design-system/components";
 import { DashboardService } from "@bytebank/client/services/dashboard-service";
 import { useEffect, useState } from "react";
-import { IDashboardData } from "@bytebank/shared/models/dashboard-data.interface";
+import { IDashboardData } from "@fiap-tech-challenge/models";
 
 const httpService = new HTTPService();
 const dashboardService = new DashboardService(httpService);

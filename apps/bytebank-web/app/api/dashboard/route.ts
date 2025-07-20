@@ -1,13 +1,9 @@
 import { NextResponse } from "next/server";
 
-import { TransactionService } from "@bytebank/lib/services/transaction-service";
+import { createTransactionService } from "@bytebank/lib/services/transaction-service.factory";
 import { handleResponseError } from "@fiap-tech-challenge/services/http";
-import { queries } from "@bytebank/lib/database/queries";
-import { TransactionType } from "@bytebank/shared/enums/transaction-type.enum";
-import { IAmountAndExpensesByMonth, IDashboardData, IIncomeByMonth } from "@bytebank/shared/models/dashboard-data.interface";
-import { ITransaction } from "@bytebank/shared/models/transaction.interface";
-
-const service = new TransactionService(queries);
+import { IAmountAndExpensesByMonth, IDashboardData, IIncomeByMonth, TransactionType } from "@fiap-tech-challenge/models";
+import type { ITransaction, ITransactionType } from "@fiap-tech-challenge/database/types";
 
 const MONTHS = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
@@ -97,7 +93,7 @@ function isInCurrentPeriod(transactionDate: string, period: string) {
   }
 }
 
-function getTotalByType(transactions: ITransaction[], type: TransactionType): number {
+function getTotalByType(transactions: ITransaction[], type: ITransactionType): number {
   return transactions
     .reduce((sum, transaction) => transaction.type === type ? sum + transaction.value : sum, 0);
 }
@@ -107,6 +103,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
 
     const period = searchParams.get('period') || "year"
+    const service = await createTransactionService();
 
     const allTransactions = await service.getAll(Object.fromEntries(searchParams));
 
@@ -132,3 +129,4 @@ export async function GET(request: Request) {
     return handleResponseError(err);
   }
 }
+
