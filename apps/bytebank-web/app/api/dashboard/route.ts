@@ -1,12 +1,9 @@
 import { NextResponse } from "next/server";
 
-import { TransactionService } from "@bytebank/lib/services/transaction-service";
+import { createTransactionService } from "@bytebank/lib/services/transaction-service.factory";
 import { handleResponseError } from "@fiap-tech-challenge/services/http";
-import { IAmountAndExpensesByMonth, IDashboardData, IIncomeByMonth } from "@fiap-tech-challenge/models";
-import { TransactionType } from "@fiap-tech-challenge/models";
+import { IAmountAndExpensesByMonth, IDashboardData, IIncomeByMonth, TransactionType } from "@fiap-tech-challenge/models";
 import type { ITransaction, ITransactionType } from "@fiap-tech-challenge/database/types";
-
-const service = new TransactionService();
 
 const MONTHS = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
@@ -106,6 +103,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
 
     const period = searchParams.get('period') || "year"
+    const service = await createTransactionService();
 
     const allTransactions = await service.getAll(Object.fromEntries(searchParams));
 

@@ -3,22 +3,18 @@ import { HttpError } from "@fiap-tech-challenge/services";
 import { ITransactionService } from "./transaction-service.interface";
 
 import { ITransactionInsert, ITransactionUpdate } from "@fiap-tech-challenge/database/types";
-import { createServerClient } from "@fiap-tech-challenge/database/server";
-import { TransactionsQueriesService } from "@fiap-tech-challenge/database/queries";
-
-import { cookies } from "next/headers";
+import { ITransactionsQueries } from "@fiap-tech-challenge/database/queries";
 
 export class TransactionService implements ITransactionService {
-  private async getQueries() {
-    const cookieStore = await cookies();
-    const client = await createServerClient(cookieStore);
-    return new TransactionsQueriesService(client);
+  private readonly queries: ITransactionsQueries
+
+  constructor(queries: ITransactionsQueries) {
+    this.queries = queries;
   }
 
   async getAll(params?: Record<string, string | number>) {
     try {
-      const queries = await this.getQueries();
-      const transactions = await queries.getAllTransactions(params);
+      const transactions = await this.queries.getAllTransactions(params);
       return transactions;
     } catch (error) {
       console.error('Error fetching transactions:', error);
@@ -28,8 +24,7 @@ export class TransactionService implements ITransactionService {
 
   async getById(id: string) {
     try {
-      const queries = await this.getQueries();
-      const transaction = await queries.getTransactionById(id);
+      const transaction = await this.queries.getTransactionById(id);
       if (!transaction) {
         throw new HttpError(404, 'Transaction not found');
       }
@@ -51,8 +46,7 @@ export class TransactionService implements ITransactionService {
         date: data.date || new Date().toISOString(),
       };
 
-      const queries = await this.getQueries();
-      const transaction = await queries.createTransaction(transactionData);
+      const transaction = await this.queries.createTransaction(transactionData);
       return transaction;
     } catch (error) {
       console.error('Error creating transaction:', error);
@@ -62,8 +56,7 @@ export class TransactionService implements ITransactionService {
 
   async update(id: string, data: ITransactionUpdate) {
     try {
-      const queries = await this.getQueries();
-      const transaction = await queries.updateTransaction(id, data);
+      const transaction = await this.queries.updateTransaction(id, data);
 
       if (!transaction) {
         throw new HttpError(404, 'Transaction not found');
@@ -79,8 +72,7 @@ export class TransactionService implements ITransactionService {
 
   async delete(id: string): Promise<void> {
     try {
-      const queries = await this.getQueries();
-      await queries.deleteTransaction(id);
+      await this.queries.deleteTransaction(id);
     } catch (error) {
       console.error('Error deleting transaction:', error);
       if (error instanceof Error && error.message.includes('not found')) {
