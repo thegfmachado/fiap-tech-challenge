@@ -57,8 +57,8 @@ export default function Dashboard() {
                       <SelectValue placeholder="Selecione" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="month">Mês atual</SelectItem>
                       <SelectItem value="week">Semana atual</SelectItem>
+                      <SelectItem value="month">Mês atual</SelectItem>
                       <SelectItem value="year">Ano atual</SelectItem>
                     </SelectContent>
                   </Select>
