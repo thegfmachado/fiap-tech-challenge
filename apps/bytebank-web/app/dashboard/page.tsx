@@ -19,7 +19,7 @@ const httpService = new HTTPService();
 const dashboardService = new DashboardService(httpService);
 
 export default function Dashboard() {
-  const [dashboard, setDashboard] = useState<IDashboardData>({ amount: 0, expenses: 0, income: 0, incomeByMonth: [], amountAndExpensesByMonth: [] });
+  const [dashboard, setDashboard] = useState<IDashboardData>({ amount: 0, expenses: 0, income: 0, incomeByRange: [], amountAndExpensesByRange: [] });
   const [period, setPeriod] = useState("year");
 
   useEffect(() => {
@@ -101,9 +101,9 @@ export default function Dashboard() {
                     </CardHeader>
                     <CardContent>
                       <ResponsiveContainer width="100%" height={300}>
-                        <AreaChart data={dashboard.incomeByMonth}>
+                        <AreaChart data={dashboard.incomeByRange}>
                           <CartesianGrid vertical={false} horizontal={true} />
-                          <XAxis dataKey="month" />
+                          <XAxis dataKey="period" />
                           <YAxis />
                           <Tooltip formatter={(value) => [value, "Economia"]} />
                           <Area type="linear" dataKey="income" stroke="#8884d8" fill="#8884d8" fillOpacity={0.3} />
@@ -119,9 +119,9 @@ export default function Dashboard() {
                     </CardHeader>
                     <CardContent className="h-[300px]">
                       <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={dashboard.amountAndExpensesByMonth}>
+                        <BarChart data={dashboard.amountAndExpensesByRange}>
                           <CartesianGrid strokeDasharray="3 3" />
-                          <XAxis dataKey="month" />
+                          <XAxis dataKey="period" />
                           <YAxis />
                           <Tooltip formatter={barChartTooltipFormatter} />
                           <Bar dataKey="amount" fill="#22c55e" />
