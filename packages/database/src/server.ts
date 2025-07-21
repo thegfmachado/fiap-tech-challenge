@@ -1,12 +1,15 @@
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
+import type { CookieOptions } from '@supabase/ssr';
+import { createServerClient as createSupabaseServerClient } from '@supabase/ssr';
 
-import type { IDatabase } from '@bytebank-web-auth/shared/models/database.interface'
+import type { Database } from './types.js';
 
-export async function createClient() {
-  const cookieStore = await cookies();
+interface ICookieStoreLike {
+  getAll(): { name: string; value: string; }[] | null;
+  set(name: string, value: string, options?: CookieOptions): void;
+}
 
-  return createServerClient<IDatabase>(
+export async function createServerClient(cookieStore: ICookieStoreLike) {
+  return createSupabaseServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {

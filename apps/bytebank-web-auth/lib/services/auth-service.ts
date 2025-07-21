@@ -1,18 +1,20 @@
 import { HttpError } from "@fiap-tech-challenge/services";
-import type { IUser } from "../../shared/models/user.interface";
-import { IQueries } from "../database/queries";
+import type { IUser } from "@fiap-tech-challenge/models";
+
 import type { IAuthService } from "./auth-service.interface";
+import { IAuthQueries } from "@fiap-tech-challenge/database/queries";
 
 export class AuthService implements IAuthService {
-  private queries: IQueries;
 
-  constructor(queries: IQueries) {
+  private readonly queries: IAuthQueries
+
+  constructor(queries: IAuthQueries) {
     this.queries = queries;
   }
 
   async signUp(user: IUser) {
     try {
-      return await this.queries.auth.signUp(user);
+      return await this.queries.signUp(user);
     } catch (error) {
       console.error('Error signing up user:', error);
       throw new HttpError(500, 'Error signing up user');
@@ -21,7 +23,7 @@ export class AuthService implements IAuthService {
 
   async signInWithPassword(email: string, password: string) {
     try {
-      const user = await this.queries.auth.signInWithPassword(email, password);
+      const user = await this.queries.signInWithPassword(email, password);
 
       if (!user) {
         throw new HttpError(404, 'User not found');
@@ -36,7 +38,7 @@ export class AuthService implements IAuthService {
 
   async getCurrentUser() {
     try {
-      const user = await this.queries.auth.getCurrentUser();
+      const user = await this.queries.getCurrentUser();
 
       if (!user) {
         throw new HttpError(404, 'User not found');
@@ -51,7 +53,7 @@ export class AuthService implements IAuthService {
 
   async signOut() {
     try {
-      await this.queries.auth.signOut();
+      await this.queries.signOut();
     } catch (error) {
       console.error('Error signing out user:', error);
       throw new HttpError(500, 'Error signing out user');
@@ -60,7 +62,7 @@ export class AuthService implements IAuthService {
 
   async forgotPassword(email: string) {
     try {
-      await this.queries.auth.forgotPassword(email);
+      await this.queries.forgotPassword(email);
     } catch (error) {
       console.error('Error sending forgot password email:', error);
       throw new HttpError(500, 'Error sending forgot password email');
@@ -69,7 +71,7 @@ export class AuthService implements IAuthService {
 
   async updateUser(user: Partial<IUser>) {
     try {
-      const updatedUser = await this.queries.auth.updateUser(user);
+      const updatedUser = await this.queries.updateUser(user);
       return updatedUser;
     } catch (error) {
       console.error('Error updating user:', error);
@@ -79,7 +81,7 @@ export class AuthService implements IAuthService {
 
   async updateUserPassword(password: string) {
     try {
-      const updatedUser = await this.queries.auth.updateUser({ password });
+      const updatedUser = await this.queries.updateUser({ password });
       return updatedUser;
     } catch (error) {
       console.error('Error updating user password:', error);

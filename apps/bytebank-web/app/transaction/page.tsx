@@ -8,7 +8,7 @@ import { Button, Input, Label } from "@fiap-tech-challenge/design-system/compone
 import { HTTPService } from "@fiap-tech-challenge/services";
 
 import { TransactionService } from "@bytebank/client/services/transaction-service";
-import type { ITransaction } from "@bytebank/shared/models/transaction.interface";
+import type { ITransaction } from "@fiap-tech-challenge/database/types";
 
 import { EditTransaction } from "@bytebank/components/edit-transaction";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "components/ui/select";
