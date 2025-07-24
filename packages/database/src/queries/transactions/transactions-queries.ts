@@ -1,5 +1,5 @@
 import type { ITransaction, ITransactionInsert, ITransactionType, ITransactionUpdate, TypedSupabaseClient } from '../../types.js';
-import type { ITransactionsQueries } from './transactions-queries.interface.js';
+import type { GetAllTransactionsParams, GetAllTransactionsResponse, ITransactionsQueries } from './transactions-queries.interface.js';
 
 export class TransactionsQueriesService implements ITransactionsQueries {
   static TABLE_NAME = 'transactions' as const;
@@ -10,31 +10,41 @@ export class TransactionsQueriesService implements ITransactionsQueries {
     this.client = client;
   }
 
-  async getAllTransactions(params?: Record<string, string | number>): Promise<ITransaction[]> {
+  async getAllTransactions(params?: GetAllTransactionsParams): Promise<GetAllTransactionsResponse> {
+    const { type, startDate, endDate, from, to } = params || {};
+
     let query = this.client
       .from(TransactionsQueriesService.TABLE_NAME)
-      .select('*')
+      .select('*', { count: 'exact' })
       .order('date', { ascending: false })
 
-    if (params?.type) {
-      query = query.eq('type', params.type as ITransactionType);
-    }
-    if (params?.startDate) {
-      query = query.gte('date', params.startDate);
-    }
-    if (params?.endDate) {
-      query = query.lte('date', params.endDate);
+    if (from !== undefined && to !== undefined) {
+      query = query.range(from, to);
     }
 
-    const { data, error } = await query;
+    if (type) {
+      query = query.eq('type', type as ITransactionType);
+    }
+    if (startDate) {
+      query = query.gte('date', startDate);
+    }
+    if (endDate) {
+      query = query.lte('date', endDate);
+    }
+
+    const { data, count, error } = await query;
 
     if (error) {
       console.error('Supabase error:', error);
       throw new Error(`Error fetching transactions: ${error.message}`);
     }
 
-    return data;
+    return {
+      data,
+      count,
+    };
   }
+
 
   async getTransactionById(id: string): Promise<ITransaction> {
     const { data, error } = await this.client

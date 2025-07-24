@@ -105,7 +105,7 @@ export async function GET(request: Request) {
     const period = searchParams.get('period') || "year"
     const service = await createTransactionService();
 
-    const allTransactions = await service.getAll(Object.fromEntries(searchParams));
+    const { data: allTransactions } = await service.getAll(Object.fromEntries(searchParams));
 
     const transactionsFiltered = allTransactions.filter((t) => isInCurrentPeriod(t.date, period));
 

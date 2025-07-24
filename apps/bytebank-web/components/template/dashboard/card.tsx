@@ -1,5 +1,7 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@fiap-tech-challenge/design-system/components";
 import Image from "next/image";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@fiap-tech-challenge/design-system/components";
+import { formatCurrency } from "@bytebank/client/formatters";
 
 export function DashboardCard({
   title,
@@ -21,7 +23,7 @@ export function DashboardCard({
         <Image src={iconSrc} width={24} height={24} alt={title} />
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold" style={{ color: valueColor }}>R${value}</div>
+        <div className="text-2xl font-bold" style={{ color: valueColor }}>{formatCurrency(value)}</div>
         <div className="text-xs text-muted-foreground">{percentage} vs mês anterior</div>
       </CardContent>
     </Card>

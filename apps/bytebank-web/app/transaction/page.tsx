@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import type { DateRange } from "react-day-picker";
-import { FunnelPlus } from "lucide-react";
+import { FunnelPlus, Loader2 } from "lucide-react";
 
 import { Button, Input, Label } from "@fiap-tech-challenge/design-system/components";
 import { HTTPService } from "@fiap-tech-challenge/services";
@@ -23,12 +23,33 @@ import { Main } from "@bytebank/components/template/main";
 import { Layout } from "@bytebank/components/template/layout";
 import { TransactionSkeleton } from "@bytebank/components/transaction-skeleton";
 
+type ReducerState = {
+  from: number;
+  to: number;
+  count: number | null;
+}
+
 const httpService = new HTTPService();
 const transactionService = new TransactionService(httpService);
+
+const initialReducerState: ReducerState = {
+  from: 0,
+  to: 6,
+  count: null,
+};
+
+function reducer(data: ReducerState, partialData: Partial<ReducerState>): ReducerState {
+  return {
+    ...data,
+    ...partialData,
+  };
+}
 
 export default function Transaction() {
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
   const [filteredTransactions, setFilteredTransactions] = useState<ITransaction[]>([]);
+  const [hasMore, setHasMore] = useState(true);
+
 
   const [searchTerm, setSearchTerm] = useState("");
   const [typeFilter, setTypeFilter] = useState<string | undefined>();
@@ -36,18 +57,50 @@ export default function Transaction() {
   const [filtersVisible, setFiltersVisible] = useState(true);
   const [editFormTransaction, setEditFormTransaction] = useState<ITransaction | null>(null);
   const [deleteFormTransaction, setDeleteFormTransaction] = useState<ITransaction | null>(null);
-  const [loadingTransaction, setLoadingTransaction] = useState(true);
+  const [loadingInitialTransactions, setLoadingInitialTransactions] = useState(true);
+  const [loadingMoreTransactions, setLoadingMoreTransactions] = useState(false);
+
+  const [reducerState, setReducerState] = useReducer(reducer, initialReducerState);
+
+  const fetchTransactions = useCallback(async () => {
+    if (!hasMore) {
+      return;
+    }
+
+    const { count, data } = await transactionService.getAll({
+      from: reducerState.from,
+      to: reducerState.to,
+    });
+
+    const newTransactions = [...transactions, ...data];
+    setHasMore(count !== null && count > newTransactions.length);
+
+    setTransactions(newTransactions);
+    setFilteredTransactions(data);
+
+    const newFrom = reducerState.to + 1;
+
+    setReducerState({
+      count,
+      from: newFrom,
+      to: newFrom + initialReducerState.to,
+    });
+
+    setLoadingInitialTransactions(false);
+  }, [hasMore, reducerState.from, reducerState.to, transactions]);
+
+  const onBottomReached = useCallback(() => {
+    if (hasMore && !loadingMoreTransactions) {
+      setLoadingMoreTransactions(true);
+
+      void fetchTransactions()
+        .finally(() => setLoadingMoreTransactions(false));
+    }
+  }, [fetchTransactions, hasMore, loadingMoreTransactions]);
 
   useEffect(() => {
-    const fetchTransactions = async () => {
-      const data = await transactionService.getAll({ _sort: '-date' });
-
-      setTransactions(data);
-      setFilteredTransactions(data);
-      setLoadingTransaction(false);
-    };
-
     void fetchTransactions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -138,7 +191,7 @@ export default function Transaction() {
       <Header />
       <Sidebar />
 
-      <Main>
+      <Main onBottomReached={onBottomReached}>
         <div
           className="flex flex-col items-center w-full p-8 gap-4 bg-radial-[350%_70%_at_50%_100%] from-primary/15 to-white from-0% to-20%">
           <div className="w-full flex flex-col gap-4">
@@ -208,18 +261,26 @@ export default function Transaction() {
           </div>
         </div>
 
-        {loadingTransaction ? (
+        {loadingInitialTransactions ? (
           <TransactionSkeleton />
         ) : (
-          <TransactionsList
-            transactions={filteredTransactions}
-            renderActions={(transaction) => (
-              <>
-                <TransactionAction type="edit" onClick={() => setEditFormTransaction(transaction)} />
-                <TransactionAction type="delete" onClick={() => setDeleteFormTransaction(transaction)} />
-              </>
+          <>
+            <TransactionsList
+              transactions={filteredTransactions}
+              renderActions={(transaction) => (
+                <>
+                  <TransactionAction type="edit" onClick={() => setEditFormTransaction(transaction)} />
+                  <TransactionAction type="delete" onClick={() => setDeleteFormTransaction(transaction)} />
+                </>
+              )}
+            />
+            {loadingMoreTransactions && (
+              <div className="flex items-center justify-center w-full p-4 h-20 gap-4">
+                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                <p className="text-sm text-muted-foreground">Carregando mais...</p>
+              </div>
             )}
-          />
+          </>
         )}
 
         <div className="p-4 w-full flex items-center justify-end sticky bottom-0 bg-white border-t z-10">
