@@ -12,7 +12,7 @@ export class TransactionService implements ITransactionService {
     this.queries = queries;
   }
 
-  async getAll(params?: Record<string, string | number>) {
+  async getAll(params?: Record<string, unknown>) {
     try {
       const transactions = await this.queries.getAllTransactions(params);
       return transactions;

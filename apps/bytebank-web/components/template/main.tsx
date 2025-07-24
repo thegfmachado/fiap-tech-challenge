@@ -22,6 +22,8 @@ export function Main(props: MainProps) {
       }
     };
 
+    if (!onBottomReached) return;
+
     const element = ref.current;
     element?.addEventListener("scroll", handleScroll);
     return () => element?.removeEventListener("scroll", handleScroll);

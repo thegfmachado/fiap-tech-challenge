@@ -11,31 +11,51 @@ export class TransactionsQueriesService implements ITransactionsQueries {
   }
 
   async getAllTransactions(params?: GetAllTransactionsParams): Promise<GetAllTransactionsResponse> {
-    const { type, startDate, endDate, from, to } = params || {};
+    const { type, term, startDate, endDate, from, to } = params || {};
 
     let query = this.client
       .from(TransactionsQueriesService.TABLE_NAME)
       .select('*', { count: 'exact' })
-      .order('date', { ascending: false })
-
-    if (from !== undefined && to !== undefined) {
-      query = query.range(from, to);
-    }
+      .order('date', { ascending: false });
 
     if (type) {
       query = query.eq('type', type as ITransactionType);
     }
-    if (startDate) {
-      query = query.gte('date', startDate);
+
+    if (term) {
+      query = query.ilike('description', `%${term}%`);
     }
+
+    if (startDate) {
+      const adjustedStartDate = new Date(startDate);
+      adjustedStartDate.setHours(0, 0, 0, 0);
+      query = query.gte('date', adjustedStartDate.toISOString());
+    }
+
     if (endDate) {
-      query = query.lte('date', endDate);
+      const adjustedEndDate = new Date(endDate);
+      adjustedEndDate.setHours(23, 59, 59, 999);
+      query = query.lte('date', adjustedEndDate.toISOString());
+    }
+
+    const baseResult = await query.range(0, 0);
+
+    if (baseResult.error) {
+      console.error('Supabase error (count step):', baseResult.error);
+      throw new Error(`Error fetching transactions count: ${baseResult.error.message}`);
+    }
+
+    const total = baseResult.count ?? 0;
+
+    if (from !== undefined && to !== undefined && from < total) {
+      const safeTo = Math.min(to, total - 1);
+      query = query.range(from, safeTo);
     }
 
     const { data, count, error } = await query;
 
     if (error) {
-      console.error('Supabase error:', error);
+      console.error('Supabase error (final fetch):', error);
       throw new Error(`Error fetching transactions: ${error.message}`);
     }
 
@@ -44,7 +64,6 @@ export class TransactionsQueriesService implements ITransactionsQueries {
       count,
     };
   }
-
 
   async getTransactionById(id: string): Promise<ITransaction> {
     const { data, error } = await this.client

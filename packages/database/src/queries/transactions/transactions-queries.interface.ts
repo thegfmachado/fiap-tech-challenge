@@ -1,6 +1,7 @@
 import type { ITransaction, ITransactionInsert, ITransactionUpdate } from '../../types.js';
 
 export type GetAllTransactionsParams = {
+  term?: string;
   type?: string;
   startDate?: string;
   endDate?: string;

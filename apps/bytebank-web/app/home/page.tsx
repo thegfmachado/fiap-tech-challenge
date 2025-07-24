@@ -95,6 +95,7 @@ export default function Home() {
           <TransactionSkeleton />
         ) : (
           <TransactionsList
+            title="Extrato recente"
             transactions={transactions.slice(0, 5)}
             showAllTransactionsButton
             renderActions={(transaction) => (

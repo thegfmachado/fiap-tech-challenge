@@ -9,6 +9,7 @@ import { TransactionType } from "@fiap-tech-challenge/models";
 import { formatCurrency, formatDate } from "@bytebank/client/formatters";
 
 export type TransactionsListProps = {
+  title: string;
   transactions: ITransaction[];
   showAllTransactionsButton?: boolean;
   renderActions?: (transaction: ITransaction) => React.ReactNode;
@@ -33,7 +34,7 @@ function sortTransactionsByDate(transactions: ITransaction[]): ITransaction[] {
 }
 
 export function TransactionsList(props: TransactionsListProps) {
-  const { showAllTransactionsButton, transactions, renderActions } = props;
+  const { showAllTransactionsButton, title, transactions, renderActions } = props;
 
   const sortedTransactions = useMemo(() => {
     return sortTransactionsByDate(transactions);
@@ -42,7 +43,7 @@ export function TransactionsList(props: TransactionsListProps) {
   return (
     <div className="flex flex-col w-full">
       <div className="flex items-center justify-between border-t py-4 px-7">
-        <p className="font-medium">Extrato recente</p>
+        <p className="font-medium">{title}</p>
         {showAllTransactionsButton && (
           <Button variant="link" asChild>
             <Link href="/transaction">Ver todas →</Link>

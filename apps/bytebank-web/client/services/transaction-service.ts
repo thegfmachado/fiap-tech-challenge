@@ -8,7 +8,7 @@ import { GetAllTransactionsResponse } from "@fiap-tech-challenge/database/querie
 export class TransactionService implements ITransactionService {
   constructor(private readonly httpService: HTTPService) { }
 
-  async getAll(params?: Record<string, string | number>): Promise<GetAllTransactionsResponse> {
+  async getAll(params?: Record<string, unknown>): Promise<GetAllTransactionsResponse> {
     const queryString = params
       ? '?' + new URLSearchParams(params as Record<string, string>).toString()
       : '';
