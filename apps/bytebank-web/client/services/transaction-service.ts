@@ -3,11 +3,12 @@ import { HTTPService } from "@fiap-tech-challenge/services";
 import type { ITransactionService } from "./transaction-service.interface";
 import type { ITransaction } from "@fiap-tech-challenge/database/types";
 import { toast } from "@fiap-tech-challenge/design-system/components";
+import { GetAllTransactionsResponse } from "@fiap-tech-challenge/database/queries";
 
 export class TransactionService implements ITransactionService {
   constructor(private readonly httpService: HTTPService) { }
 
-  async getAll(params?: Record<string, string | number>): Promise<ITransaction[]> {
+  async getAll(params?: Record<string, unknown>): Promise<GetAllTransactionsResponse> {
     const queryString = params
       ? '?' + new URLSearchParams(params as Record<string, string>).toString()
       : '';
