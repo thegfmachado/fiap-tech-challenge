@@ -11,25 +11,32 @@ export class TransactionsQueriesService implements ITransactionsQueries {
   }
 
   async getAllTransactions(params?: GetAllTransactionsParams): Promise<GetAllTransactionsResponse> {
-    const { type, startDate, endDate, from, to } = params || {};
+    const { type, term, startDate, endDate, from, to } = params || {};
 
     let query = this.client
       .from(TransactionsQueriesService.TABLE_NAME)
       .select('*', { count: 'exact' })
       .order('date', { ascending: false })
 
-    if (from !== undefined && to !== undefined) {
-      query = query.range(from, to);
-    }
-
     if (type) {
       query = query.eq('type', type as ITransactionType);
     }
+
+    if (term) {
+      query = query.ilike('description', `%${term}%`);
+    }
+
     if (startDate) {
       query = query.gte('date', startDate);
     }
+
     if (endDate) {
       query = query.lte('date', endDate);
+    }
+
+    // Could be 0
+    if (from !== undefined && to !== undefined) {
+      query = query.range(from, to);
     }
 
     const { data, count, error } = await query;
