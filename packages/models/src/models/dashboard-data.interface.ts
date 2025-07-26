@@ -1,9 +1,14 @@
 export interface IDashboardData {
-  amount: number;
-  expenses: number;
-  income: number;
+  amount: IFinancialMovement;
+  expenses: IFinancialMovement;
+  income: IFinancialMovement;
   incomeByRange: IIncomeByRange[];
   amountAndExpensesByRange: IAmountAndExpensesByRange[];
+}
+
+export interface IFinancialMovement {
+  total: number;
+  increasePercentage: string;
 }
 
 export interface IIncomeByRange {

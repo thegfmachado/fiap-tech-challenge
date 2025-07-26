@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { createTransactionService } from "@bytebank/lib/services/transaction-service.factory";
 import { handleResponseError } from "@fiap-tech-challenge/services/http";
 import { TransactionType } from "@fiap-tech-challenge/models";
-import type { IDashboardData, IIncomeByRange, IAmountAndExpensesByRange } from "@fiap-tech-challenge/models";
+import type { IDashboardData, IIncomeByRange, IAmountAndExpensesByRange, IFinancialMovement } from "@fiap-tech-challenge/models";
 import type { ITransaction, ITransactionType } from "@fiap-tech-challenge/database/types";
 
 const MONTHS = [
@@ -14,9 +14,9 @@ const MONTHS = [
 const WEEK_DAYS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
 function getValuesByRange(transactions: ITransaction[], size: number, getIndex: (date: Date) => number): {
-  incomeByPeriod: any[];
-  amountByPeriod: any[];
-  expensesByPeriod: any[];
+  incomeByPeriod: number[];
+  amountByPeriod: number[];
+  expensesByPeriod: number[];
 } {
   const incomeByPeriod = Array(size).fill(0);
   const amountByPeriod = Array(size).fill(0);
@@ -41,9 +41,9 @@ function getValuesByRange(transactions: ITransaction[], size: number, getIndex: 
 }
 
 function getValuesByDay(transactions: ITransaction[]): {
-  incomeByPeriod: any[];
-  amountByPeriod: any[];
-  expensesByPeriod: any[];
+  incomeByPeriod: number[];
+  amountByPeriod: number[];
+  expensesByPeriod: number[];
 } {
   const now = new Date();
   const currentYear = now.getFullYear();
@@ -70,7 +70,7 @@ function getIncomeByRange(transactions: ITransaction[], period: string): IIncome
 
       return WEEK_DAYS.map((day, i) => ({
         period: day,
-        income: incomeByPeriod[i]
+        income: incomeByPeriod[i] ?? 0,
       }));
     }
 
@@ -79,7 +79,7 @@ function getIncomeByRange(transactions: ITransaction[], period: string): IIncome
 
       return incomeByPeriod.map((income, i) => ({
         period: String(i + 1).padStart(2, '0'),
-        income
+        income: income ?? 0,
       }));
     }
 
@@ -92,7 +92,7 @@ function getIncomeByRange(transactions: ITransaction[], period: string): IIncome
 
       return MONTHS.map((month, i) => ({
         period: month,
-        income: incomeByPeriod[i]
+        income: incomeByPeriod[i] ?? 0,
       }));
     }
   }
@@ -105,8 +105,8 @@ function getAmountAndExpensesByRange(transactions: ITransaction[], period: strin
 
       return WEEK_DAYS.map((day, i) => ({
         period: day,
-        amount: amountByPeriod[i],
-        expenses: expensesByPeriod[i]
+        amount: amountByPeriod[i] ?? 0,
+        expenses: expensesByPeriod[i] ?? 0,
       }));
     }
 
@@ -115,8 +115,8 @@ function getAmountAndExpensesByRange(transactions: ITransaction[], period: strin
 
       return amountByPeriod.map((amount, i) => ({
         period: String(i + 1).padStart(2, '0'),
-        amount,
-        expenses: expensesByPeriod[i]
+        amount: amount ?? 0,
+        expenses: expensesByPeriod[i] ?? 0,
       }));
     }
 
@@ -129,8 +129,8 @@ function getAmountAndExpensesByRange(transactions: ITransaction[], period: strin
 
       return MONTHS.map((month, i) => ({
         period: month,
-        amount: amountByPeriod[i],
-        expenses: expensesByPeriod[i]
+        amount: amountByPeriod[i] ?? 0,
+        expenses: expensesByPeriod[i] ?? 0,
       }));
     }
   }
@@ -160,11 +160,65 @@ function isInCurrentPeriod(transactionDate: string, period: string) {
   }
 }
 
+function isInPreviousPeriod(transactionDate: string, period: string): boolean {
+  const date = new Date(transactionDate);
+  const now = new Date();
+
+  switch (period) {
+    case 'year': {
+      const previousYear = now.getFullYear() - 1;
+      return date.getFullYear() === previousYear;
+    }
+
+    case 'month': {
+      const prevMonth = now.getMonth() - 1;
+      const prevYear = prevMonth < 0 ? now.getFullYear() - 1 : now.getFullYear();
+      const adjustedMonth = (prevMonth + 12) % 12;
+
+      return date.getFullYear() === prevYear && date.getMonth() === adjustedMonth;
+    }
+
+    case 'week': {
+      const startOfThisWeek = new Date(now);
+      startOfThisWeek.setDate(now.getDate() - now.getDay());
+      startOfThisWeek.setHours(0, 0, 0, 0);
+
+      const startOfLastWeek = new Date(startOfThisWeek);
+      startOfLastWeek.setDate(startOfLastWeek.getDate() - 7);
+
+      const endOfLastWeek = new Date(startOfThisWeek);
+
+      return date >= startOfLastWeek && date < endOfLastWeek;
+    }
+
+    default:
+      return false;
+  }
+}
+
 function getTotalByType(transactions: ITransaction[], type: ITransactionType): number {
   return transactions.reduce(
     (sum, transaction) => transaction.type === type ? sum + transaction.value : sum,
     0
   );
+}
+
+function calculateFinancialMovement(current: number, previous: number): IFinancialMovement {
+  let percentage: number;
+
+  if (previous === 0) {
+    percentage = current === 0 ? 0 : 100;
+  } else {
+    percentage = ((current - previous) / previous) * 100;
+  }
+
+  const rounded = Number(percentage.toFixed(2));
+  const formatted = `${rounded >= 0 ? '+' : ''}${rounded}%`;
+
+  return {
+    total: current,
+    increasePercentage: formatted,
+  };
 }
 
 export async function GET(request: Request) {
@@ -174,14 +228,24 @@ export async function GET(request: Request) {
     const service = await createTransactionService();
 
     const allTransactions = await service.getAll(Object.fromEntries(searchParams));
-    const transactionsFiltered = allTransactions.filter((t) => isInCurrentPeriod(t.date, period));
 
-    const income = getTotalByType(transactionsFiltered, TransactionType.CREDIT);
-    const expenses = getTotalByType(transactionsFiltered, TransactionType.DEBIT);
-    const amount = income - expenses;
+    const currentTransactions = allTransactions.filter((t) => isInCurrentPeriod(t.date, period));
+    const previousTransactions = allTransactions.filter((t) => isInPreviousPeriod(t.date, period));
 
-    const incomeByRange = getIncomeByRange(transactionsFiltered, period);
-    const amountAndExpensesByRange = getAmountAndExpensesByRange(transactionsFiltered, period);
+    const currentIncome = getTotalByType(currentTransactions, TransactionType.CREDIT);
+    const currentExpenses = getTotalByType(currentTransactions, TransactionType.DEBIT);
+    const currentAmount = currentIncome - currentExpenses;
+
+    const previousIncome = getTotalByType(previousTransactions, TransactionType.CREDIT);
+    const previousExpenses = getTotalByType(previousTransactions, TransactionType.DEBIT);
+    const previousAmount = previousIncome - previousExpenses;
+
+    const amount = calculateFinancialMovement(currentAmount, previousAmount);
+    const income = calculateFinancialMovement(currentIncome, previousIncome);
+    const expenses = calculateFinancialMovement(currentExpenses, previousExpenses);
+
+    const incomeByRange = getIncomeByRange(currentTransactions, period);
+    const amountAndExpensesByRange = getAmountAndExpensesByRange(currentTransactions, period);
 
     const dashboard: IDashboardData = {
       amount,
