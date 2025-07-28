@@ -14,12 +14,30 @@ import { Card, CardContent, CardHeader, CardTitle } from "@fiap-tech-challenge/d
 import { DashboardService } from "@bytebank/client/services/dashboard-service";
 import { useEffect, useState } from "react";
 import { IDashboardData } from "@fiap-tech-challenge/models";
+import { formatCurrency } from "@bytebank/client/formatters";
 
 const httpService = new HTTPService();
 const dashboardService = new DashboardService(httpService);
 
+const initialValues: IDashboardData = {
+  amount: {
+    total: 0,
+    increasePercentage: '0%'
+  },
+  expenses: {
+    total: 0,
+    increasePercentage: '0%'
+  },
+  income: {
+    total: 0,
+    increasePercentage: '0%'
+  },
+  incomeByRange: [],
+  amountAndExpensesByRange: []
+}
+
 export default function Dashboard() {
-  const [dashboard, setDashboard] = useState<IDashboardData>({ amount: 0, expenses: 0, income: 0, incomeByMonth: [], amountAndExpensesByMonth: [] });
+  const [dashboard, setDashboard] = useState<IDashboardData>(initialValues);
   const [period, setPeriod] = useState("year");
 
   useEffect(() => {
@@ -31,10 +49,13 @@ export default function Dashboard() {
     void fetchTransactions();
   }, [period]);
 
-  function barChartTooltipFormatter(value: string, name: string) {
-    if (name === "amount") return [value, "Receita"];
-    if (name === "expenses") return [value, "Despesas"];
-    return [value, name];
+  function barChartTooltipFormatter(value: number, name: string) {
+    const labelMap: Record<string, string> = {
+      amount: "Receita",
+      expenses: "Despesas",
+    };
+
+    return [formatCurrency(Number(value), { signDisplay: "never" }), labelMap[name] || name];
   }
 
   return (
@@ -57,8 +78,8 @@ export default function Dashboard() {
                       <SelectValue placeholder="Selecione" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="month">Mês atual</SelectItem>
                       <SelectItem value="week">Semana atual</SelectItem>
+                      <SelectItem value="month">Mês atual</SelectItem>
                       <SelectItem value="year">Ano atual</SelectItem>
                     </SelectContent>
                   </Select>
@@ -68,24 +89,27 @@ export default function Dashboard() {
               <div className="flex flex-col md:flex-row w-full gap-2 mb-5">
                 <DashboardCard
                   title="Receita total"
-                  value={dashboard.income}
+                  value={dashboard.income.total}
                   iconSrc="/images/dollar-square.svg"
                   valueColor="#3B9F4A"
-                  percentage="+8,2%"
+                  percentage={dashboard.income.increasePercentage}
+                  filter={period}
                 />
                 <DashboardCard
                   title="Despesas totais"
-                  value={dashboard.expenses}
+                  value={dashboard.expenses.total}
                   iconSrc="/images/trend-down.svg"
                   valueColor="#9F523B"
-                  percentage="+12,5%"
+                  percentage={dashboard.expenses.increasePercentage}
+                  filter={period}
                 />
                 <DashboardCard
                   title="Economias"
-                  value={dashboard.amount}
+                  value={dashboard.amount.total}
                   iconSrc="/images/coin-black.svg"
                   valueColor="#3B9F4A"
-                  percentage="+10%"
+                  percentage={dashboard.amount.increasePercentage}
+                  filter={period}
                 />
               </div>
 
@@ -101,11 +125,11 @@ export default function Dashboard() {
                     </CardHeader>
                     <CardContent>
                       <ResponsiveContainer width="100%" height={300}>
-                        <AreaChart data={dashboard.incomeByMonth}>
+                        <AreaChart data={dashboard.incomeByRange}>
                           <CartesianGrid vertical={false} horizontal={true} />
-                          <XAxis dataKey="month" />
+                          <XAxis dataKey="period" />
                           <YAxis />
-                          <Tooltip formatter={(value) => [value, "Economia"]} />
+                          <Tooltip formatter={(value) => [formatCurrency(Number(value), { signDisplay: "never" }), "Economia"]} />
                           <Area type="linear" dataKey="income" stroke="#8884d8" fill="#8884d8" fillOpacity={0.3} />
                         </AreaChart>
                       </ResponsiveContainer>
@@ -119,9 +143,9 @@ export default function Dashboard() {
                     </CardHeader>
                     <CardContent className="h-[300px]">
                       <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={dashboard.amountAndExpensesByMonth}>
+                        <BarChart data={dashboard.amountAndExpensesByRange}>
                           <CartesianGrid strokeDasharray="3 3" />
-                          <XAxis dataKey="month" />
+                          <XAxis dataKey="period" />
                           <YAxis />
                           <Tooltip formatter={barChartTooltipFormatter} />
                           <Bar dataKey="amount" fill="#22c55e" />

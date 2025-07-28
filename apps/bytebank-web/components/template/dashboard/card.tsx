@@ -8,14 +8,25 @@ export function DashboardCard({
   value,
   iconSrc,
   valueColor,
-  percentage
+  percentage,
+  filter
 }: {
   title: string;
   value: number;
   iconSrc: string;
   valueColor: string;
-  percentage: string
+  percentage: string;
+  filter: string;
 }) {
+
+  const periodLabelMap: Record<string, string> = {
+    week: "semana",
+    month: "mês",
+    year: "ano",
+  };
+
+  const periodLabel = periodLabelMap[filter] ?? "período";
+
   return (
     <Card className="flex-1">
       <CardHeader className="flex flex-row justify-between w-full items-center pb-2">
@@ -23,8 +34,8 @@ export function DashboardCard({
         <Image src={iconSrc} width={24} height={24} alt={title} />
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold" style={{ color: valueColor }}>{formatCurrency(value)}</div>
-        <div className="text-xs text-muted-foreground">{percentage} vs mês anterior</div>
+        <div className="text-2xl font-bold" style={{ color: valueColor }}>{formatCurrency(value, { signDisplay: "never" })}</div>
+        <div className="text-xs text-muted-foreground">{percentage} vs {periodLabel} anterior</div>
       </CardContent>
     </Card>
   );
