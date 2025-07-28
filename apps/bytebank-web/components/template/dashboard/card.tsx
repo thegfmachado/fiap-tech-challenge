@@ -1,6 +1,7 @@
-import { formatCurrency } from "@bytebank/client/formatters";
-import { Card, CardContent, CardHeader, CardTitle } from "@fiap-tech-challenge/design-system/components";
 import Image from "next/image";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@fiap-tech-challenge/design-system/components";
+import { formatCurrency } from "@bytebank/client/formatters";
 
 export function DashboardCard({
   title,
