@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { DateRange } from "react-day-picker";
-import { FunnelPlus } from "lucide-react";
+import { FunnelPlus, Loader2 } from "lucide-react";
 
 import { Button, Input, Label } from "@fiap-tech-challenge/design-system/components";
 import { HTTPService } from "@fiap-tech-challenge/services";
@@ -23,36 +23,127 @@ import { Main } from "@bytebank/components/template/main";
 import { Layout } from "@bytebank/components/template/layout";
 import { TransactionSkeleton } from "@bytebank/components/transaction-skeleton";
 
+function useDebouncedCallback<T extends (...args: unknown[]) => void>(callback: T, delay: number) {
+  const timeout = useRef<ReturnType<typeof setTimeout>>(null);
+
+  return (...args: Parameters<T>) => {
+    if (timeout.current) clearTimeout(timeout.current);
+    timeout.current = setTimeout(() => callback(...args), delay);
+  };
+}
+
+type PaginationState = {
+  page: number;
+  limit: number;
+  count: number | null;
+};
+
+type FiltersState = {
+  searchTerm: string;
+  typeFilter: string;
+  dateRange?: DateRange;
+};
+
 const httpService = new HTTPService();
 const transactionService = new TransactionService(httpService);
 
+const initialPaginationState: PaginationState = {
+  page: 1,
+  limit: 10,
+  count: null,
+};
+
+const initialFilters: FiltersState = {
+  searchTerm: "",
+  typeFilter: "",
+  dateRange: undefined,
+};
+
 export default function Transaction() {
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
-  const [filteredTransactions, setFilteredTransactions] = useState<ITransaction[]>([]);
+  const [hasMoreTransactions, setHasMoreTransactions] = useState(true);
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [typeFilter, setTypeFilter] = useState<string | undefined>();
-  const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [filtersVisible, setFiltersVisible] = useState(true);
   const [editFormTransaction, setEditFormTransaction] = useState<ITransaction | null>(null);
   const [deleteFormTransaction, setDeleteFormTransaction] = useState<ITransaction | null>(null);
-  const [loadingTransaction, setLoadingTransaction] = useState(true);
+  const [loadingAllTransactions, setLoadingAllTransactions] = useState(true);
+  const [loadingMoreTransactions, setLoadingMoreTransactions] = useState(false);
+
+  const [filters, setFilters] = useState<FiltersState>(initialFilters);
+  const [pagination, setPagination] = useState<PaginationState>(initialPaginationState);
+
+  const getQueryParams = useCallback(
+    (from: number, to: number) => {
+      const { searchTerm, typeFilter, dateRange } = filters;
+
+      const queryParams: Record<string, unknown> = {
+        from,
+        to,
+      };
+
+      if (searchTerm.trim()) queryParams.term = searchTerm.trim().toLowerCase();
+      if (typeFilter) queryParams.type = typeFilter;
+      if (dateRange?.from) queryParams.startDate = dateRange.from.toISOString();
+      if (dateRange?.to) queryParams.endDate = dateRange.to.toISOString();
+
+      return queryParams;
+    },
+    [filters]
+  );
+
+  const fetchAllTransactions = useCallback(async () => {
+    const queryParams = getQueryParams(0, pagination.limit - 1);
+    const { count, data } = await transactionService.getAll(queryParams);
+
+    setTransactions(data);
+    setLoadingAllTransactions(false);
+
+    if (count !== null) {
+      setHasMoreTransactions(data.length < count);
+      setPagination(prev => ({
+        ...prev,
+        count,
+        page: prev.page + 1,
+      }));
+    }
+  }, [getQueryParams, pagination.limit]);
+
+
+  const fetchMoreTransactions = useCallback(async () => {
+    if (!hasMoreTransactions) return;
+
+    const from = (pagination.page - 1) * pagination.limit;
+    const to = from + pagination.limit - 1;
+
+    const queryParams = getQueryParams(from, to);
+    const { count, data } = await transactionService.getAll(queryParams);
+
+    const newTransactions = [...transactions, ...data];
+    setTransactions(newTransactions);
+    setHasMoreTransactions(count !== null && newTransactions.length < count);
+
+    setPagination(prev => ({
+      ...prev,
+      count,
+      page: prev.page + 1,
+    }));
+
+    setLoadingAllTransactions(false);
+  }, [getQueryParams, hasMoreTransactions, pagination.limit, pagination.page, transactions]);
+
+  const debouncedFetchMoreTransactions = useDebouncedCallback(() => {
+    if (hasMoreTransactions && !loadingMoreTransactions) {
+      setLoadingMoreTransactions(true);
+      void fetchMoreTransactions().finally(() => setLoadingMoreTransactions(false));
+    }
+  }, 200);
 
   useEffect(() => {
-    const fetchTransactions = async () => {
-      const data = await transactionService.getAll({ _sort: '-date' });
-
-      setTransactions(data);
-      setFilteredTransactions(data);
-      setLoadingTransaction(false);
-    };
-
-    void fetchTransactions();
-  }, []);
-
-  useEffect(() => {
-    setFilteredTransactions(transactions);
-  }, [transactions]);
+    if (!transactions.length && !filters.searchTerm && !filters.typeFilter && !filters.dateRange) {
+      setLoadingAllTransactions(true);
+      void fetchAllTransactions();
+    }
+  }, [fetchAllTransactions, transactions, filters]);
 
   const handleSyncTransactions = (
     transaction: ITransaction,
@@ -85,60 +176,27 @@ export default function Transaction() {
     setEditFormTransaction(null);
   };
 
-  const filterTransaction = useCallback(
-    (transaction: ITransaction) => {
-      if (searchTerm.trim()) {
-        const lowerSearch = searchTerm.toLowerCase();
-        if (
-          !transaction.description.toLowerCase().includes(lowerSearch) &&
-          !transaction.value.toString().includes(lowerSearch)
-        ) {
-          return false;
-        }
-      }
-
-      if (typeFilter && transaction.type !== typeFilter) {
-        return false;
-      }
-
-      if (dateRange && (dateRange.from || dateRange.to)) {
-        const txDate = new Date(transaction.date);
-        const from = new Date(dateRange.from ?? new Date());
-        from.setHours(0, 0, 0, 0);
-
-        const to = dateRange.to
-          ? new Date(dateRange.to)
-          : new Date(dateRange.from ?? new Date());
-        to.setHours(23, 59, 59, 999);
-
-        if (txDate < from || txDate > to) {
-          return false;
-        }
-      }
-
-      return true;
-    },
-    [searchTerm, typeFilter, dateRange],
-  );
-
   const applyFilters = () => {
-    setFilteredTransactions(transactions.filter(filterTransaction));
+    setTransactions([]);
+    setHasMoreTransactions(true);
+    setPagination(initialPaginationState);
+    setLoadingAllTransactions(true);
+    void fetchAllTransactions();
   };
 
   const clearFilters = () => {
-    setSearchTerm("");
-    setTypeFilter("");
-    setDateRange(undefined);
-
-    setFilteredTransactions(transactions);
-  }
+    setFilters(initialFilters);
+    setPagination(initialPaginationState);
+    setTransactions([]);
+    setHasMoreTransactions(true);
+  };
 
   return (
     <Layout>
       <Header />
       <Sidebar />
 
-      <Main>
+      <Main onBottomReached={debouncedFetchMoreTransactions}>
         <div
           className="flex flex-col items-center w-full p-8 gap-4 bg-radial-[350%_70%_at_50%_100%] from-primary/15 to-white from-0% to-20%">
           <div className="w-full flex flex-col gap-4">
@@ -168,8 +226,8 @@ export default function Transaction() {
                     <Input
                       className="w-full"
                       placeholder="Digite o valor ou nome da transação"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
+                      value={filters.searchTerm}
+                      onChange={(e) => setFilters(prev => ({ ...prev, searchTerm: e.target.value }))}
                     />
                   </div>
 
@@ -177,7 +235,7 @@ export default function Transaction() {
                     <Label className="z-1 absolute text-[0.75rem] -top-[25%] left-2 bg-white px-1 text-muted-foreground">
                       Tipo de transação
                     </Label>
-                    <Select value={typeFilter} onValueChange={(value) => setTypeFilter(value)}>
+                    <Select value={filters.typeFilter} onValueChange={(value) => setFilters(prev => ({ ...prev, typeFilter: value }))}>
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Selecione o tipo da transação" />
                       </SelectTrigger>
@@ -191,9 +249,9 @@ export default function Transaction() {
                   <DatePicker
                     fitParent
                     className="w-full"
-                    onChange={(range) => setDateRange(range)}
+                    onChange={(range) => setFilters(prev => ({ ...prev, dateRange: range }))}
                     mode="range"
-                    value={dateRange}
+                    value={filters.dateRange}
                   />
                 </div>
 
@@ -208,18 +266,27 @@ export default function Transaction() {
           </div>
         </div>
 
-        {loadingTransaction ? (
+        {loadingAllTransactions ? (
           <TransactionSkeleton />
         ) : (
-          <TransactionsList
-            transactions={filteredTransactions}
-            renderActions={(transaction) => (
-              <>
-                <TransactionAction type="edit" onClick={() => setEditFormTransaction(transaction)} />
-                <TransactionAction type="delete" onClick={() => setDeleteFormTransaction(transaction)} />
-              </>
+          <>
+            <TransactionsList
+              title="Extrato completo"
+              transactions={transactions}
+              renderActions={(transaction) => (
+                <>
+                  <TransactionAction type="edit" onClick={() => setEditFormTransaction(transaction)} />
+                  <TransactionAction type="delete" onClick={() => setDeleteFormTransaction(transaction)} />
+                </>
+              )}
+            />
+            {loadingMoreTransactions && (
+              <div className="flex items-center justify-center w-full p-4 h-20 gap-4">
+                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                <p className="text-sm text-muted-foreground">Carregando mais...</p>
+              </div>
             )}
-          />
+          </>
         )}
 
         <div className="p-4 w-full flex items-center justify-end sticky bottom-0 bg-white border-t z-10">

@@ -45,7 +45,7 @@ export default function Home() {
 
   useEffect(() => {
     const fetchTransactions = async () => {
-      const data = await transactionService.getAll({ _sort: '-date' });
+      const { data } = await transactionService.getAll();
 
       setTransactions(data);
       setLoadingTransaction(false);
@@ -95,6 +95,7 @@ export default function Home() {
           <TransactionSkeleton />
         ) : (
           <TransactionsList
+            title="Extrato recente"
             transactions={transactions.slice(0, 5)}
             showAllTransactionsButton
             renderActions={(transaction) => (
