@@ -1,7 +1,7 @@
 import { HTTPService } from "@fiap-tech-challenge/services";
 
 import { TransactionService } from "@bytebank/client/services/transaction-service";
-import type { ITransaction } from "@fiap-tech-challenge/database/types";
+import type { ITransaction, ITransactionInsert } from "@fiap-tech-challenge/database/types";
 import { TransactionsForm } from "@bytebank/components/transactions-form";
 import {
   Button,
@@ -33,12 +33,29 @@ export function CreateNewTransaction(props: CreateNewTransactionProps) {
     setOpen(true);
   }
 
-  const handleCreateNewTransaction = async (transaction: ITransaction) => {
+  const handleCreateNewTransaction = async (transactionData: ITransactionInsert, file?: File) => {
     setSubmitting(true);
     try {
-      await transactionService.create(transaction);
+      const transactionCreate: ITransactionInsert = {
+        id: transactionData.id || Date.now().toString(),
+        type: transactionData.type,
+        value: transactionData.value,
+        date: transactionData.date || new Date().toISOString(),
+        description: transactionData.description || '',
+      };
+      
+      const createdTransaction = await transactionService.create(transactionCreate as any);
+      
+      if (file && createdTransaction) {
+        try {
+          await transactionService.uploadAttachment(createdTransaction.id, file);
+        } catch (uploadError) {
+          console.error('File upload error:', uploadError);
+          
+        }
+      }
 
-      onSuccess?.(transaction);
+      onSuccess?.(createdTransaction);
     } catch (error) {
       onError?.(new Error("Erro ao criar nova transação"));
       console.error("Erro ao criar nova transação", error);

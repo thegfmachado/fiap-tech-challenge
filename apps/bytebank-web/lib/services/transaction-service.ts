@@ -38,11 +38,10 @@ export class TransactionService implements ITransactionService {
 
   async create(data: ITransactionInsert) {
     try {
-      const transactionData = {
+      const transactionData: ITransactionInsert = {
+        ...data,
         id: data.id || Date.now().toString(),
-        type: data.type,
         description: data.description || '',
-        value: data.value,
         date: data.date || new Date().toISOString(),
       };
 
