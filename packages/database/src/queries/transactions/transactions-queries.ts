@@ -1,4 +1,4 @@
-import type { ITransaction, ITransactionInsert, ITransactionType, ITransactionUpdate, TypedSupabaseClient } from '../../types.js';
+import type { ITransaction, ITransactionInsert, ITransactionUpdate, TypedSupabaseClient } from '../../types.js';
 import type { GetAllTransactionsParams, GetAllTransactionsResponse, ITransactionsQueries } from './transactions-queries.interface.js';
 
 export class TransactionsQueriesService implements ITransactionsQueries {
@@ -19,7 +19,7 @@ export class TransactionsQueriesService implements ITransactionsQueries {
       .order('date', { ascending: false });
 
     if (type) {
-      query = query.eq('type', type as ITransactionType);
+      query = query.eq('type', type as 'credit' | 'debit');
     }
 
     if (term) {
@@ -47,12 +47,37 @@ export class TransactionsQueriesService implements ITransactionsQueries {
 
     const total = baseResult.count ?? 0;
 
-    if (from !== undefined && to !== undefined && from < total) {
-      const safeTo = Math.min(to, total - 1);
-      query = query.range(from, safeTo);
+    let dataQuery = this.client
+      .from(TransactionsQueriesService.TABLE_NAME)
+      .select('*')
+      .order('date', { ascending: false });
+
+    if (type) {
+      dataQuery = dataQuery.eq('type', type as 'credit' | 'debit');
     }
 
-    const { data, count, error } = await query;
+    if (term) {
+      dataQuery = dataQuery.ilike('description', `%${term}%`);
+    }
+
+    if (startDate) {
+      const adjustedStartDate = new Date(startDate);
+      adjustedStartDate.setHours(0, 0, 0, 0);
+      dataQuery = dataQuery.gte('date', adjustedStartDate.toISOString());
+    }
+
+    if (endDate) {
+      const adjustedEndDate = new Date(endDate);
+      adjustedEndDate.setHours(23, 59, 59, 999);
+      dataQuery = dataQuery.lte('date', adjustedEndDate.toISOString());
+    }
+
+    if (from !== undefined && to !== undefined && from < total) {
+      const safeTo = Math.min(to, total - 1);
+      dataQuery = dataQuery.range(from, safeTo);
+    }
+
+    const { data, error } = await dataQuery;
 
     if (error) {
       console.error('Supabase error (final fetch):', error);
@@ -61,7 +86,7 @@ export class TransactionsQueriesService implements ITransactionsQueries {
 
     return {
       data,
-      count,
+      count: total,
     };
   }
 
