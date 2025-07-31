@@ -14,6 +14,14 @@
     "./http": {
       "types": "./dist/http/index.d.ts",
       "import": "./dist/http/index.js"
+    },
+    "./storage": {
+      "types": "./dist/storage/index.d.ts",
+      "import": "./dist/storage/index.js"
+    },
+    "./attachment": {
+      "types": "./dist/attachment/index.d.ts",
+      "import": "./dist/attachment/index.js"
     }
   },
   "scripts": {
