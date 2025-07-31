@@ -48,12 +48,7 @@ export class AuthQueriesService implements IAuthQueries {
   }
 
   async getCurrentUser(): Promise<User | null> {
-    const { data, error } = await this.client.auth.getUser();
-
-    if (error) {
-      console.error('Supabase error:', error);
-      throw new Error(`Error fetching user: ${error.message}`);
-    }
+    const { data } = await this.client.auth.getUser();
 
     return data.user;
   }

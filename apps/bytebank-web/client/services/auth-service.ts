@@ -12,9 +12,9 @@ export class AuthService implements IAuthService {
     this.httpService = httpService;
   }
 
-  async getCurrentUser(): Promise<User> {
+  async getCurrentUser(): Promise<User | null> {
     try {
-      return await this.httpService.get<User>("/api/auth");
+      return await this.httpService.get<User | null>("/api/auth");
     } catch (err) {
       toast.error("Erro ao buscar usuário logado")
       throw err;

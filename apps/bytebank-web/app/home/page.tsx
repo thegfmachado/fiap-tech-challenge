@@ -20,7 +20,7 @@ import { EditTransaction } from "@bytebank/components/edit-transaction";
 
 import { formatCurrency } from "@bytebank/client/formatters";
 import type { ITransaction } from "@fiap-tech-challenge/database/types";
-import { useCurrentUser } from "@bytebank/hooks/use-current-user";
+import { useAuth } from "@bytebank/hooks/use-auth";
 import { TransactionSkeleton } from "@bytebank/components/transaction-skeleton";
 
 const httpService = new HTTPService();
@@ -30,7 +30,7 @@ export default function Home() {
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
   const [showBalance, setShowBalance] = useState(false);
   const [editFormTransaction, setEditFormTransaction] = useState<ITransaction | null>(null);
-  const { user, loading: userLoading } = useCurrentUser();
+  const { user, loading: userLoading } = useAuth();
   const [loadingTransaction, setLoadingTransaction] = useState(true);
 
   const balance = useMemo(() => {

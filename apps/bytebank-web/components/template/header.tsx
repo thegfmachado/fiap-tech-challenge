@@ -29,7 +29,7 @@ import {
 import { HTTPService } from "@fiap-tech-challenge/services";
 
 import { AuthService } from "@bytebank/client/services/auth-service";
-import { useCurrentUser } from "@bytebank/hooks/use-current-user";
+import { useAuth } from "@bytebank/hooks/use-auth";
 
 const httpService = new HTTPService();
 const authService = new AuthService(httpService);
@@ -70,7 +70,7 @@ export function NavLinks(props: NavLinksProps) {
 }
 
 export function Header() {
-  const { user, loading } = useCurrentUser();
+  const { user, loading } = useAuth();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const pathname = usePathname();
