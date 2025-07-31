@@ -5,7 +5,7 @@ import type { IUser } from "@fiap-tech-challenge/models";
 export interface IAuthService {
   signUp(user: IUser): Promise<User | null>;
   signInWithPassword(email: string, password: string): Promise<User>;
-  getCurrentUser(): Promise<User>;
+  getCurrentUser(): Promise<User | null>;
   signOut(): Promise<void>;
   forgotPassword(email: string): Promise<void>;
   updateUser(user: Partial<IUser>): Promise<User | null>;

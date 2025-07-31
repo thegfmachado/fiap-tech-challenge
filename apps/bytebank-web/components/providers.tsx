@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { ThemeProvider as NextThemesProvider } from "next-themes"
+import { AuthProvider } from "@bytebank/contexts/auth-context"
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -10,7 +11,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
       defaultTheme="light"
       forcedTheme="light"
     >
-      {children}
+      <AuthProvider>
+        {children}
+      </AuthProvider>
     </NextThemesProvider>
   )
 }
