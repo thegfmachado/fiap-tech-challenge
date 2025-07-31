@@ -58,6 +58,14 @@ export default function Home() {
     setTransactions(prevTransactions => [transaction, ...prevTransactions]);
   }
 
+  const handleUpdateTransaction = (updatedTransaction: ITransaction) => {
+    setTransactions(prevTransactions => 
+      prevTransactions.map(transaction => 
+        transaction.id === updatedTransaction.id ? updatedTransaction : transaction
+      )
+    );
+  }
+
   const handleToggleBalance = () => {
     setShowBalance(prevShowBalance => !prevShowBalance);
   }
@@ -111,6 +119,7 @@ export default function Home() {
           <EditTransaction
             readOnly
             onClose={() => setEditFormTransaction(null)}
+            onSuccess={handleUpdateTransaction}
             transaction={editFormTransaction}
           />
         )}
