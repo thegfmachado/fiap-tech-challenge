@@ -40,10 +40,10 @@ O Supabase local roda em Docker e já vem com:
 npm run db:local:start
 
 # Verificar status
-cd packages/database && npx supabase status
+npm run db:local:status
 
 # Parar Supabase local
-cd packages/database && npx supabase stop
+npm run db:local:stop
 ```
 
 ### 2. Ambiente Online (Produção)
@@ -89,12 +89,12 @@ CREATE TABLE transactions (
 ```bash
 # Gerenciar Supabase local
 npm run db:local:start     # Iniciar
-cd packages/database && npx supabase stop      # Parar
-cd packages/database && npx supabase status    # Status
-cd packages/database && npx supabase db reset  # Reset completo
+npm run db:local:stop      # Parar
+npm run db:local:status    # Status
+npm run db:local:reset     # Reset completo
 
 # Gerar tipos TypeScript do banco
-cd packages/database && npm run db:generate:types
+npm run db:generate:types
 
 # Desenvolvimento
 npm run dev                # Todas as apps
@@ -109,8 +109,8 @@ npm run build              # Build produção
 docker ps
 
 # Limpar e reiniciar
-cd packages/database && npx supabase stop
-cd packages/database && npx supabase start
+npm run db:local:stop
+npm run db:local:start
 ```
 
 **Erro de conexão:**
@@ -121,4 +121,4 @@ cd packages/database && npx supabase start
 **Aplicação não encontra banco:**
 - Verifique os arquivos `.env.local`
 - Reinicie a aplicação após alterar variáveis de ambiente
-- Confirme se o Supabase está rodando: `npx supabase status`
+- Confirme se o Supabase está rodando: `npm run db:local:status`
