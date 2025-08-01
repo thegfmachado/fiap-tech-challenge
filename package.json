@@ -14,7 +14,11 @@
   ],
   "scripts": {
     "build": "turbo build",
+    "db:local": "npm run db:local --workspace=@fiap-tech-challenge/database --",
     "db:local:start": "npm run db:local:start --workspace=@fiap-tech-challenge/database",
+    "db:local:stop": "npm run db:local:stop --workspace=@fiap-tech-challenge/database",
+    "db:local:status": "npm run db:local:status --workspace=@fiap-tech-challenge/database",
+    "db:local:reset": "npm run db:local:reset --workspace=@fiap-tech-challenge/database",
     "db:generate:types": "npm run db:generate:types --workspace=@fiap-tech-challenge/database",
     "dev": "turbo dev",
     "lint": "turbo lint",

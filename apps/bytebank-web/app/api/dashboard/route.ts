@@ -4,7 +4,7 @@ import { createTransactionService } from "@bytebank/lib/services/transaction-ser
 import { handleResponseError } from "@fiap-tech-challenge/services/http";
 import { TransactionType } from "@fiap-tech-challenge/models";
 import type { IDashboardData, IIncomeByRange, IAmountAndExpensesByRange, IFinancialMovement } from "@fiap-tech-challenge/models";
-import type { ITransaction, ITransactionType } from "@fiap-tech-challenge/database/types";
+import type { ITransaction } from "@fiap-tech-challenge/database/types";
 
 const MONTHS = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
@@ -196,7 +196,7 @@ function isInPreviousPeriod(transactionDate: string, period: string): boolean {
   }
 }
 
-function getTotalByType(transactions: ITransaction[], type: ITransactionType): number {
+function getTotalByType(transactions: ITransaction[], type: string): number {
   return transactions.reduce(
     (sum, transaction) => transaction.type === type ? sum + transaction.value : sum,
     0

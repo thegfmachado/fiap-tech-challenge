@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 
 import {
   Input,
@@ -10,16 +11,24 @@ import {
   FormControl,
   FormMessage,
   Button, RadioGroup, FormLabel, RadioGroupItem,
+  TransactionAttachment,
+  BaseTransaction,
 } from "@fiap-tech-challenge/design-system/components";
-import type { ITransaction } from "@fiap-tech-challenge/database/types";
+import type { ITransaction, ITransactionInsert } from "@fiap-tech-challenge/database/types";
 import { TransactionType } from "@fiap-tech-challenge/models";
 
 import { CurrencyInput } from "@bytebank/components/ui/currency-input";
 import { DatePicker } from "@bytebank/components/date-picker";
+import { HTTPService } from "@fiap-tech-challenge/services";
+import { TransactionService } from "@bytebank/client/services/transaction-service";
+
+const httpService = new HTTPService();
+const transactionService = new TransactionService(httpService);
 
 export type TransactionsFormProps = {
   disabled?: boolean;
-  onSubmit: (transaction: ITransaction) => void;
+  onSubmit: (transaction: ITransaction | ITransactionInsert, file?: File) => void;
+  onAttachmentChange?: (transaction: ITransaction) => void;
   readOnly?: boolean;
   transaction?: ITransaction;
 }
@@ -45,18 +54,30 @@ const options = [
   },
 ]
 
-export function TransactionsForm(props: TransactionsFormProps) {
-  const { disabled, transaction, onSubmit, readOnly } = props;
+export function TransactionsForm({
+  disabled = false,
+  readOnly = false,
+  onSubmit,
+  onAttachmentChange,
+  transaction,
+}: TransactionsFormProps) {
+  const [currentTransaction, setCurrentTransaction] = useState<ITransaction | undefined>(transaction);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const form = useForm<CreateTransactionSchema>({
     resolver: zodResolver(createTransactionSchema),
-    disabled,
-    defaultValues: {
+    defaultValues: transaction ? {
+      id: transaction.id,
+      description: transaction.description,
+      value: transaction.value,
+      type: transaction.type as typeof TransactionType.CREDIT | typeof TransactionType.DEBIT,
+      date: new Date(transaction.date),
+    } : {
+      id: Date.now().toString(),
       type: TransactionType.DEBIT,
       description: "",
-      id: Date.now().toString(),
-      ...transaction,
-      date: transaction ? new Date(transaction.date) : new Date(),
+      value: 0,
+      date: new Date(),
     },
   })
 
@@ -64,8 +85,14 @@ export function TransactionsForm(props: TransactionsFormProps) {
     onSubmit({
       ...values,
       date: values.date.toISOString(),
-    });
+    } as ITransaction | ITransactionInsert, selectedFile || undefined);
   }
+
+  const handleAttachmentChange = (updatedTransaction: BaseTransaction & Record<string, unknown>) => {
+    const typedTransaction = updatedTransaction as ITransaction;
+    setCurrentTransaction(typedTransaction);
+    onAttachmentChange?.(typedTransaction);
+  };
 
   return (
     <Form {...form}>
@@ -132,6 +159,23 @@ export function TransactionsForm(props: TransactionsFormProps) {
               <FormMessage />
             </FormItem>
           )}
+        />
+
+        <TransactionAttachment
+          transaction={currentTransaction}
+          onAttachmentChange={handleAttachmentChange}
+          onFileSelect={(file) => setSelectedFile(file)}
+          disabled={readOnly || disabled}
+          mode={currentTransaction ? "edit" : "create"}
+          onUpload={async (transactionId: string, file: File) => {
+            return await transactionService.uploadAttachment(transactionId, file);
+          }}
+          onDownload={async (transactionId: string, fileName: string) => {
+            return await transactionService.downloadAttachment(transactionId, fileName);
+          }}
+          onDelete={async (transactionId: string, fileName: string) => {
+            await transactionService.deleteAttachment(transactionId, fileName);
+          }}
         />
 
         {!readOnly && (

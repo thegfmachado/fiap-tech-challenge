@@ -10,3 +10,5 @@ export * from './navigation-menu/navigation-menu';
 export * from './radio-group/radio-group';
 export * from './skeleton/skeleton';
 export * from './toaster/toaster';
+export * from './transaction-attachment/transaction-attachment';
+export * from './transaction-attachment/transaction-attachment.types';

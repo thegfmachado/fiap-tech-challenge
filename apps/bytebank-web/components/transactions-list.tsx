@@ -62,7 +62,7 @@ export function TransactionsList(props: TransactionsListProps) {
                 <p className="text-sm sm:text-base text-muted-foreground">{formatDate(new Date(transaction.date))}</p>
               </div>
               <div className="flex justify-between items-center gap-1.5">
-                <p className={`whitespace-nowrap text-sm sm:text-base ${moneyVariants({ type: transaction.type })}`}>
+                <p className={`whitespace-nowrap text-sm sm:text-base ${moneyVariants({ type: transaction.type as "credit" | "debit" })}`}>
                   {`${transaction.type === TransactionType.CREDIT ? "+" : "-"}${formatCurrency(transaction.value, { signDisplay: "never" })}`}
                 </p>
                 {renderActions && (

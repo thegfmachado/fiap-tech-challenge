@@ -1,4 +1,4 @@
-import type { ITransaction, ITransactionInsert, ITransactionType, ITransactionUpdate, TypedSupabaseClient } from '../../types.js';
+import type { ITransaction, ITransactionInsert, ITransactionUpdate, TypedSupabaseClient } from '../../types.js';
 import type { GetAllTransactionsParams, GetAllTransactionsResponse, ITransactionsQueries } from './transactions-queries.interface.js';
 
 export class TransactionsQueriesService implements ITransactionsQueries {
@@ -18,8 +18,30 @@ export class TransactionsQueriesService implements ITransactionsQueries {
       .select('*', { count: 'exact' })
       .order('date', { ascending: false });
 
+    query = this.applyFilters(query, { type, term, startDate, endDate });
+
+    if (from !== undefined && to !== undefined) {
+      query = query.range(from, to);
+    }
+
+    const { data, error, count } = await query;
+
+    if (error) {
+      console.error('Supabase error:', error);
+      throw new Error(`Error fetching transactions: ${error.message}`);
+    }
+
+    return {
+      data,
+      count: count ?? 0,
+    };
+  }
+
+  private applyFilters(query: any, filters: { type?: string; term?: string; startDate?: string; endDate?: string }) {
+    const { type, term, startDate, endDate } = filters;
+
     if (type) {
-      query = query.eq('type', type as ITransactionType);
+      query = query.eq('type', type as 'credit' | 'debit');
     }
 
     if (term) {
@@ -38,31 +60,7 @@ export class TransactionsQueriesService implements ITransactionsQueries {
       query = query.lte('date', adjustedEndDate.toISOString());
     }
 
-    const baseResult = await query.range(0, 0);
-
-    if (baseResult.error) {
-      console.error('Supabase error (count step):', baseResult.error);
-      throw new Error(`Error fetching transactions count: ${baseResult.error.message}`);
-    }
-
-    const total = baseResult.count ?? 0;
-
-    if (from !== undefined && to !== undefined && from < total) {
-      const safeTo = Math.min(to, total - 1);
-      query = query.range(from, safeTo);
-    }
-
-    const { data, count, error } = await query;
-
-    if (error) {
-      console.error('Supabase error (final fetch):', error);
-      throw new Error(`Error fetching transactions: ${error.message}`);
-    }
-
-    return {
-      data,
-      count,
-    };
+    return query;
   }
 
   async getTransactionById(id: string): Promise<ITransaction> {

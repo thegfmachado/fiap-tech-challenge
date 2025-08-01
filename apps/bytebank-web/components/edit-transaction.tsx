@@ -10,7 +10,7 @@ import {
 import { HTTPService } from "@fiap-tech-challenge/services";
 
 import { TransactionService } from "@bytebank/client/services/transaction-service";
-import type { ITransaction } from "@fiap-tech-challenge/database/types";
+import type { ITransaction, ITransactionInsert } from "@fiap-tech-challenge/database/types";
 import { TransactionsForm } from "@bytebank/components/transactions-form";
 
 const httpService = new HTTPService();
@@ -36,12 +36,12 @@ export function EditTransaction(props: EditTransactionProps) {
     }
   }, [onClose, open])
 
-  const handleEditTransaction = async (transaction: ITransaction) => {
+  const handleEditTransaction = async (transactionData: ITransaction | ITransactionInsert) => {
     setSubmitting(true);
     try {
-      await transactionService.update(transaction.id, transaction);
+      await transactionService.update(transaction!.id, transactionData as Partial<ITransaction>);
 
-      onSuccess?.(transaction);
+      onSuccess?.(transaction!);
     } catch (error) {
       onError?.(new Error("Erro ao editar transação"));
       console.error("Erro ao editar transação", error);
@@ -52,13 +52,23 @@ export function EditTransaction(props: EditTransactionProps) {
 
   const title = readOnly ? "Visualizar transação" : "Editar transação";
 
+  const handleAttachmentChange = (updatedTransaction: ITransaction) => {
+    onSuccess?.(updatedTransaction);
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
-        <TransactionsForm readOnly={readOnly} disabled={submitting} onSubmit={handleEditTransaction} transaction={transaction} />
+        <TransactionsForm 
+          readOnly={readOnly} 
+          disabled={submitting} 
+          onSubmit={handleEditTransaction} 
+          onAttachmentChange={handleAttachmentChange}
+          transaction={transaction} 
+        />
       </DialogContent>
     </Dialog>
   )
