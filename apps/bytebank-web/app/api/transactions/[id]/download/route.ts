@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 
-import { createServerClient } from "@fiap-tech-challenge/database/server";
-import { StorageService, AttachmentService } from "@fiap-tech-challenge/services";
 import { handleResponseError } from "@fiap-tech-challenge/services/http";
+import { createAttachmentService } from "@bytebank/lib/services/attachment-service.factory";
 
 interface RouteParams {
   id: string;
@@ -19,10 +17,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<RouteP
       return new NextResponse('File name is required', { status: 400 });
     }
 
-    const cookieStore = await cookies();
-    const client = await createServerClient(cookieStore);
-    const storageService = new StorageService(client);
-    const attachmentService = new AttachmentService(storageService);
+    const attachmentService = await createAttachmentService();
 
     const blob = await attachmentService.downloadTransactionAttachment(id, fileName);
     

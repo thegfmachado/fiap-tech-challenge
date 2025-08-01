@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 
-import { createServerClient } from "@fiap-tech-challenge/database/server";
-import { StorageService, AttachmentService } from "@fiap-tech-challenge/services";
 import { handleResponseError } from "@fiap-tech-challenge/services/http";
 import { createTransactionService } from "@bytebank/lib/services/transaction-service.factory";
+import { createAttachmentService } from "@bytebank/lib/services/attachment-service.factory";
 
 interface RouteParams {
   id: string;
@@ -37,10 +35,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<Route
       return new NextResponse('File type not allowed', { status: 400 });
     }
 
-    const cookieStore = await cookies();
-    const client = await createServerClient(cookieStore);
-    const storageService = new StorageService(client);
-    const attachmentService = new AttachmentService(storageService);
+    const attachmentService = await createAttachmentService();
     const transactionService = await createTransactionService();
     
     const attachment = await attachmentService.uploadTransactionAttachment(id, file);
@@ -67,10 +62,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<Rou
       return new NextResponse('File name is required', { status: 400 });
     }
 
-    const cookieStore = await cookies();
-    const client = await createServerClient(cookieStore);
-    const storageService = new StorageService(client);
-    const attachmentService = new AttachmentService(storageService);
+    const attachmentService = await createAttachmentService();
     const transactionService = await createTransactionService();
 
     await attachmentService.deleteTransactionAttachment(id, fileName);
