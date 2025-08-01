@@ -14,7 +14,7 @@
   <a href="#-serviços">Serviços</a> •
   <a href="#-funcionalidades">Funcionalidades</a> •
   <a href="#-tecnologias">Tecnologias</a> •
-  <a href="#-como-executar-o-projeto">Executando</a> 
+  <a href="#-como-executar-o-projeto">Executando</a> •
 </p>
 
 ## 📖 Sobre o Projeto
@@ -122,8 +122,9 @@ O projeto inclui os seguintes serviços em desenvolvimento local:
 
 ### 📋 Pré-requisitos
 
-- **Node.js** 18+ e **npm**
+- **Node.js** 20+ e **npm**
 - **Docker** (para Supabase local)
+- **Git** configurado com SSH (para clonagem)
 
 ### 1. Clone e instale dependências
 
@@ -152,7 +153,7 @@ Started supabase local development setup.
       Studio URL: http://127.0.0.1:54323
 ```
 
-Os arquivos `.env.local` já estão pré-configurados com as credenciais locais do Supabase.
+> **💡 Importante:** As credenciais locais do Supabase são fixas e pré-definidas. Para verificar as credenciais atuais, use: `cd packages/database && npx supabase status`
 
 ### 3. Modo de Desenvolvimento
 
@@ -260,7 +261,8 @@ npm install
 
 **4. Aplicação não conecta ao banco**
 - Verifique se o Supabase está rodando: http://127.0.0.1:54323
-- Confirme se os arquivos `.env.local` estão configurados corretamente
+- Execute `cd packages/database && npx supabase status` para ver as credenciais
+- Confirme se os arquivos `.env.local` estão configurados com as credenciais corretas
 - Reinicie a aplicação após alterar variáveis de ambiente
 
 ### Estrutura de pastas
