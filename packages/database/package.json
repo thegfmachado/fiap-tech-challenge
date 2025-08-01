@@ -25,7 +25,11 @@
   },
   "scripts": {
     "build": "tsc",
+    "db:local": "supabase",
     "db:local:start": "supabase start",
+    "db:local:stop": "supabase stop",
+    "db:local:status": "supabase status",
+    "db:local:reset": "supabase db reset",
     "db:generate:types": "supabase gen types typescript --project-id stnskzmxleyuezbiqgoo --schema public > src/generated-types.ts",
     "dev": "tsc --watch",
     "lint": "eslint src --ext .ts,.tsx"
