@@ -18,6 +18,28 @@ export class TransactionsQueriesService implements ITransactionsQueries {
       .select('*', { count: 'exact' })
       .order('date', { ascending: false });
 
+    query = this.applyFilters(query, { type, term, startDate, endDate });
+
+    if (from !== undefined && to !== undefined) {
+      query = query.range(from, to);
+    }
+
+    const { data, error, count } = await query;
+
+    if (error) {
+      console.error('Supabase error:', error);
+      throw new Error(`Error fetching transactions: ${error.message}`);
+    }
+
+    return {
+      data,
+      count: count ?? 0,
+    };
+  }
+
+  private applyFilters(query: any, filters: { type?: string; term?: string; startDate?: string; endDate?: string }) {
+    const { type, term, startDate, endDate } = filters;
+
     if (type) {
       query = query.eq('type', type as 'credit' | 'debit');
     }
@@ -38,56 +60,7 @@ export class TransactionsQueriesService implements ITransactionsQueries {
       query = query.lte('date', adjustedEndDate.toISOString());
     }
 
-    const baseResult = await query.range(0, 0);
-
-    if (baseResult.error) {
-      console.error('Supabase error (count step):', baseResult.error);
-      throw new Error(`Error fetching transactions count: ${baseResult.error.message}`);
-    }
-
-    const total = baseResult.count ?? 0;
-
-    let dataQuery = this.client
-      .from(TransactionsQueriesService.TABLE_NAME)
-      .select('*')
-      .order('date', { ascending: false });
-
-    if (type) {
-      dataQuery = dataQuery.eq('type', type as 'credit' | 'debit');
-    }
-
-    if (term) {
-      dataQuery = dataQuery.ilike('description', `%${term}%`);
-    }
-
-    if (startDate) {
-      const adjustedStartDate = new Date(startDate);
-      adjustedStartDate.setHours(0, 0, 0, 0);
-      dataQuery = dataQuery.gte('date', adjustedStartDate.toISOString());
-    }
-
-    if (endDate) {
-      const adjustedEndDate = new Date(endDate);
-      adjustedEndDate.setHours(23, 59, 59, 999);
-      dataQuery = dataQuery.lte('date', adjustedEndDate.toISOString());
-    }
-
-    if (from !== undefined && to !== undefined && from < total) {
-      const safeTo = Math.min(to, total - 1);
-      dataQuery = dataQuery.range(from, safeTo);
-    }
-
-    const { data, error } = await dataQuery;
-
-    if (error) {
-      console.error('Supabase error (final fetch):', error);
-      throw new Error(`Error fetching transactions: ${error.message}`);
-    }
-
-    return {
-      data,
-      count: total,
-    };
+    return query;
   }
 
   async getTransactionById(id: string): Promise<ITransaction> {
