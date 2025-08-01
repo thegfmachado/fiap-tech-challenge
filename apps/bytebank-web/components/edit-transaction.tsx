@@ -39,9 +39,9 @@ export function EditTransaction(props: EditTransactionProps) {
   const handleEditTransaction = async (transactionData: ITransaction | ITransactionInsert) => {
     setSubmitting(true);
     try {
-      await transactionService.update(transaction!.id, transactionData as Partial<ITransaction>);
+      const updatedTransaction = await transactionService.update(transactionData.id, transactionData);
 
-      onSuccess?.(transaction!);
+      onSuccess?.(updatedTransaction);
     } catch (error) {
       onError?.(new Error("Erro ao editar transação"));
       console.error("Erro ao editar transação", error);
@@ -62,12 +62,12 @@ export function EditTransaction(props: EditTransactionProps) {
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
-        <TransactionsForm 
-          readOnly={readOnly} 
-          disabled={submitting} 
-          onSubmit={handleEditTransaction} 
+        <TransactionsForm
+          readOnly={readOnly}
+          disabled={submitting}
+          onSubmit={handleEditTransaction}
           onAttachmentChange={handleAttachmentChange}
-          transaction={transaction} 
+          transaction={transaction}
         />
       </DialogContent>
     </Dialog>

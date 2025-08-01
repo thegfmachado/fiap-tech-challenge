@@ -70,7 +70,7 @@ export function TransactionsForm({
       id: transaction.id,
       description: transaction.description,
       value: transaction.value,
-      type: transaction.type as typeof TransactionType.CREDIT | typeof TransactionType.DEBIT,
+      type: transaction.type as TransactionType,
       date: new Date(transaction.date),
     } : {
       id: Date.now().toString(),
