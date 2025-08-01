@@ -44,7 +44,7 @@ export function CreateNewTransaction(props: CreateNewTransactionProps) {
         description: transactionData.description || '',
       };
       
-      const createdTransaction = await transactionService.create(transactionCreate as any);
+      const createdTransaction = await transactionService.create(transactionCreate as ITransaction);
       
       if (file && createdTransaction) {
         try {

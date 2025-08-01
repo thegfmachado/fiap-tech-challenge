@@ -25,19 +25,6 @@ import { TransactionService } from "@bytebank/client/services/transaction-servic
 const httpService = new HTTPService();
 const transactionService = new TransactionService(httpService);
 
-// Adapter para o TransactionService
-const transactionServiceAdapter = {
-  uploadAttachment: async (transactionId: string, file: File) => {
-    return await transactionService.uploadAttachment(transactionId, file);
-  },
-  downloadAttachment: async (transactionId: string, fileName: string): Promise<Blob> => {
-    return await transactionService.downloadAttachment(transactionId, fileName);
-  },
-  deleteAttachment: async (transactionId: string, fileName: string): Promise<void> => {
-    await transactionService.deleteAttachment(transactionId, fileName);
-  },
-};
-
 export type TransactionsFormProps = {
   disabled?: boolean;
   onSubmit: (transaction: ITransaction | ITransactionInsert, file?: File) => void;
@@ -180,7 +167,15 @@ export function TransactionsForm({
           onFileSelect={(file) => setSelectedFile(file)}
           disabled={readOnly || disabled}
           mode={currentTransaction ? "edit" : "create"}
-          transactionService={transactionServiceAdapter}
+          onUpload={async (transactionId: string, file: File) => {
+            return await transactionService.uploadAttachment(transactionId, file);
+          }}
+          onDownload={async (transactionId: string, fileName: string) => {
+            return await transactionService.downloadAttachment(transactionId, fileName);
+          }}
+          onDelete={async (transactionId: string, fileName: string) => {
+            await transactionService.deleteAttachment(transactionId, fileName);
+          }}
         />
 
         {!readOnly && (

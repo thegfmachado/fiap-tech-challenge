@@ -36,10 +36,10 @@ export function EditTransaction(props: EditTransactionProps) {
     }
   }, [onClose, open])
 
-  const handleEditTransaction = async (transactionData: ITransaction | ITransactionInsert, file?: File) => {
+  const handleEditTransaction = async (transactionData: ITransaction | ITransactionInsert) => {
     setSubmitting(true);
     try {
-      await transactionService.update(transaction!.id, transactionData as any);
+      await transactionService.update(transaction!.id, transactionData as Partial<ITransaction>);
 
       onSuccess?.(transaction!);
     } catch (error) {
