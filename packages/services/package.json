@@ -22,6 +22,10 @@
     "./attachment": {
       "types": "./dist/attachment/index.d.ts",
       "import": "./dist/attachment/index.js"
+    },
+    "./file": {
+      "types": "./dist/file/index.d.ts",
+      "import": "./dist/file/index.js"
     }
   },
   "scripts": {

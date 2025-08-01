@@ -41,35 +41,4 @@ export class HTTPService implements IHTTPService {
   delete<T>(url: string): Promise<T> {
     return this.request<T>(url, "DELETE");
   }
-
-  async postFormData<T>(url: string, formData: FormData): Promise<T> {
-    const res = await fetch(url, {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!res.ok) {
-      const error = await res.text();
-      throw new Error(`HTTP error ${res.status}: ${error}`);
-    }
-
-    const isJson = res.headers.get("content-type")?.includes("application/json");
-
-    if (isJson) {
-      return res.json();
-    }
-
-    return undefined as T;
-  }
-
-  async downloadFile(url: string): Promise<Blob> {
-    const res = await fetch(url);
-
-    if (!res.ok) {
-      const error = await res.text();
-      throw new Error(`HTTP error ${res.status}: ${error}`);
-    }
-
-    return res.blob();
-  }
 }
