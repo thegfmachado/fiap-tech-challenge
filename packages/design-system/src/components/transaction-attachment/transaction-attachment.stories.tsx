@@ -9,20 +9,20 @@ import {
 import { TransactionAttachmentProps } from "./transaction-attachment.types";
 import { TRANSACTION_ATTACHMENT_DEFAULT_PROPS } from "./use-transaction-attachment";
 
-const mockTransactionService = {
-  uploadAttachment: async (transactionId: string, file: File) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    return {
-      url: `transactions/${transactionId}/${Date.now()}_${file.name}`,
-      name: file.name,
-    };
-  },
-  downloadAttachment: async (transactionId: string, fileName: string) => {
-    return new Blob(["Mock file content"], { type: "text/plain" });
-  },
-  deleteAttachment: async (transactionId: string, fileName: string) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-  },
+const mockUpload = async (transactionId: string, file: File) => {
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  return {
+    url: `transactions/${transactionId}/${Date.now()}_${file.name}`,
+    name: file.name,
+  };
+};
+
+const mockDownload = async (transactionId: string, fileName: string) => {
+  return new Blob(["Mock file content"], { type: "text/plain" });
+};
+
+const mockDelete = async (transactionId: string, fileName: string) => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
 };
 
 const mockTransaction = {
@@ -50,10 +50,15 @@ export default {
     },
     onFileSelect: { action: "fileSelected" },
     onAttachmentChange: { action: "attachmentChanged" },
+    onUpload: { action: "uploaded" },
+    onDownload: { action: "downloaded" },
+    onDelete: { action: "deleted" },
   },
   args: {
     ...TRANSACTION_ATTACHMENT_DEFAULT_PROPS,
-    transactionService: mockTransactionService,
+    onUpload: mockUpload,
+    onDownload: mockDownload,
+    onDelete: mockDelete,
   },
 } satisfies Meta<typeof TransactionAttachment>;
 

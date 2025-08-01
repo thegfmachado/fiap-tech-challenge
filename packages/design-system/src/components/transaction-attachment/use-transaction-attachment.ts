@@ -6,6 +6,9 @@ import type { TransactionAttachmentProps, BaseTransaction } from "./transaction-
 export const TRANSACTION_ATTACHMENT_DEFAULT_PROPS: Partial<TransactionAttachmentProps> = {
   disabled: false,
   mode: "edit",
+  onUpload: undefined,
+  onDownload: undefined,
+  onDelete: undefined,
 };
 
 export function useTransactionAttachment(props: TransactionAttachmentProps) {
@@ -13,9 +16,11 @@ export function useTransactionAttachment(props: TransactionAttachmentProps) {
     transaction,
     onAttachmentChange,
     onFileSelect,
+    onUpload,
+    onDownload,
+    onDelete,
     disabled = false,
     mode = "edit",
-    transactionService,
     ...rest
   } = props;
 
@@ -64,11 +69,11 @@ export function useTransactionAttachment(props: TransactionAttachmentProps) {
       
       setSelectedFile(file);
       onFileSelect?.(file);
-    } else if (transaction && transactionService) {
+    } else if (transaction && onUpload) {
       
       setIsUploading(true);
       try {
-        const attachment = await transactionService.uploadAttachment(transaction.id, file);
+        const attachment = await onUpload(transaction.id, file);
         
         const updatedTransaction = {
           ...transaction,
@@ -90,11 +95,11 @@ export function useTransactionAttachment(props: TransactionAttachmentProps) {
   };
 
   const handleDownload = async () => {
-    if (!transactionAny?.attachment_url || !transactionAny?.attachment_name || !transaction || !transactionService) return;
+    if (!transactionAny?.attachment_url || !transactionAny?.attachment_name || !transaction || !onDownload) return;
 
     try {
       const fileName = transactionAny.attachment_url.split('/').pop()!;
-      const blob = await transactionService.downloadAttachment(transaction.id, fileName);
+      const blob = await onDownload(transaction.id, fileName);
       
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -110,12 +115,12 @@ export function useTransactionAttachment(props: TransactionAttachmentProps) {
   };
 
   const handleDelete = async () => {
-    if (!transactionAny?.attachment_url || !transactionAny?.attachment_name || !transaction || !transactionService) return;
+    if (!transactionAny?.attachment_url || !transactionAny?.attachment_name || !transaction || !onDelete) return;
 
     setIsDeleting(true);
     try {
       const fileName = transactionAny.attachment_url.split('/').pop()!;
-      await transactionService.deleteAttachment(transaction.id, fileName);
+      await onDelete(transaction.id, fileName);
       
       const updatedTransaction = {
         ...transaction,

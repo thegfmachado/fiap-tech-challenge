@@ -13,18 +13,18 @@ export interface TransactionAttachmentProps {
   onAttachmentChange?: (transaction: BaseTransaction & Record<string, unknown>) => void;
   /** Callback chamado quando um arquivo é selecionado no modo de criação */
   onFileSelect?: (file: File | null) => void;
+  /** Callback chamado quando um arquivo é enviado */
+  onUpload?: (transactionId: string, file: File) => Promise<{ url: string; name: string }>;
+  /** Callback chamado quando um arquivo é baixado */
+  onDownload?: (transactionId: string, fileName: string) => Promise<Blob>;
+  /** Callback chamado quando um arquivo é deletado */
+  onDelete?: (transactionId: string, fileName: string) => Promise<void>;
   /** Se true, desabilita a interação com o componente */
   disabled?: boolean;
   /** Modo de operação do componente */
   mode?: "create" | "edit";
   /** Classes CSS customizadas */
   className?: string;
-  /** Serviço para operações de transação (upload/download/delete) */
-  transactionService?: {
-    uploadAttachment: (transactionId: string, file: File) => Promise<{ url: string; name: string }>;
-    downloadAttachment: (transactionId: string, fileName: string) => Promise<Blob>;
-    deleteAttachment: (transactionId: string, fileName: string) => Promise<void>;
-  };
 }
 
 export interface FileIconProps {
