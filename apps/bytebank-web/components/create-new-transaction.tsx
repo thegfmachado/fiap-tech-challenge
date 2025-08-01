@@ -35,23 +35,16 @@ export function CreateNewTransaction(props: CreateNewTransactionProps) {
 
   const handleCreateNewTransaction = async (transactionData: ITransactionInsert, file?: File) => {
     setSubmitting(true);
+
     try {
-      const transactionCreate: ITransactionInsert = {
-        id: transactionData.id || Date.now().toString(),
-        type: transactionData.type,
-        value: transactionData.value,
-        date: transactionData.date || new Date().toISOString(),
-        description: transactionData.description || '',
-      };
-      
-      const createdTransaction = await transactionService.create(transactionCreate as ITransaction);
-      
+      const createdTransaction = await transactionService.create(transactionData);
+
       if (file && createdTransaction) {
         try {
           await transactionService.uploadAttachment(createdTransaction.id, file);
         } catch (uploadError) {
           console.error('File upload error:', uploadError);
-          
+
         }
       }
 

@@ -1,7 +1,7 @@
 import { HTTPService, FileService } from "@fiap-tech-challenge/services";
 
 import type { ITransactionService } from "./transaction-service.interface";
-import type { ITransaction } from "@fiap-tech-challenge/database/types";
+import type { ITransaction, ITransactionInsert, ITransactionUpdate } from "@fiap-tech-challenge/database/types";
 import { toast } from "@fiap-tech-challenge/design-system/components";
 import { GetAllTransactionsResponse } from "@fiap-tech-challenge/database/queries";
 import { IAttachment } from "@fiap-tech-challenge/services";
@@ -21,7 +21,7 @@ export class TransactionService implements ITransactionService {
   }
 
 
-  async create(transaction: ITransaction): Promise<ITransaction> {
+  async create(transaction: ITransactionInsert): Promise<ITransaction> {
     try {
       const data = await this.httpService.post<ITransaction>("/api/transactions", transaction);
       toast.success("Transação criada com sucesso")
@@ -34,7 +34,7 @@ export class TransactionService implements ITransactionService {
     }
   }
 
-  async update(id: string, updates: Partial<ITransaction>): Promise<ITransaction> {
+  async update(id: string, updates: ITransactionUpdate): Promise<ITransaction> {
     try {
       const data = await this.httpService.patch<ITransaction>(`/api/transactions/${id}`, updates);
       toast.success("Transação atualizada com sucesso")
@@ -64,7 +64,7 @@ export class TransactionService implements ITransactionService {
         `/api/transactions/${transactionId}/attachment`,
         file
       );
-      
+
       toast.success("Arquivo anexado com sucesso");
       return data;
     } catch (err) {
@@ -89,7 +89,7 @@ export class TransactionService implements ITransactionService {
       await this.httpService.delete(
         `/api/transactions/${transactionId}/attachment?fileName=${encodeURIComponent(fileName)}`
       );
-      
+
       toast.success("Arquivo removido com sucesso");
     } catch (err) {
       toast.error("Erro ao remover arquivo");
