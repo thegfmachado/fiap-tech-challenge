@@ -7,6 +7,7 @@
   <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/thegfmachado/fiap-tech-challenge?color=553860"/>
   <img alt="Repository size" src="https://img.shields.io/github/repo-size/thegfmachado/fiap-tech-challenge?color=553860"/>
   <img alt="Supabase" src="https://img.shields.io/badge/Database-Supabase-3FCF8E?style=flat&logo=supabase"/>
+  <a href="https://www.figma.com/design/txyjPxUFkKNYhXL3xchgid/postech?node-id=0-1&t=d4oPH6wI1e1JRe7A-1"><img alt="Figma" src="https://img.shields.io/badge/Figma-553860?style=flat&logo=figma&logoColor=white"/></a>
 </p>
 
 <p align="center">
@@ -14,7 +15,7 @@
   <a href="#-serviços">Serviços</a> •
   <a href="#-funcionalidades">Funcionalidades</a> •
   <a href="#-tecnologias">Tecnologias</a> •
-  <a href="#-como-executar-o-projeto">Executando</a> •
+  <a href="#-como-executar-o-projeto">Executando</a>
 </p>
 
 ## 📖 Sobre o Projeto
@@ -88,6 +89,7 @@ O projeto inclui os seguintes serviços em desenvolvimento local:
 - [x] Upload de anexos/comprovantes para transações
 - [x] Download e visualização de anexos
 - [x] Cálculo automático do balanço
+- [x] Gráficos de desempenho financeiro
 - [x] Arquitetura micro front-end para autenticação
 - [x] Design responsivo e acessível
 - [x] Documentação interativa do Design System com Storybook
