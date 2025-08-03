@@ -7,7 +7,7 @@
   <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/thegfmachado/fiap-tech-challenge?color=553860"/>
   <img alt="Repository size" src="https://img.shields.io/github/repo-size/thegfmachado/fiap-tech-challenge?color=553860"/>
   <img alt="Supabase" src="https://img.shields.io/badge/Database-Supabase-3FCF8E?style=flat&logo=supabase"/>
-  <a href="https://www.figma.com/design/txyjPxUFkKNYhXL3xchgid/postech?node-id=0-1&t=d4oPH6wI1e1JRe7A-1"><img alt="Figma" src="https://img.shields.io/badge/Figma-553860?style=flat&logo=figma&logoColor=white"/>
+  <a href="https://www.figma.com/design/txyjPxUFkKNYhXL3xchgid/postech?node-id=0-1&t=d4oPH6wI1e1JRe7A-1"><img alt="Figma" src="https://img.shields.io/badge/Figma-553860?style=flat&logo=figma&logoColor=white"/></a>
 </p>
 
 <p align="center">
