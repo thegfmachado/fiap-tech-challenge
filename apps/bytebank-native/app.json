@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "name": "bytebank-native",
+    "slug": "bytebank-native",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "bytebanknative",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#DCD4E7"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.anonymous.bytebanknative"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "splash": {
+      "image": "./assets/images/splash-screen.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#DCD4E7"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-screen.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#DCD4E7"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
