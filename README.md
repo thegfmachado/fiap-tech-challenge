@@ -27,10 +27,12 @@ Este repositório contém a entrega do Tech Challenge de Front-end Engineering d
 O projeto está organizado em pacotes independentes:
 
 **Apps:**
+
 - **bytebank-web**: Aplicação principal de controle financeiro (React/Next.js)
 - **bytebank-web-auth**: Sistema de autenticação e cadastro
 
 **Packages:**
+
 - **@fiap-tech-challenge/design-system**: Biblioteca de componentes reutilizáveis (Storybook)
 - **@fiap-tech-challenge/database**: Utilities e queries do Supabase
 - **@fiap-tech-challenge/models**: Tipos e modelos TypeScript
@@ -43,6 +45,7 @@ O projeto está organizado em pacotes independentes:
 O projeto implementa uma **arquitetura de micro front-end** onde a autenticação é isolada em uma aplicação independente:
 
 #### **bytebank-web-auth** (Micro Front-end de Autenticação)
+
 - **Responsabilidade**: Gerenciar login, cadastro, recuperação de senha e autenticação
 - **Isolamento**: Aplicação Next.js independente com seu próprio build e deploy
 - **Comunicação**: Integração via redirecionamentos e shared state através do Supabase
@@ -52,6 +55,7 @@ O projeto implementa uma **arquitetura de micro front-end** onde a autenticaçã
   - **Escalabilidade**: Pode ser hospedada em infraestrutura dedicada para alta disponibilidade
 
 #### **Integração entre Micro Front-ends**
+
 - **Estado compartilhado**: Sessão do usuário gerenciada pelo Supabase
 - **Roteamento**: Redirecionamentos automáticos entre apps baseados no estado de autenticação
 - **Design System**: Componentes UI compartilhados via `@fiap-tech-challenge/design-system`
@@ -62,13 +66,16 @@ O projeto implementa uma **arquitetura de micro front-end** onde a autenticaçã
 O projeto adota uma **abordagem simples e pragmática** para gerenciamento de estado, utilizando principalmente **React Context API** e hooks nativos:
 
 #### **Estratégia de Estado**
+
 - **Context API nativo**: Para estado que precisa ser compartilhado entre componentes
 - **useState local**: Para estado de componentes isolados
 - **React Hook Form**: Para gerenciamento de formulários complexos
 - **Supabase**: Para persistência e sincronização de dados
 
 #### **Justificativa da Abordagem**
+
 **Por que Context API ao invés de Redux/Zustand?**
+
 - ✅ **Simplicidade**: O projeto não possui estado complexo que justifique bibliotecas externas
 - ✅ **Performance**: Context API atende bem para o volume de estado atual
 - ✅ **Manutenibilidade**: Menos dependências e boilerplate
@@ -78,6 +85,7 @@ O projeto adota uma **abordagem simples e pragmática** para gerenciamento de es
 O projeto inclui os seguintes serviços em desenvolvimento local:
 
 - **App Principal**: [http://localhost:3000](http://localhost:3000) - Interface principal do ByteBank
+- **App Nativo**: [http://localhost:3000](http://localhost:8081) - Interface mobile nativa do ByteBank
 - **App Autenticação**: [http://localhost:3001](http://localhost:3001) - Sistema de autenticação
 - **Storybook**: Porta dinâmica (veja logs) - Documentação do Design System
 - **Supabase Studio**: [http://127.0.0.1:54323](http://127.0.0.1:54323) - Interface web do banco de dados
@@ -97,26 +105,32 @@ O projeto inclui os seguintes serviços em desenvolvimento local:
 ## 🔧 Tecnologias
 
 ### Frontend
+
 - **Next.js 15** - Framework React com Server Components
-- **React 19** - Biblioteca de interface
+- **React 19 / React Native** - Biblioteca de interface
 - **TypeScript 5.8** - Tipagem estática
 - **TailwindCSS** - Framework CSS utilitário
 
 ### Backend & Database
+
 - **Supabase** - Backend as a Service (PostgreSQL)
 - **PostgreSQL** - Banco de dados relacional
 
 ### Design System & Documentação
+
 - **Storybook** - Documentação de componentes
 - **Vite** - Build tool para o design system
 
 ### Ferramentas de Desenvolvimento
+
 - **TurboRepo 2.5** - Monorepo toolkit
 - **ESLint** - Linting de código
 - **TypeScript** - Verificação de tipos
+- **Expo** - Ecossistema de desenvolvimento mobile nativo
 - **Docker** - Containerização (Supabase local)
 
 ### Deploy & CI/CD
+
 - **Vercel** - Deploy das aplicações frontend
 - **Docker Compose** - Orquestração de containers locais
 
@@ -138,6 +152,7 @@ cd fiap-tech-challenge
 # Instalar dependências
 npm install
 ```
+
 ### 2. Configure o banco de dados local (Supabase)
 
 O projeto usa Supabase como banco de dados. Para desenvolvimento local:
@@ -148,6 +163,7 @@ npm run db:local:start
 ```
 
 **Aguarde até ver a mensagem:**
+
 ```text
 Started supabase local development setup.
 
@@ -169,18 +185,28 @@ Este comando inicia o TurboRepo e executa todas as aplicações:
 
 - **ByteBank Web**: http://localhost:3000 (aplicação principal)
 - **ByteBank Auth**: http://localhost:3001 (autenticação)
+- **ByteBank Native**: http://localhost:8081 (mobile nativo)
 - **Design System**: Componentes compartilhados
 - **Storybook**: Documentação dos componentes (porta dinâmica, veja logs)
 
+#### Executando o app React Native (bytebank-native)
+
+Para abrir o aplicativo móvel no seu dispositivo físico:
+
+1. **Baixe o aplicativo Expo Go** na App Store (iOS) ou Google Play (Android).
+2. **Abra o Expo Go** no seu dispositivo.
+3. **Escaneie o QR code** exibido no terminal do processo `bytebank-native`.
+
 ### 4. URLs importantes
 
-| Serviço | URL | Descrição |
-|---------|-----|-----------|
-| **App Principal** | http://localhost:3000 | Interface principal do ByteBank |
-| **App Auth** | http://localhost:3001 | Sistema de autenticação |
-| **Storybook** | Porta dinâmica* | Documentação do Design System |
-| **Supabase Studio** | http://127.0.0.1:54323 | Interface web do banco de dados |
-| **Supabase API** | http://127.0.0.1:54321 | API do banco de dados |
+| Serviço               | URL                    | Descrição                           |
+| --------------------- | ---------------------- | ----------------------------------- |
+| **App Principal**     | http://localhost:3000  | Interface principal do ByteBank     |
+| **App Auth**          | http://localhost:3001  | Sistema de autenticação             |
+| **App Mobile Nativo** | http://localhost:8081  | Interface mobile nativa do ByteBank |
+| **Storybook**         | Porta dinâmica\*       | Documentação do Design System       |
+| **Supabase Studio**   | http://127.0.0.1:54323 | Interface web do banco de dados     |
+| **Supabase API**      | http://127.0.0.1:54321 | API do banco de dados               |
 
 ### 5. Comandos úteis
 
@@ -208,6 +234,7 @@ npm run storybook          # Iniciar apenas o Storybook (via workspace)
 ### 6. Dados de teste
 
 O banco local já vem com dados de exemplo:
+
 - 5 transações de teste (créditos e débitos)
 - Esquema completo da tabela `transactions`
 - Você pode visualizar e gerenciar os dados via **Supabase Studio** em http://127.0.0.1:54323
@@ -237,6 +264,7 @@ npm run docker:build     # Rebuild containers
 ### Problemas comuns
 
 **1. Porta já está em uso**
+
 ```bash
 # Verificar processos nas portas
 lsof -i :3000  # ou :3001, :54321, etc
@@ -245,6 +273,7 @@ kill -9 <PID>
 ```
 
 **2. Supabase não inicia**
+
 ```bash
 # Verificar se Docker está rodando
 docker ps
@@ -255,6 +284,7 @@ cd packages/database && npx supabase start
 ```
 
 **3. Erro de dependências**
+
 ```bash
 # Limpar cache e reinstalar
 rm -rf node_modules package-lock.json
@@ -262,6 +292,7 @@ npm install
 ```
 
 **4. Aplicação não conecta ao banco**
+
 - Verifique se o Supabase está rodando: http://127.0.0.1:54323
 - Execute `cd packages/database && npx supabase status` para ver as credenciais
 - Confirme se os arquivos `.env.local` estão configurados com as credenciais corretas
