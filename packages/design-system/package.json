@@ -6,7 +6,7 @@
   "description": "FIAP tech challenge design system components",
   "scripts": {
     "lint": "eslint . --max-warnings 0",
-    "dev": "storybook dev",
+    "dev": "storybook dev --no-open -p 9009",
     "build-storybook": "storybook build"
   },
   "dependencies": {
