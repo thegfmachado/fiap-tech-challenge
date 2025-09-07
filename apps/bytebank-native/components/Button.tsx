@@ -72,7 +72,7 @@ export function Button({
       {...props}
       disabled={isDisabled}
       className={`
-        ${buttonVariants({ variant, size, disabled })}
+        ${buttonVariants({ variant, size, disabled: isDisabled })}
         ${className || ''}
       `}
     >

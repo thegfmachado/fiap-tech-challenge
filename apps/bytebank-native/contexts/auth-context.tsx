@@ -53,8 +53,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const user = await authService.signIn(email, password);
       setUser(user);
       return user;
-    } catch (error) {
-      throw error;
     } finally {
       setLoading(false);
     }
@@ -66,8 +64,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const user = await authService.signUp(userData);
       // Don't set user here since they need to confirm email first
       return user;
-    } catch (error) {
-      throw error;
     } finally {
       setLoading(false);
     }
@@ -78,8 +74,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setLoading(true);
       await authService.signOut();
       setUser(null);
-    } catch (error) {
-      throw error;
     } finally {
       setLoading(false);
     }
@@ -89,8 +83,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     try {
       setLoading(true);
       await authService.resetPassword(email);
-    } catch (error) {
-      throw error;
     } finally {
       setLoading(false);
     }

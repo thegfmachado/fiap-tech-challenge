@@ -75,7 +75,7 @@ export class AuthService implements IAuthService {
 
   async resetPassword(email: string): Promise<void> {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: 'bytebanknative://reset-password',
+      redirectTo: process.env.RESET_PASSWORD_DEEP_LINK_URL || 'bytebanknative://reset-password',
     });
 
     if (error) {
