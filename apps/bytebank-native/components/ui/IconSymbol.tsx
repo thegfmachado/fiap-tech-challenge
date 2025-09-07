@@ -1,24 +1,29 @@
 // Fallback for using MaterialIcons on Android and web.
 
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { SymbolWeight } from 'expo-symbols';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { SymbolViewProps, SymbolWeight } from 'expo-symbols';
 import { OpaqueColorValue } from 'react-native';
 
 /**
  * Add your SF Symbols to Material Icons mappings here.
- * - see Material Icons in the [Icons Directory](https://icons.expo.fyi).
- * - see SF Symbols in the [SF Symbols](https://developer.apple.com/sf-symbols/) app.
+ * - see Material Icons in the [Icons Directory](https://icons.expo.fyi) filtering for MaterialCommunityIcons and MaterialIcons.
+ * - see SF Symbols in the [SF Symbols](https://github.com/andrewtavis/sf-symbols-online/blob/master/README_dark.md).
  */
-const MAPPING: Record<string, React.ComponentProps<typeof MaterialIcons>['name']> = {
-  'house.fill': 'home',
-  'compare-arrows.fill': 'compare-arrows',
-  'paperplane.fill': 'send',
-  'chevron.left.forwardslash.chevron.right': 'code',
-  'chevron.right': 'chevron-right',
-  'area-chart.fill': 'area-chart',
-};
+const MAPPING_COMMUNITY = {
+  'eye': 'eye',
+  'eye.slash': 'eye-off',
+} as const satisfies Partial<Record<SymbolViewProps['name'], React.ComponentProps<typeof MaterialCommunityIcons>['name']>>;
 
-type IconSymbolName = keyof typeof MAPPING;
+const MAPPING = {
+  'arrow.right.arrow.left': 'compare-arrows',
+  'chart.line.uptrend.xyaxis.circle.fill': 'area-chart',
+  'chevron.right': 'chevron-right',
+  'person.fill': 'person',
+  'rectangle.portrait.and.arrow.right': 'logout',
+} as const satisfies Partial<Record<SymbolViewProps['name'], React.ComponentProps<typeof MaterialIcons>['name']>>;
+
+type IconSymbolName = keyof typeof MAPPING | keyof typeof MAPPING_COMMUNITY;
 
 /**
  * An icon component that uses native SF Symbols on iOS, and Material Icons on Android and web.
@@ -37,5 +42,10 @@ export function IconSymbol({
   className?: string;
   weight?: SymbolWeight;
 }) {
-  return <MaterialIcons color={color} size={size} name={MAPPING[name]} className={className} />;
+
+  if (name in MAPPING_COMMUNITY) {
+    return <MaterialCommunityIcons color={color} size={size} name={MAPPING_COMMUNITY[name as keyof typeof MAPPING_COMMUNITY]} className={className} />;
+  }
+
+  return <MaterialIcons color={color} size={size} name={MAPPING[name as keyof typeof MAPPING]} className={className} />;
 }

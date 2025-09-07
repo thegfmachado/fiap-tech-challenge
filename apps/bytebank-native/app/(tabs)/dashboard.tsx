@@ -16,7 +16,7 @@ export default function DashboardScreen() {
         <IconSymbol
           size={310}
           color="#8A6AA1"
-          name="area-chart.fill"
+          name="chart.line.uptrend.xyaxis.circle.fill"
           className="-bottom-[70px] -left-[35px]"
         />
       }>

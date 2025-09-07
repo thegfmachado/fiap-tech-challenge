@@ -30,14 +30,14 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Transações',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="compare-arrows.fill" color={color} />,
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="arrow.right.arrow.left" color={color} />,
         }}
       />
       <Tabs.Screen
         name="dashboard"
         options={{
           title: 'Dashboard',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="area-chart.fill" color={color} />,
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="chart.line.uptrend.xyaxis.circle.fill" color={color} />,
         }}
       />
     </Tabs>
