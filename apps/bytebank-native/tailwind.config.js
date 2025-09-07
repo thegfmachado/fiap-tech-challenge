@@ -4,6 +4,14 @@ module.exports = {
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
+      colors: {
+        primary: '#664373',
+        'primary-light': '#AA8BB5',
+        'primary-foreground': '#fafafa',
+        secondary: '#E1E1E1',
+        'secondary-foreground': '#664373',
+        destructive: '#e7000b',
+      },
       fontFamily: {
         'mono': ['GeistMono'],
         'sans': ['Geist'],

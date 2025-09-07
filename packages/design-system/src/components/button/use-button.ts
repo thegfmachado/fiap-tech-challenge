@@ -1,14 +1,14 @@
-import { cva } from "class-variance-authority"
-import { cn } from "@fiap-tech-challenge/design-system/lib/utils"
-import { Slot } from "@radix-ui/react-slot"
+import { cva } from "class-variance-authority";
+import { cn } from "@fiap-tech-challenge/design-system/lib/utils";
+import { Slot } from "@radix-ui/react-slot";
 
-import type { ButtonProps } from "./button.types"
+import type { ButtonProps } from "./button.types";
 
 export const BUTTON_DEFAULT_PROPS: Pick<ButtonProps, 'asChild' | 'disabled' | 'variant' | 'size'> = {
   asChild: false,
   disabled: false,
-  variant: "default",
-  size: "default",
+  variant: "primary",
+  size: "md",
 };
 
 export const buttonVariants = cva(
@@ -16,7 +16,7 @@ export const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
+        primary: "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
         destructive: "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40",
         outline: "border border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground",
         secondary: "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
@@ -24,15 +24,15 @@ export const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-10 px-4 py-2 has-[>svg]:px-3",
         sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
+        md: "h-10 px-4 py-2 has-[>svg]:px-3",
         lg: "h-12 rounded-md px-6 has-[>svg]:px-4",
         icon: "size-9",
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: "primary",
+      size: "md",
     },
   },
 )
