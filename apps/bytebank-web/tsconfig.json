@@ -4,7 +4,7 @@
     "baseUrl": ".",
     "paths": {
       "@bytebank/*": ["./*"],
-      "@fiap-tech-challenge/design-system/*": ["../../packages/ui/src/*"]
+      "@fiap-tech-challenge/design-system/*": ["../../packages/design-system/src/*"]
     },
     "plugins": [
       {

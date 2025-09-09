@@ -87,7 +87,7 @@ O projeto inclui os seguintes serviços em desenvolvimento local:
 - **App Principal**: [http://localhost:3000](http://localhost:3000) - Interface principal do ByteBank
 - **App Nativo**: [http://localhost:3000](http://localhost:8081) - Interface mobile nativa do ByteBank
 - **App Autenticação**: [http://localhost:3001](http://localhost:3001) - Sistema de autenticação
-- **Storybook**: Porta dinâmica (veja logs) - Documentação do Design System
+- **Storybook**: [http://localhost:9009](http://localhost:9009) - Documentação do Design System
 - **Supabase Studio**: [http://127.0.0.1:54323](http://127.0.0.1:54323) - Interface web do banco de dados
 - **Supabase API**: [http://127.0.0.1:54321](http://127.0.0.1:54321) - API do banco de dados
 

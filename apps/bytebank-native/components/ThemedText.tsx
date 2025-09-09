@@ -9,10 +9,10 @@ export type ThemedTextProps = TextProps & {
 };
 
 const TYPE_CLASS_MAP: Record<string, string> = {
-  title: 'text-[32px] font-bold leading-8',
+  title: 'text-[32px] font-bold leading-tight',
   subtitle: 'text-xl font-bold',
   defaultSemiBold: 'text-base leading-6 font-semibold',
-  link: 'text-base leading-[30px] text-[#0a7ea4]',
+  link: 'text-base leading-[30px] text-primary font-semibold',
   default: 'text-base leading-6',
 } ;
 

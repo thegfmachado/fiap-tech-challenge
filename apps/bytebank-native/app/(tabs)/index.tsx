@@ -12,14 +12,10 @@ export default function TransactionsScreen() {
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#553860', dark: '#553860' }}
       headerImage={
-        // <Image
-        //   source={require('@/assets/images/partial-react-logo.png')}
-        //   style={styles.reactLogo}
-        // />
         <IconSymbol
           size={310}
           color="#8A6AA1"
-          name="compare-arrows.fill"
+          name="arrow.right.arrow.left"
           className="-bottom-[60px] -left-[35px]"
         />
       }>
