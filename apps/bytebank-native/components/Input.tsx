@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { IconSymbol } from './ui/IconSymbol';
 import { ThemedView } from './ThemedView';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 interface InputProps extends TextInputProps {
   label: string;
@@ -24,6 +25,7 @@ export function Input({
 }: InputProps) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const iconColor = useThemeColor({}, 'icon');
 
   const isPassword = showPasswordToggle && secureTextEntry;
   const actualSecureTextEntry = isPassword ? !isPasswordVisible : secureTextEntry;
@@ -63,7 +65,7 @@ export function Input({
             <IconSymbol
               name={isPasswordVisible ? 'eye.slash' : 'eye'}
               size={20}
-              color="#664373"
+              color={iconColor}
             />
           </TouchableOpacity>
         )}

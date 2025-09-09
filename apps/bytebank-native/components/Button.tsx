@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import { cva } from 'class-variance-authority';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 interface ButtonProps extends TouchableOpacityProps {
   title: string;
@@ -66,6 +67,8 @@ export function Button({
   ...props
 }: ButtonProps) {
   const isDisabled = disabled || loading;
+  const tintColor = useThemeColor({}, 'tint');
+  const textOnPrimary = useThemeColor({}, 'textOnPrimary');
 
   return (
     <TouchableOpacity
@@ -78,7 +81,7 @@ export function Button({
     >
       {loading && (
         <ActivityIndicator
-          color={variant === 'primary' ? '#fff' : '#664373'}
+          color={variant === 'primary' ? textOnPrimary : tintColor}
           size="small"
           className="mr-2"
         />

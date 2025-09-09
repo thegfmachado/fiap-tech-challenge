@@ -1,12 +1,12 @@
 import React from 'react';
 import {
   ScrollView,
-  KeyboardAvoidingView,
-  Platform
+  KeyboardAvoidingView
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemedView } from '@/components/ThemedView';
 import { GradientLogo } from '@/components/GradientLogo';
+import { isIOS } from '@/constants/device';
 
 interface AuthScreenLayoutProps {
   children: React.ReactNode;
@@ -16,7 +16,7 @@ export function AuthScreenLayout({ children }: AuthScreenLayoutProps) {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={isIOS ? 'padding' : 'height'}
         style={{ flex: 1 }}
       >
         <ScrollView

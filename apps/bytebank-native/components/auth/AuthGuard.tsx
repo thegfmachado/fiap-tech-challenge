@@ -3,6 +3,7 @@ import { ActivityIndicator } from 'react-native';
 import { Redirect } from 'expo-router';
 import { useAuth } from '../../contexts/auth-context';
 import { ThemedView } from '../ThemedView';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 interface AuthGuardProps {
   children: React.ReactNode;
@@ -14,11 +15,12 @@ interface AuthGuardProps {
  */
 export function AuthGuard({ children }: AuthGuardProps) {
   const { user, loading } = useAuth();
+  const tintColor = useThemeColor({}, 'tint');
 
   if (loading) {
     return (
       <ThemedView className="flex-1 items-center justify-center bg-white">
-        <ActivityIndicator size="large" color="#664373" />
+        <ActivityIndicator size="large" color={tintColor} />
       </ThemedView>
     );
   }
@@ -41,11 +43,12 @@ interface GuestOnlyProps {
 
 export function GuestOnly({ children }: GuestOnlyProps) {
   const { user, loading } = useAuth();
+  const tintColor = useThemeColor({}, 'tint');
 
   if (loading) {
     return (
       <ThemedView className="flex-1 items-center justify-center bg-white">
-        <ActivityIndicator size="large" color="#664373" />
+        <ActivityIndicator size="large" color={tintColor} />
       </ThemedView>
     );
   }
