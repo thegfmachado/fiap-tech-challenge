@@ -16,9 +16,9 @@ type DashboardCardProps = {
 
 export function Card({ title, value, percentage, type }: DashboardCardProps) {
   const colors = {
-    [CardType.amount]: "#3B9F4A",
-    [CardType.expenses]: "#9F523B",
-    [CardType.income]: "#3B9F4A",
+    [CardType.amount]: "text-primary-light",
+    [CardType.expenses]: "text-debit-color",
+    [CardType.income]: "text-credit-color"
   };
 
   const icons = {
@@ -41,7 +41,7 @@ export function Card({ title, value, percentage, type }: DashboardCardProps) {
             resizeMode="contain"
           />
         </View>
-        <Text className={`text-2xl font-bold`} style={{ color }}>
+        <Text className={`text-2xl font-bold ${color}`}>
           R$ {value.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
         </Text>
         <Text className="text-gray-500 text-sm">

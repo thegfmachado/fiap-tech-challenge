@@ -37,39 +37,37 @@ export function LineDashboardChart({ data }: LineDashboardChartProps) {
 
   return (
     <View
-      style={{
-        width: "100%", // ocupa largura do card/tab
-        height: 240,
-        overflow: "hidden", // impede gráfico de vazar
-        borderRadius: 16,
-      }}
+      className="w-full overflow-hidden rounded-xl border bg-white border-gray-300"
     >
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <LineChart
-          data={{
-            labels: incomeByRange.map((item) => item.period),
-            datasets: [{ data: incomeByRange.map((item) => item.income) }],
-          }}
-          width={chartWidth} // gráfico pode ser maior que a área visível
-          height={220}
-          chartConfig={{
-            backgroundColor: "#fff",
-            backgroundGradientFrom: "#fff",
-            backgroundGradientTo: "#fff",
-            decimalPlaces: 0,
-            color: (opacity = 1) => `rgba(102, 67, 115, ${opacity})`,
-            labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-            propsForBackgroundLines: {
-              stroke: "#e3e3e3",
-              strokeDasharray: "",
-            },
-          }}
-          withVerticalLines={false}
-          withDots={false}
-          bezier={false}
-          style={{}}
-        />
-      </ScrollView>
+      <View className="p-4">
+        <text className="font-bold text-lg mb-2">Histórico de economias</text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <LineChart
+            data={{
+              labels: incomeByRange.map((item) => item.period),
+              datasets: [{ data: incomeByRange.map((item) => item.income) }],
+            }}
+            width={chartWidth}
+            height={300}
+            chartConfig={{
+              backgroundColor: "#fff",
+              backgroundGradientFrom: "#fff",
+              backgroundGradientTo: "#fff",
+              decimalPlaces: 0,
+              color: (opacity = 1) => `rgba(102, 67, 115, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+              propsForBackgroundLines: {
+                stroke: "#e3e3e3",
+                strokeDasharray: "",
+              },
+            }}
+            withVerticalLines={false}
+            withDots={false}
+            bezier={false}
+            style={{}}
+          />
+        </ScrollView>
+      </View>
     </View>
   );
 }

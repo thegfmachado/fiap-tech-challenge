@@ -16,38 +16,50 @@ export default function Dashboard() {
   }
 
   return (
-    <ScrollView className="flex-1 px-4 pt-6">
-      <Text className="text-2xl font-bold mb-2">Dashboard</Text>
+    <ScrollView className="flex-1 px-4 pt-6 bg-gray-50">
+      {/* Título */}
+      <Text className="text-2xl font-bold mb-4">Dashboards</Text>
 
+      {/* Card principal */}
       <Card
         title="Receita total"
         value={dashboard.income.total}
         percentage={parseFloat(dashboard.income.increasePercentage)}
         type={CardType.amount}
       />
-      <Card
-        title="Despesas totais"
-        value={dashboard.expenses.total}
-        percentage={parseFloat(dashboard.expenses.increasePercentage)}
-        type={CardType.expenses}
-      />
-      <Card
-        title="Economias"
-        value={dashboard.amount.total}
-        percentage={parseFloat(dashboard.amount.increasePercentage)}
-        type={CardType.income}
-      />
 
-      <View className="flex-1 bg-white p-4 rounded-xl mt-2">
-        <DashboardCharts
-          lineData={dashboard.incomeByRange.map((dashboardValue) => ({ x: dashboardValue.period, y: dashboardValue.income }))}
-          barData={dashboard.amountAndExpensesByRange.map((d) => ({
-            x: d.period,
-            amount: d.amount,
-            expenses: d.expenses,
-          }))}
-        />
+      {/* Linha com 2 cards */}
+      <View className="flex-row gap-4">
+        <View className="flex-1">
+          <Card
+            title="Entradas"
+            value={dashboard.amount.total}
+            percentage={parseFloat(dashboard.amount.increasePercentage)}
+            type={CardType.income}
+          />
+        </View>
+
+        <View className="flex-1">
+          <Card
+            title="Saídas"
+            value={dashboard.expenses.total}
+            percentage={parseFloat(dashboard.expenses.increasePercentage)}
+            type={CardType.expenses}
+          />
+        </View>
       </View>
+
+      <DashboardCharts
+        lineData={dashboard.incomeByRange.map((d) => ({
+          x: d.period,
+          y: d.income,
+        }))}
+        barData={dashboard.amountAndExpensesByRange.map((d) => ({
+          x: d.period,
+          amount: d.amount,
+          expenses: d.expenses,
+        }))}
+      />
     </ScrollView>
   );
 }

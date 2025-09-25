@@ -20,13 +20,13 @@ interface TabButtonProps {
 const TabButton = ({ label, isSelected, onPress }: TabButtonProps) => (
   <TouchableOpacity onPress={onPress} className="mr-4">
     <Text
-      className="text-center p-2 font-semibold"
-      style={{ color: isSelected ? "#664373" : "#6B7280" }}
+      className={`text-center p-2 font-semibold ${isSelected ? "text-secondary-foreground" : "text-gray-500"
+        }`}
     >
       {label}
     </Text>
     {isSelected && (
-      <View style={{ height: 2, backgroundColor: "#664373", marginTop: 4 }} />
+      <View className="h-[2px] bg-secondary-foreground mt-1" />
     )}
   </TouchableOpacity>
 );
@@ -40,8 +40,7 @@ export default function DashboardCharts({ lineData, barData }: DashboardChartsPr
   ];
 
   return (
-    <View className="flex-1 w-full">
-      {/* Tabs */}
+    <View>
       <View className="flex-row justify-start border-b border-gray-200 mb-4">
         {tabs.map((tab) => (
           <TabButton
