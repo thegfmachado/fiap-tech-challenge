@@ -6,7 +6,7 @@ import { BarDashboardChart } from "./BarDashboardChart";
 
 type DashboardChartsProps = {
   lineData: { x: number | string; y: number }[];
-  barData: { x: string; amount: number; expenses: number }[];
+  barData: { period: string; amount: number; expenses: number }[];
 };
 
 type TabOption = "overview" | "details";
