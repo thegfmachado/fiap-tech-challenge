@@ -13,10 +13,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@fiap-tech-challenge/design-system": "file:./packages/design-system",
-    "@fiap-tech-challenge/database": "file:./packages/database",
-    "@fiap-tech-challenge/models": "file:./packages/models",
-    "@fiap-tech-challenge/services": "file:./packages/services",
+    "@fiap-tech-challenge/design-system": "file:../../packages/design-system",
+    "@fiap-tech-challenge/database": "file:../../packages/database",
+    "@fiap-tech-challenge/models": "file:../../packages/models",
+    "@fiap-tech-challenge/services": "file:../../packages/services",
     "@hookform/resolvers": "5.0.1",
     "@radix-ui/react-dialog": "1.1.14",
     "@radix-ui/react-popover": "1.1.14",

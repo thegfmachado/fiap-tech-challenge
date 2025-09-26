@@ -55,7 +55,7 @@ export default function Dashboard() {
           y: d.income,
         }))}
         barData={dashboard.amountAndExpensesByRange.map((d) => ({
-          x: d.period,
+          period: d.period,
           amount: d.amount,
           expenses: d.expenses,
         }))}
