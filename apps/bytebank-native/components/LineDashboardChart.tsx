@@ -1,5 +1,5 @@
 import React from "react";
-import { Dimensions, ScrollView, View } from "react-native";
+import { Dimensions, ScrollView, View, Text } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 
 type LineDashboardChartProps = {
@@ -40,7 +40,7 @@ export function LineDashboardChart({ data }: LineDashboardChartProps) {
       className="w-full overflow-hidden rounded-xl border bg-white border-gray-300"
     >
       <View className="p-4">
-        <text className="font-bold text-lg mb-2">Histórico de economias</text>
+        <Text className="font-bold text-lg mb-2">Histórico de economias</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <LineChart
             data={{
