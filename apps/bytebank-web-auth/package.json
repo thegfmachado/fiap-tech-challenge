@@ -36,9 +36,9 @@
     "zod": "3.24.4"
   },
   "devDependencies": {
-    "@fiap-tech-challenge/eslint-config": "file:./packages/eslint-config",
-    "@fiap-tech-challenge/typescript-config": "file:./packages/typescript-config",
-    "@types/node": "^20",
+    "@fiap-tech-challenge/eslint-config": "file:../../packages/eslint-config",
+    "@fiap-tech-challenge/typescript-config": "file:../../packages/typescript-config",
+    "@types/node": "20.19.x",
     "@types/react": "19.0.x",
     "@types/react-dom": "19.0.x",
     "typescript": "5.8.3"
