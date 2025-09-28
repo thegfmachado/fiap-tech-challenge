@@ -2,12 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { LineDashboardChart } from "./LineDashboardChart";
 import { BarDashboardChart } from "./BarDashboardChart";
-
-
-type DashboardChartsProps = {
-  lineData: { x: number | string; y: number }[];
-  barData: { period: string; amount: number; expenses: number }[];
-};
+import { IAmountAndExpensesByRange, IDashboardData, IIncomeByRange } from "@fiap-tech-challenge/models";
 
 type TabOption = "overview" | "details";
 
@@ -15,6 +10,11 @@ interface TabButtonProps {
   label: string;
   isSelected: boolean;
   onPress: () => void;
+}
+
+type DashboardChartsProps = {
+  lineData: IIncomeByRange[];
+  barData: IAmountAndExpensesByRange[];
 }
 
 const TabButton = ({ label, isSelected, onPress }: TabButtonProps) => (
@@ -52,11 +52,10 @@ export default function DashboardCharts({ lineData, barData }: DashboardChartsPr
         ))}
       </View>
 
-      {/* Content */}
       <View className="flex-1 items-center">
         {selectedTab === "overview" && (
           <LineDashboardChart
-            data={lineData.map((item) => ({ x: String(item.x), y: item.y }))}
+            data={lineData}
           />
         )}
         {selectedTab === "details" && (
