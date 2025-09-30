@@ -1,3 +1,4 @@
+import { FilterType } from "@fiap-tech-challenge/models";
 import React from "react";
 import { View, Text, Image } from "react-native";
 
@@ -12,9 +13,10 @@ type DashboardCardProps = {
   value: number;
   percentage: number;
   type: CardType;
+  filterType: FilterType;
 };
 
-export function Card({ title, value, percentage, type }: DashboardCardProps) {
+export function Card({ title, value, percentage, type, filterType }: DashboardCardProps) {
   const colors = {
     [CardType.amount]: "text-primary-light",
     [CardType.expenses]: "text-debit-color",
@@ -27,8 +29,15 @@ export function Card({ title, value, percentage, type }: DashboardCardProps) {
     [CardType.income]: require("../assets/images/trend-down.png")
   };
 
+  const timePeriodLabels = {
+    [FilterType.year]: "ano",
+    [FilterType.month]: "mês",
+    [FilterType.week]: "semana"
+  };
+
   const color = colors[type];
   const icon = icons[type];
+  const timeLabel = timePeriodLabels[filterType];
 
   return (
     <View className="border bg-white border-gray-300 rounded-xl p-4 mb-4 flex-row items-center justify-between">
@@ -46,7 +55,7 @@ export function Card({ title, value, percentage, type }: DashboardCardProps) {
         </Text>
         <Text className="text-gray-500 text-sm">
           {percentage > 0 ? "+" : ""}
-          {percentage}% vs mês anterior
+          {percentage}% vs {timeLabel} anterior
         </Text>
       </View>
     </View>

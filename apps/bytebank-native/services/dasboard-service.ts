@@ -1,41 +1,30 @@
-import { IDashboardData, IFinancialMovement } from "@fiap-tech-challenge/models";
+import { FilterType, IDashboardData, IFinancialMovement } from "@fiap-tech-challenge/models";
 import { supabase } from "../lib/supabase";
 import { ITransaction } from "@fiap-tech-challenge/database/types";
+import { Filter } from "react-native-svg";
 
 export interface IDashboardService {
-  getMonthlyDashboard(userId: string): Promise<IDashboardData>;
+  getDashboard(userId: string, period: FilterType): Promise<IDashboardData>;
 }
 
 export class DashboardService implements IDashboardService {
-  async getMonthlyDashboard(userId: string): Promise<IDashboardData> {
-
+  async getDashboard(userId: string, period: FilterType): Promise<IDashboardData> {
     const { data, error } = await supabase
       .from("transactions")
       .select("*")
       .eq("user_id", userId);
 
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
 
     const transactions = (data as ITransaction[]) || [];
 
-    const now = new Date();
-    const currentMonth = now.getMonth();
-    const currentYear = now.getFullYear();
+    const currentTransactions = transactions.filter((t) =>
+      this.isInCurrentPeriod(t.date, period)
+    );
 
-    const currentTransactions = transactions.filter((t) => {
-      const date = new Date(t.date);
-      return date.getFullYear() === currentYear && date.getMonth() === currentMonth;
-    });
-
-    const previousTransactions = transactions.filter((t) => {
-      const date = new Date(t.date);
-      const prevMonth = currentMonth - 1;
-      const prevYear = prevMonth < 0 ? currentYear - 1 : currentYear;
-      const adjustedMonth = (prevMonth + 12) % 12;
-      return date.getFullYear() === prevYear && date.getMonth() === adjustedMonth;
-    });
+    const previousTransactions = transactions.filter((t) =>
+      this.isInPreviousPeriod(t.date, period)
+    );
 
     const currentIncome = this.getTotalByType(currentTransactions, "credit");
     const currentExpenses = this.getTotalByType(currentTransactions, "debit");
@@ -49,25 +38,158 @@ export class DashboardService implements IDashboardService {
     const income = this.calculateFinancialMovement(currentIncome, previousIncome);
     const expenses = this.calculateFinancialMovement(currentExpenses, previousExpenses);
 
-    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-    const { incomeByPeriod, amountByPeriod, expensesByPeriod } = this.getValuesByRange(
-      currentTransactions,
+    const incomeByRange = this.getIncomeByRange(currentTransactions, period);
+    const amountAndExpensesByRange = this.getAmountAndExpensesByRange(currentTransactions, period);
+
+    return { amount, income, expenses, incomeByRange, amountAndExpensesByRange };
+  }
+
+
+  private getTotalByType(transactions: ITransaction[], type: "credit" | "debit"): number {
+    return transactions.reduce(
+      (sum, t) => (t.type === type ? sum + t.value : sum),
+      0
+    );
+  }
+
+  private calculateFinancialMovement(current: number, previous: number): IFinancialMovement {
+    let percentage: number;
+    if (previous === 0) {
+      percentage = current === 0 ? 0 : 100;
+    } else {
+      percentage = ((current - previous) / previous) * 100;
+    }
+    const rounded = Number(percentage.toFixed(2));
+    const formatted = `${rounded >= 0 ? "+" : ""}${rounded}%`;
+    return { total: current, increasePercentage: formatted };
+  }
+
+  private isInCurrentPeriod(transactionDate: string, period: FilterType) {
+    const date = new Date(transactionDate);
+    const now = new Date();
+
+    switch (period) {
+      case FilterType.year:
+        return date.getFullYear() === now.getFullYear();
+      case FilterType.month:
+        return date.getFullYear() === now.getFullYear() && date.getMonth() === now.getMonth();
+      case FilterType.week: {
+        const start = new Date(now);
+        start.setDate(now.getDate() - now.getDay());
+        start.setHours(0, 0, 0, 0);
+
+        const end = new Date(start);
+        end.setDate(start.getDate() + 7);
+
+        return date >= start && date < end;
+      }
+    }
+  }
+
+  private isInPreviousPeriod(transactionDate: string, period: FilterType) {
+    const date = new Date(transactionDate);
+    const now = new Date();
+
+    switch (period) {
+      case FilterType.year:
+        return date.getFullYear() === now.getFullYear() - 1;
+      case FilterType.month: {
+        const prevMonth = now.getMonth() - 1;
+        const prevYear = prevMonth < 0 ? now.getFullYear() - 1 : now.getFullYear();
+        const adjustedMonth = (prevMonth + 12) % 12;
+        return date.getFullYear() === prevYear && date.getMonth() === adjustedMonth;
+      }
+      case FilterType.week: {
+        const startOfThisWeek = new Date(now);
+        startOfThisWeek.setDate(now.getDate() - now.getDay());
+        startOfThisWeek.setHours(0, 0, 0, 0);
+
+        const startOfLastWeek = new Date(startOfThisWeek);
+        startOfLastWeek.setDate(startOfLastWeek.getDate() - 7);
+
+        const endOfLastWeek = new Date(startOfThisWeek);
+
+        return date >= startOfLastWeek && date < endOfLastWeek;
+      }
+    }
+  }
+
+  private getIncomeByRange(transactions: ITransaction[], period: FilterType) {
+    const MONTHS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+    const WEEK_DAYS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+
+    switch (period) {
+      case FilterType.week: {
+        const { incomeByPeriod } = this.getValuesByRange(transactions, 7, (date) => date.getDay());
+        return WEEK_DAYS.map((day, i) => ({ period: day, income: incomeByPeriod[i] ?? 0 }));
+      }
+      case FilterType.month: {
+        const { incomeByPeriod } = this.getValuesByDay(transactions);
+        return incomeByPeriod.map((inc, i) => ({
+          period: String(i + 1).padStart(2, "0"),
+          income: inc ?? 0,
+        }));
+      }
+      case FilterType.year:
+      default: {
+        const { incomeByPeriod } = this.getValuesByRange(
+          transactions.filter((t) => new Date(t.date).getFullYear() === new Date().getFullYear()),
+          12,
+          (date) => date.getMonth()
+        );
+        return MONTHS.map((m, i) => ({ period: m, income: incomeByPeriod[i] ?? 0 }));
+      }
+    }
+  }
+
+  private getAmountAndExpensesByRange(transactions: ITransaction[], period: FilterType) {
+    const MONTHS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+    const WEEK_DAYS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+
+    switch (period) {
+      case FilterType.week: {
+        const { amountByPeriod, expensesByPeriod } = this.getValuesByRange(transactions, 7, (date) => date.getDay());
+        return WEEK_DAYS.map((day, i) => ({
+          period: day,
+          amount: amountByPeriod[i] ?? 0,
+          expenses: expensesByPeriod[i] ?? 0,
+        }));
+      }
+      case FilterType.month: {
+        const { amountByPeriod, expensesByPeriod } = this.getValuesByDay(transactions);
+        return amountByPeriod.map((amt, i) => ({
+          period: String(i + 1).padStart(2, "0"),
+          amount: amt ?? 0,
+          expenses: expensesByPeriod[i] ?? 0,
+        }));
+      }
+      case FilterType.year:
+      default: {
+        const { amountByPeriod, expensesByPeriod } = this.getValuesByRange(
+          transactions.filter((t) => new Date(t.date).getFullYear() === new Date().getFullYear()),
+          12,
+          (date) => date.getMonth()
+        );
+        return MONTHS.map((m, i) => ({
+          period: m,
+          amount: amountByPeriod[i] ?? 0,
+          expenses: expensesByPeriod[i] ?? 0,
+        }));
+      }
+    }
+  }
+
+  private getValuesByDay(transactions: ITransaction[]) {
+    const now = new Date();
+    const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    return this.getValuesByRange(
+      transactions.filter((t) => {
+        const d = new Date(t.date);
+        return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+      }),
       daysInMonth,
       (date) => date.getDate() - 1
     );
-
-    const incomeByRange = incomeByPeriod.map((income, i) => ({
-      period: String(i + 1).padStart(2, "0"),
-      income: income ?? 0,
-    }));
-
-    const amountAndExpensesByRange = amountByPeriod.map((amount, i) => ({
-      period: String(i + 1).padStart(2, "0"),
-      amount: amount ?? 0,
-      expenses: expensesByPeriod[i] ?? 0,
-    }));
-
-    return { amount, income, expenses, incomeByRange, amountAndExpensesByRange };
   }
 
   private getValuesByRange(
@@ -94,25 +216,6 @@ export class DashboardService implements IDashboardService {
     }
 
     return { incomeByPeriod, amountByPeriod, expensesByPeriod };
-  }
-
-  private getTotalByType(transactions: ITransaction[], type: "credit" | "debit"): number {
-    return transactions.reduce(
-      (sum, transaction) => (transaction.type === type ? sum + transaction.value : sum),
-      0
-    );
-  }
-
-  private calculateFinancialMovement(current: number, previous: number): IFinancialMovement {
-    let percentage: number;
-    if (previous === 0) {
-      percentage = current === 0 ? 0 : 100;
-    } else {
-      percentage = ((current - previous) / previous) * 100;
-    }
-    const rounded = Number(percentage.toFixed(2));
-    const formatted = `${rounded >= 0 ? "+" : ""}${rounded}%`;
-    return { total: current, increasePercentage: formatted };
   }
 }
 
