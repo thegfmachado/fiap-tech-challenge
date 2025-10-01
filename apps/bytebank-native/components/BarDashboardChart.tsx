@@ -1,8 +1,6 @@
-import { IAmountAndExpensesByRange } from "@fiap-tech-challenge/models";
 import { useFont } from "@shopify/react-native-skia";
 import React from "react";
 import { Dimensions, ScrollView, View, Text } from "react-native";
-import { BarChart } from "react-native-chart-kit";
 import { CartesianChart, BarGroup } from "victory-native";
 
 type BarDashboardChartProps = {
@@ -25,7 +23,13 @@ export function BarDashboardChart({ data }: BarDashboardChartProps) {
               data={data}
               xKey="period"
               yKeys={["amount", "expenses"]}
-              axisOptions={{ font }}
+              axisOptions={{
+                font,
+                formatYLabel: (value) => `R$ ${Number(value).toLocaleString('pt-BR', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+                })}`
+              }}
             >
               {({ points, chartBounds }) => (
                 <BarGroup

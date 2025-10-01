@@ -2,7 +2,6 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { dashboardService } from "../services/dasboard-service";
 import { useAuth } from "@/contexts/auth-context";
 import { FilterType, IDashboardData } from "@fiap-tech-challenge/models";
-import { Filter } from "react-native-svg";
 
 interface DashboardContextType {
   dashboard: IDashboardData | null;
@@ -43,7 +42,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
 export function useDashboard() {
   const context = useContext(DashboardContext);
   if (!context) {
-    throw new Error("error");
+    throw new Error("error dashboard context");
   }
   return context;
 }

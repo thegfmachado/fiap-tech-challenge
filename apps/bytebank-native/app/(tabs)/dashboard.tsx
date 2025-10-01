@@ -43,14 +43,10 @@ export default function Dashboard() {
   );
 
   if (!dashboard) {
-    return (
-      <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color="#6D28D9" />
-      </View>
-    );
+    return;
   }
 
-  const getAnimStyle = (anim: Animated.Value) => ({
+  const getAnimatedStyle = (anim: Animated.Value) => ({
     opacity: anim,
     transform: [
       {
@@ -64,11 +60,11 @@ export default function Dashboard() {
 
   return (
     <ScrollView className="px-4 pt-6 bg-gray-50">
-      <Animated.View style={getAnimStyle(animations[0])}>
+      <Animated.View style={getAnimatedStyle(animations[0])}>
         <Text className="text-2xl font-bold mb-4">Dashboards</Text>
       </Animated.View>
 
-      <Animated.View style={getAnimStyle(animations[1])}>
+      <Animated.View style={getAnimatedStyle(animations[1])}>
         <Card
           title="Receita total"
           value={dashboard.income.total}
@@ -79,7 +75,7 @@ export default function Dashboard() {
       </Animated.View>
 
       <View className="flex-row gap-4 mt-4">
-        <Animated.View style={[{ flex: 1 }, getAnimStyle(animations[2])]}>
+        <Animated.View style={[{ flex: 1 }, getAnimatedStyle(animations[2])]}>
           <Card
             title="Entradas"
             value={dashboard.amount.total}
@@ -89,7 +85,7 @@ export default function Dashboard() {
           />
         </Animated.View>
 
-        <Animated.View style={[{ flex: 1 }, getAnimStyle(animations[3])]}>
+        <Animated.View style={[{ flex: 1 }, getAnimatedStyle(animations[3])]}>
           <Card
             title="Saídas"
             value={dashboard.expenses.total}
@@ -100,7 +96,7 @@ export default function Dashboard() {
         </Animated.View>
       </View>
 
-      <Animated.View style={[{ marginTop: 20 }, getAnimStyle(animations[4])]}>
+      <Animated.View style={[{ marginTop: 20 }, getAnimatedStyle(animations[4])]}>
         <DashboardCharts lineData={dashboard.incomeByRange} barData={dashboard.amountAndExpensesByRange} />
       </Animated.View>
     </ScrollView>
