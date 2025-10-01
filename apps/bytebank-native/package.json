@@ -1,7 +1,8 @@
 {
   "name": "bytebank-native",
   "main": "expo-router/entry",
-  "version": "1.0.0",
+  "version": "0.0.1",
+  "description": "FIAP tech challenge finance app - React Native",
   "scripts": {
     "dev": "expo start --port 8081",
     "start": "expo start",
