@@ -61,7 +61,7 @@ export default function Dashboard() {
   return (
     <ScrollView className="px-4 pt-6 bg-gray-50">
       <Animated.View style={getAnimatedStyle(animations[0])}>
-        <Text className="text-2xl font-bold mb-4">Dashboards</Text>
+        <Text className="text-2xl font-bold mb-4  mt-4">Dashboards</Text>
       </Animated.View>
 
       <Animated.View style={getAnimatedStyle(animations[1])}>
