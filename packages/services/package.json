@@ -36,7 +36,7 @@
   "dependencies": {
     "@fiap-tech-challenge/database": "file:../database",
     "@fiap-tech-challenge/models": "file:../models",
-    "@supabase/supabase-js": "2.50.1"
+    "@supabase/supabase-js": "2.52.0"
   },
   "devDependencies": {
     "@fiap-tech-challenge/eslint-config": "file:../eslint-config",

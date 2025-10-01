@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "type": "module",
   "private": true,
-  "description": "FIAP tech challenge finance app",
+  "description": "FIAP tech challenge finance app - Authentication",
   "scripts": {
     "dev": "next dev --turbopack --port 3001",
     "build": "next build",
