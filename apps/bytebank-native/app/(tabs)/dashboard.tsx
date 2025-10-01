@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from "react";
-import { View, Text, ScrollView, ActivityIndicator, Animated } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { View, Text, ScrollView, Animated } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import { Card, CardType } from "@/components/Card";
 import DashboardCharts from "@/components/DashboardCharts";
 import { useDashboard } from "@/contexts/dashboard-context";
@@ -9,7 +10,7 @@ import { FilterType } from "@fiap-tech-challenge/models";
 export default function Dashboard() {
   const { dashboard, refresh } = useDashboard();
 
-  const filter = FilterType.year;
+  const [filter, setFilter] = useState<FilterType>(FilterType.year);
 
   useEffect(() => {
     refresh(filter);
@@ -43,7 +44,7 @@ export default function Dashboard() {
   );
 
   if (!dashboard) {
-    return;
+    return null;
   }
 
   const getAnimatedStyle = (anim: Animated.Value) => ({
@@ -61,7 +62,19 @@ export default function Dashboard() {
   return (
     <ScrollView className="px-4 pt-6 bg-gray-50">
       <Animated.View style={getAnimatedStyle(animations[0])}>
-        <Text className="text-2xl font-bold mb-4  mt-4">Dashboards</Text>
+        <View className="flex-row items-center justify-between mb-4 mt-4">
+          <Text className="text-2xl font-bold">Dashboards</Text>
+
+          <Picker
+            selectedValue={filter}
+            style={{ width: 160 }}
+            onValueChange={(value) => setFilter(value)}
+          >
+            <Picker.Item label="Semana atual" value={FilterType.week} />
+            <Picker.Item label="Mês atual" value={FilterType.month} />
+            <Picker.Item label="Ano atual" value={FilterType.year} />
+          </Picker>
+        </View>
       </Animated.View>
 
       <Animated.View style={getAnimatedStyle(animations[1])}>
@@ -97,7 +110,10 @@ export default function Dashboard() {
       </View>
 
       <Animated.View style={[{ marginTop: 20 }, getAnimatedStyle(animations[4])]}>
-        <DashboardCharts lineData={dashboard.incomeByRange} barData={dashboard.amountAndExpensesByRange} />
+        <DashboardCharts
+          lineData={dashboard.incomeByRange}
+          barData={dashboard.amountAndExpensesByRange}
+        />
       </Animated.View>
     </ScrollView>
   );
