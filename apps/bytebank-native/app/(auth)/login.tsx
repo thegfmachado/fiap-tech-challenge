@@ -1,52 +1,44 @@
-import React, { useState } from 'react';
-import {
-  TouchableOpacity,
-  Alert,
-  Text
+import React from 'react';
+import { 
+  Text, 
+  TouchableOpacity, 
+  Alert
 } from 'react-native';
-import { Link } from 'expo-router';
-import { useForm, Controller } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-
-
+import { Controller } from 'react-hook-form';
+import { Link } from 'expo-router';
+import { useAuth } from '@/contexts/auth-context';
+import { useAsyncAction } from '@/hooks/useAsyncOperation';
+import { useFormValidation, formSchemas } from '@/hooks/useFormValidation';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
 import { AuthScreenLayout } from '@/components/auth/AuthScreenLayout';
-import { useAuth } from '@/contexts/auth-context';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 
-const loginSchema = z.object({
-  email: z.string({ required_error: 'Este campo é obrigatório' }).email('Email inválido'),
-  password: z.string({ required_error: 'Este campo é obrigatório' }).min(6, 'A senha deve ter pelo menos 6 caracteres'),
-});
-
-type LoginFormData = z.infer<typeof loginSchema>;
+type LoginFormData = z.infer<typeof formSchemas.login>;
 
 export default function LoginScreen() {
   const { signIn } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
+  const loginOperation = useAsyncAction({
+    onError: (error) => `Erro no login: ${error instanceof Error ? error.message : 'Tente novamente'}`,
+  });
 
-  const form = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
+  const form = useFormValidation(formSchemas.login, {
     defaultValues: {
       email: '',
       password: '',
     },
+    mode: 'onBlur',
   });
 
   const handleSubmit = async (values: LoginFormData) => {
-    setIsLoading(true);
-
-    try {
+    await loginOperation.execute(async () => {
       await signIn(values.email, values.password);
-      // Navigation will be handled by the auth route guard
-    } catch (error) {
-      console.error('Login error:', error);
-      Alert.alert('Erro', 'Erro ao fazer login. Verifique suas credenciais e tente novamente.');
-    } finally {
-      setIsLoading(false);
+    });
+    
+    if (loginOperation.error) {
+      Alert.alert('Erro no Login', loginOperation.error);
     }
   };
 
@@ -97,7 +89,7 @@ export default function LoginScreen() {
         <Button
           title="Entrar"
           onPress={form.handleSubmit(handleSubmit)}
-          loading={isLoading}
+          loading={loginOperation.isLoading}
           className="mt-6 mb-4"
         />
 
