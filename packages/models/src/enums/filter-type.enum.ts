@@ -1,5 +1,5 @@
 export enum FilterType {
-  year,
-  month,
-  week
+  YEAR = "year",
+  MONTH = "month",
+  WEEK = "week"
 }

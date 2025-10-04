@@ -3,6 +3,9 @@ import { supabase } from "../lib/supabase";
 import { ITransaction } from "@fiap-tech-challenge/database/types";
 import { Filter } from "react-native-svg";
 
+const MONTHS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+const WEEK_DAYS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+
 export interface IDashboardService {
   getDashboard(userId: string, period: FilterType): Promise<IDashboardData>;
 }
@@ -69,11 +72,11 @@ export class DashboardService implements IDashboardService {
     const now = new Date();
 
     switch (period) {
-      case FilterType.year:
+      case FilterType.YEAR:
         return date.getFullYear() === now.getFullYear();
-      case FilterType.month:
+      case FilterType.MONTH:
         return date.getFullYear() === now.getFullYear() && date.getMonth() === now.getMonth();
-      case FilterType.week: {
+      case FilterType.WEEK: {
         const start = new Date(now);
         start.setDate(now.getDate() - now.getDay());
         start.setHours(0, 0, 0, 0);
@@ -91,15 +94,15 @@ export class DashboardService implements IDashboardService {
     const now = new Date();
 
     switch (period) {
-      case FilterType.year:
+      case FilterType.YEAR:
         return date.getFullYear() === now.getFullYear() - 1;
-      case FilterType.month: {
+      case FilterType.MONTH: {
         const prevMonth = now.getMonth() - 1;
         const prevYear = prevMonth < 0 ? now.getFullYear() - 1 : now.getFullYear();
         const adjustedMonth = (prevMonth + 12) % 12;
         return date.getFullYear() === prevYear && date.getMonth() === adjustedMonth;
       }
-      case FilterType.week: {
+      case FilterType.WEEK: {
         const startOfThisWeek = new Date(now);
         startOfThisWeek.setDate(now.getDate() - now.getDay());
         startOfThisWeek.setHours(0, 0, 0, 0);
@@ -115,22 +118,19 @@ export class DashboardService implements IDashboardService {
   }
 
   private getIncomeByRange(transactions: ITransaction[], period: FilterType) {
-    const MONTHS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
-    const WEEK_DAYS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
-
     switch (period) {
-      case FilterType.week: {
+      case FilterType.WEEK: {
         const { incomeByPeriod } = this.getValuesByRange(transactions, 7, (date) => date.getDay());
         return WEEK_DAYS.map((day, i) => ({ period: day, income: incomeByPeriod[i] ?? 0 }));
       }
-      case FilterType.month: {
+      case FilterType.MONTH: {
         const { incomeByPeriod } = this.getValuesByDay(transactions);
         return incomeByPeriod.map((inc, i) => ({
           period: String(i + 1).padStart(2, "0"),
           income: inc ?? 0,
         }));
       }
-      case FilterType.year:
+      case FilterType.YEAR:
       default: {
         const { incomeByPeriod } = this.getValuesByRange(
           transactions.filter((t) => new Date(t.date).getFullYear() === new Date().getFullYear()),
@@ -143,11 +143,8 @@ export class DashboardService implements IDashboardService {
   }
 
   private getAmountAndExpensesByRange(transactions: ITransaction[], period: FilterType) {
-    const MONTHS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
-    const WEEK_DAYS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
-
     switch (period) {
-      case FilterType.week: {
+      case FilterType.WEEK: {
         const { amountByPeriod, expensesByPeriod } = this.getValuesByRange(transactions, 7, (date) => date.getDay());
         return WEEK_DAYS.map((day, i) => ({
           period: day,
@@ -155,7 +152,7 @@ export class DashboardService implements IDashboardService {
           expenses: expensesByPeriod[i] ?? 0,
         }));
       }
-      case FilterType.month: {
+      case FilterType.MONTH: {
         const { amountByPeriod, expensesByPeriod } = this.getValuesByDay(transactions);
         return amountByPeriod.map((amt, i) => ({
           period: String(i + 1).padStart(2, "0"),
@@ -163,7 +160,7 @@ export class DashboardService implements IDashboardService {
           expenses: expensesByPeriod[i] ?? 0,
         }));
       }
-      case FilterType.year:
+      case FilterType.YEAR:
       default: {
         const { amountByPeriod, expensesByPeriod } = this.getValuesByRange(
           transactions.filter((t) => new Date(t.date).getFullYear() === new Date().getFullYear()),
@@ -181,22 +178,22 @@ export class DashboardService implements IDashboardService {
 
   private getValuesByDay(transactions: ITransaction[]) {
     const now = new Date();
-    const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-    return this.getValuesByRange(
-      transactions.filter((t) => {
-        const d = new Date(t.date);
-        return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
-      }),
-      daysInMonth,
-      (date) => date.getDate() - 1
-    );
+
+    const year = now.getFullYear();
+
+    const month = now.getMonth();
+
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    const isCurrentMonth = (date: Date) =>
+      date.getFullYear() === year && date.getMonth() === month;
+
+    const filtered = transactions.filter((t) => isCurrentMonth(new Date(t.date)));
+
+    return this.getValuesByRange(filtered, daysInMonth, (date) => date.getDate() - 1);
   }
 
-  private getValuesByRange(
-    transactions: ITransaction[],
-    size: number,
-    getIndex: (date: Date) => number
-  ) {
+  private getValuesByRange(transactions: ITransaction[], size: number, getIndex: (date: Date) => number) {
     const incomeByPeriod = Array(size).fill(0);
     const amountByPeriod = Array(size).fill(0);
     const expensesByPeriod = Array(size).fill(0);

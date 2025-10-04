@@ -28,7 +28,7 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (user) {
-      fetchDashboard(FilterType.year);
+      fetchDashboard(FilterType.YEAR);
     }
   }, [user]);
 

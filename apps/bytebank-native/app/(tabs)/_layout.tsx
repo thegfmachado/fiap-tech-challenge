@@ -11,14 +11,15 @@ import { DashboardProvider } from '@/contexts/dashboard-context';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const colors = Colors[colorScheme ?? "light"];
 
   return (
     <AuthGuard>
       <DashboardProvider>
         <Tabs
           screenOptions={{
-            tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-            tabBarActiveBackgroundColor: Colors[colorScheme ?? "light"].gradient,
+            tabBarActiveTintColor: colors.tint,
+            tabBarActiveBackgroundColor: colors.gradient,
             tabBarItemStyle: {
               borderRadius: 12,
               marginHorizontal: 8,
@@ -27,7 +28,7 @@ export default function TabLayout() {
             tabBarButton: HapticTab,
             tabBarBackground: TabBarBackground,
             tabBarStyle: {
-              backgroundColor: Colors[colorScheme ?? "light"].background
+              backgroundColor: colors.background
             },
           }}>
           <Tabs.Screen

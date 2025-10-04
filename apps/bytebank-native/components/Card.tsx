@@ -30,9 +30,9 @@ export function Card({ title, value, percentage, type, filterType }: DashboardCa
   };
 
   const timePeriodLabels = {
-    [FilterType.year]: "ano",
-    [FilterType.month]: "mês",
-    [FilterType.week]: "semana"
+    [FilterType.YEAR]: "ano",
+    [FilterType.MONTH]: "mês",
+    [FilterType.WEEK]: "semana"
   };
 
   const color = colors[type];

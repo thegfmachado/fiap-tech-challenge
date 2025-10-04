@@ -18,7 +18,7 @@ export function BarDashboardChart({ data }: BarDashboardChartProps) {
       <View className="p-4">
         <Text className="font-bold text-lg mb-2">Histórico de economias</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <View className="mb-2" style={{ width: chartWidth, height: 200 }}>
+          <View className="mb-2 h-[200px]" style={{ width: chartWidth }}>
             <CartesianChart
               data={data}
               xKey="period"
