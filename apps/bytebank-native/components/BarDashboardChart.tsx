@@ -12,6 +12,8 @@ const screenWidth = Dimensions.get("window").width;
 export function BarDashboardChart({ data }: BarDashboardChartProps) {
   const chartWidth = Math.max(screenWidth, data.length * 50);
   const font = useFont(require('../assets/fonts/Geist-Regular.ttf'), 12);
+  const SPACE_BETWEEN_GROUP_BAR = 0.3;
+  const SPACE_BETWEEN_BAR = 0.1;
 
   return (
     <View className="w-full overflow-hidden rounded-xl border bg-white border-gray-300">
@@ -34,8 +36,8 @@ export function BarDashboardChart({ data }: BarDashboardChartProps) {
               {({ points, chartBounds }) => (
                 <BarGroup
                   chartBounds={chartBounds}
-                  betweenGroupPadding={0.3}
-                  withinGroupPadding={0.1}>
+                  betweenGroupPadding={SPACE_BETWEEN_GROUP_BAR}
+                  withinGroupPadding={SPACE_BETWEEN_BAR}>
                   <BarGroup.Bar points={points.amount} color="red" />
                   <BarGroup.Bar points={points.expenses} color="green" />
                 </BarGroup>
