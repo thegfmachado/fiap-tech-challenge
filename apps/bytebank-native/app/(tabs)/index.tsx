@@ -8,7 +8,7 @@ import { Colors } from '@/constants/Colors';
 
 import { useHomeDashboard } from '@/hooks/useHomeDashboard';
 import { useTransactions } from '@/hooks/useTransactions';
-import { useCurrentUser } from '@/hooks/use-current-user';
+import { useAuth } from '@/contexts/auth-context';
 
 import BalanceCard from '@/components/BalanceCard';
 import IncomeExpenseSummaryCard from '@/components/IncomeExpenseSummaryCard';
@@ -30,7 +30,7 @@ export default function HomeScreen() {
   } = useHomeDashboard();
 
   const { handleSyncTransactions } = useTransactions();
-  const { currentUser, loading: userLoading } = useCurrentUser();
+  const { user } = useAuth();
 
   const [refreshing, setRefreshing] = React.useState(false);
   const [selectedTransaction, setSelectedTransaction] = React.useState<Transaction | null>(null);
@@ -108,35 +108,26 @@ export default function HomeScreen() {
           }}
         >
           <View className="flex-col items-start self-stretch" style={{ gap: 4 }}>
-            {userLoading ? (
-              <>
-                <View className="w-16 h-6 bg-gray-200 rounded" />
-                <View className="w-32 h-5 bg-gray-200 rounded" />
-              </>
-            ) : (
-              <>
-                <Text 
-                  style={{ 
-                    fontWeight: '600',
-                    fontSize: 24,
-                    lineHeight: 22,
-                    color: '#241B28',
-                  }}
-                >
-                  Olá,
-                </Text>
-                <Text 
-                  style={{ 
-                    fontWeight: '400',
-                    fontSize: 16,
-                    lineHeight: 18.8,
-                    color: '#241B28',
-                  }}
-                >
-                  {currentUser?.user_metadata?.name?.split(' ')[0] || 'Usuário'}
-                </Text>
-              </>
-            )}
+            <Text 
+              style={{ 
+                fontWeight: '600',
+                fontSize: 24,
+                lineHeight: 22,
+                color: '#241B28',
+              }}
+            >
+              Olá,
+            </Text>
+            <Text 
+              style={{ 
+                fontWeight: '400',
+                fontSize: 16,
+                lineHeight: 18.8,
+                color: '#241B28',
+              }}
+            >
+              {user?.user_metadata?.name?.split(' ')[0] || 'Usuário'}
+            </Text>
           </View>
         </View>
 
