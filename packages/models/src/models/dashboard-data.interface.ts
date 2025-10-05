@@ -13,7 +13,7 @@ export interface IFinancialMovement {
 
 export interface IIncomeByRange {
   period: string;
-  income: number
+  income: number;
 }
 
 export interface IAmountAndExpensesByRange {

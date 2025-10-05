@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "type": "module",
   "private": true,
-  "description": "FIAP tech challenge finance app",
+  "description": "FIAP tech challenge finance app - Authentication",
   "scripts": {
     "dev": "next dev --turbopack --port 3001",
     "build": "next build",
@@ -13,10 +13,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@fiap-tech-challenge/design-system": "file:./packages/design-system",
-    "@fiap-tech-challenge/database": "file:./packages/database",
-    "@fiap-tech-challenge/models": "file:./packages/models",
-    "@fiap-tech-challenge/services": "file:./packages/services",
+    "@fiap-tech-challenge/design-system": "file:../../packages/design-system",
+    "@fiap-tech-challenge/database": "file:../../packages/database",
+    "@fiap-tech-challenge/models": "file:../../packages/models",
+    "@fiap-tech-challenge/services": "file:../../packages/services",
     "@hookform/resolvers": "5.0.1",
     "@radix-ui/react-dialog": "1.1.14",
     "@radix-ui/react-popover": "1.1.14",
@@ -24,21 +24,19 @@
     "@radix-ui/react-slot": "1.2.3",
     "@supabase/ssr": "0.6.1",
     "@supabase/supabase-js": "2.52.0",
-    "date-fns": "3.6.0",
     "lucide-react": "0.525.0",
     "next": "15.4.3",
     "next-themes": "0.4.6",
     "react": "19.0.0",
-    "react-day-picker": "9.8.0",
     "react-dom": "19.0.0",
     "react-hook-form": "7.60.0",
     "vaul": "1.1.2",
     "zod": "3.24.4"
   },
   "devDependencies": {
-    "@fiap-tech-challenge/eslint-config": "file:./packages/eslint-config",
-    "@fiap-tech-challenge/typescript-config": "file:./packages/typescript-config",
-    "@types/node": "^20",
+    "@fiap-tech-challenge/eslint-config": "file:../../packages/eslint-config",
+    "@fiap-tech-challenge/typescript-config": "file:../../packages/typescript-config",
+    "@types/node": "20.19.x",
     "@types/react": "19.0.x",
     "@types/react-dom": "19.0.x",
     "typescript": "5.8.3"
