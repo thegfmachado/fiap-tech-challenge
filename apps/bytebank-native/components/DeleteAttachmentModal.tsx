@@ -1,6 +1,6 @@
 import React from 'react';
 import { ConfirmationModal } from './ConfirmationModal';
-import { COLORS } from '@/utils/constants';
+import { Colors } from '@/constants/Colors';
 
 export interface DeleteAttachmentModalProps {
   visible: boolean;
@@ -27,7 +27,7 @@ export function DeleteAttachmentModal({
       onClose={onClose}
       onConfirm={onConfirm}
       showTwoButtons={true} 
-      confirmButtonColor={COLORS.DANGER}
+      confirmButtonColor={Colors.light.danger}
     />
   );
 }

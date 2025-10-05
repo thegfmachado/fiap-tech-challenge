@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS } from '@/utils/constants';
+import { Colors } from '@/constants/Colors';
 import { FileIcon } from './ui/FileIcon';
 
 interface AttachmentCardProps {
@@ -70,7 +70,7 @@ export function AttachmentCard({
               {isDeleting ? (
                 <View className="w-5 h-5 border-2 border-red-300 border-t-red-600 rounded-full animate-spin" />
               ) : (
-                <Ionicons name="trash-outline" size={20} color={COLORS.DANGER} />
+                <Ionicons name="trash-outline" size={20} color={Colors.light.danger} />
               )}
             </TouchableOpacity>
           )}

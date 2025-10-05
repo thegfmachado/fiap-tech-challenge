@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, Modal, TouchableOpacity } from 'react-native';
+import { Modal, View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, SIZES } from '@/utils/constants';
+import { Colors, Sizes } from '@/constants/Colors';
 import { useAsyncAction } from '@/hooks/useAsyncOperation';
 
 /**
@@ -136,8 +136,8 @@ export function ConfirmationModal({
           >
             <Ionicons 
               name="warning-outline" 
-              size={SIZES.ICON_LARGE} 
-              color={COLORS.PRIMARY_LIGHT} 
+              size={Sizes.iconLarge} 
+              color={Colors.light.primaryLight} 
             />
           </View>
 

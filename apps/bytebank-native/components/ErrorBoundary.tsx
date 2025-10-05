@@ -1,7 +1,7 @@
-import React, { Component, ReactNode } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, SIZES } from '@/utils/constants';
+import { Colors, Sizes } from '@/constants/Colors';
 
 /**
  * Propriedades do ErrorBoundary
@@ -130,8 +130,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
           <View className="items-center justify-center mb-6" style={{ width: 80, height: 80 }}>
             <Ionicons 
               name="warning-outline" 
-              size={SIZES.ICON_LARGE} 
-              color={COLORS.DANGER} 
+              size={Sizes.iconLarge} 
+              color={Colors.light.danger} 
             />
           </View>
 
@@ -159,7 +159,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
           <TouchableOpacity
             onPress={this.resetError}
             className="rounded-lg py-3 px-4 items-center justify-center bg-primary px-8"
-            style={{ backgroundColor: COLORS.PRIMARY_LIGHT }}
+            style={{ backgroundColor: Colors.light.primaryLight }}
           >
             <Text className="font-semibold text-center text-base text-white">
               Tentar Novamente

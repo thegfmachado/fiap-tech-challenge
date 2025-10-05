@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, SIZES } from '@/utils/constants';
+import { Colors, Sizes } from '@/constants/Colors';
 
 /**
  * Tipos de erro para diferentes contextos
@@ -48,37 +48,37 @@ const errorConfigs: Record<ErrorType, {
 }> = {
   network: {
     icon: 'wifi-outline',
-    color: COLORS.DANGER,
+    color: Colors.light.danger,
     defaultTitle: 'Erro de Conexão',
     defaultMessage: 'Verifique sua conexão com a internet e tente novamente.',
   },
   validation: {
     icon: 'alert-circle-outline',
-    color: COLORS.WARNING,
+    color: Colors.light.warning,
     defaultTitle: 'Dados Inválidos',
     defaultMessage: 'Por favor, verifique os dados inseridos e tente novamente.',
   },
   server: {
     icon: 'server-outline',
-    color: COLORS.DANGER,
+    color: Colors.light.danger,
     defaultTitle: 'Erro do Servidor',
     defaultMessage: 'Nossos servidores estão com problema. Tente novamente em alguns minutos.',
   },
   notFound: {
     icon: 'search-outline',
-    color: COLORS.INFO,
+    color: Colors.light.info,
     defaultTitle: 'Não Encontrado',
     defaultMessage: 'O conteúdo que você está procurando não foi encontrado.',
   },
   permission: {
     icon: 'lock-closed-outline',
-    color: COLORS.WARNING,
+    color: Colors.light.warning,
     defaultTitle: 'Acesso Negado',
     defaultMessage: 'Você não tem permissão para acessar este conteúdo.',
   },
   unknown: {
     icon: 'warning-outline',
-    color: COLORS.DANGER,
+    color: Colors.light.danger,
     defaultTitle: 'Erro Inesperado',
     defaultMessage: 'Ocorreu um erro inesperado. Tente novamente.',
   },
@@ -140,7 +140,7 @@ export function ErrorDisplay({
       >
         <Ionicons
           name={config.icon as any}
-          size={SIZES.ICON_MEDIUM}
+          size={Sizes.iconMedium}
           color={config.color}
           style={{ marginRight: 12 }}
         />
@@ -171,7 +171,7 @@ export function ErrorDisplay({
       <View className="items-center justify-center mb-4" style={{ width: 64, height: 64 }}>
         <Ionicons
           name={config.icon as any}
-          size={SIZES.ICON_LARGE}
+          size={Sizes.iconLarge}
           color={config.color}
         />
       </View>

@@ -16,6 +16,14 @@ export const Colors = {
     tabIconDefault: '#687076',
     tabIconSelected: tintColorLight,
     gradient: '#DCD4E7',
+    // Semantic colors
+    primary: tintColorLight,
+    primaryLight: '#AA8BB5',
+    danger: '#dc2626',
+    success: '#10b981',
+    warning: '#f59e0b',
+    info: '#3b82f6',
+    grayMedium: '#6b7280',
   },
   dark: {
     text: '#ECEDEE',
@@ -26,5 +34,22 @@ export const Colors = {
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
     gradient: '#151718',
+    // Semantic colors (same as light mode for consistency)
+    primary: tintColorLight,
+    primaryLight: '#AA8BB5',
+    danger: '#dc2626',
+    success: '#10b981',
+    warning: '#f59e0b',
+    info: '#3b82f6',
+    grayMedium: '#6b7280',
   },
-};
+} as const;
+
+/**
+ * Size constants for consistent spacing
+ */
+export const Sizes = {
+  // Icon sizes
+  iconLarge: 76,
+  iconMedium: 24,
+} as const;
