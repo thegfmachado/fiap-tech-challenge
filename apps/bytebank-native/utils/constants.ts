@@ -8,8 +8,14 @@
  */
 export const COLORS = {
   // Primary colors
+  PRIMARY: '#664373',
   PRIMARY_LIGHT: '#AA8BB5',
   DANGER: '#dc2626',
+  
+  // Gray tones
+  GRAY_LIGHT: '#f3f4f6',
+  GRAY_MEDIUM: '#6b7280',
+  GRAY_DARK: '#374151',
   
   // Additional semantic colors (add as needed)
   SUCCESS: '#10b981',
