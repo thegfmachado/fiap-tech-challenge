@@ -4,7 +4,7 @@ import { router, useFocusEffect } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 
-import { COLORS } from '@/utils/constants';
+import { Colors } from '@/constants/Colors';
 
 import { useHomeDashboard } from '@/hooks/useHomeDashboard';
 import { useTransactions } from '@/hooks/useTransactions';
@@ -100,7 +100,7 @@ export default function HomeScreen() {
         <View 
           className="flex-col items-center w-full"
           style={{ 
-            backgroundColor: COLORS.PRIMARY + '15',
+            backgroundColor: Colors.light.primary + '15',
             paddingTop: 28,
             paddingBottom: 28,
             paddingLeft: 40,
@@ -142,7 +142,7 @@ export default function HomeScreen() {
 
         <View 
           className="px-6"
-          style={{ backgroundColor: COLORS.PRIMARY + '15' }}
+          style={{ backgroundColor: Colors.light.primary + '15' }}
         >
           <IncomeExpenseSummaryCard
             income={{
@@ -162,7 +162,7 @@ export default function HomeScreen() {
 
         <View 
           className="flex-col items-center w-full px-10 py-6 gap-4"
-          style={{ backgroundColor: COLORS.PRIMARY + '15' }}
+          style={{ backgroundColor: Colors.light.primary + '15' }}
         >
           <BalanceCard
             balance={stats.balance}
@@ -173,7 +173,7 @@ export default function HomeScreen() {
           <TouchableOpacity
             onPress={handleCreateTransaction}
             className="flex-row items-center px-8 py-4 rounded-lg"
-            style={{ backgroundColor: COLORS.PRIMARY }}
+            style={{ backgroundColor: Colors.light.primary }}
             activeOpacity={0.8}
           >
             <Ionicons name="add" size={24} color="white" />
