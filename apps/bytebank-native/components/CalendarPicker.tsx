@@ -18,6 +18,7 @@ const months = [
 ];
 
 const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+const weekLength = 7;
 
 export default function CalendarPicker({
   visible,
@@ -149,9 +150,9 @@ export default function CalendarPicker({
           </View>
 
           <View className="px-4">
-            {Array.from({ length: Math.ceil(days.length / 7) }).map((_, weekIndex) => (
+            {Array.from({ length: Math.ceil(days.length / weekLength) }).map((_, weekIndex) => (
               <View key={weekIndex} className="flex-row mb-1">
-                {days.slice(weekIndex * 7, weekIndex * 7 + 7).map((date, dayIndex) => (
+                {days.slice(weekIndex * weekLength, weekIndex * weekLength + weekLength).map((date, dayIndex) => (
                   <View key={dayIndex} className="flex-1 items-center">
                     {date ? (
                       <TouchableOpacity
