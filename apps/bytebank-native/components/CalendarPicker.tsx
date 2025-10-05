@@ -39,6 +39,7 @@ export default function CalendarPicker({
     const lastDay = new Date(year, month + 1, 0);
     const daysInMonth = lastDay.getDate();
     const startDayOfWeek = firstDay.getDay();
+    const endDayOfWeek = lastDay.getDay();
 
     const days: (Date | null)[] = [];
 
@@ -48,6 +49,10 @@ export default function CalendarPicker({
 
     for (let day = 1; day <= daysInMonth; day++) {
       days.push(new Date(year, month, day));
+    }
+
+    for (let i = endDayOfWeek; i < 6; i++) {
+      days.push(null);
     }
 
     return days;
@@ -114,7 +119,7 @@ export default function CalendarPicker({
 
         <ScrollView className="flex-1">
           <View className="flex-row items-center justify-between p-4">
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={() => navigateMonth('prev')}
               className="p-2 rounded-md"
               style={{ backgroundColor: '#f3f4f6' }}
@@ -126,7 +131,7 @@ export default function CalendarPicker({
               {months[currentMonth.getMonth()]} {currentMonth.getFullYear()}
             </Text>
 
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={() => navigateMonth('next')}
               className="p-2 rounded-md"
               style={{ backgroundColor: '#f3f4f6' }}
@@ -160,10 +165,10 @@ export default function CalendarPicker({
                             : ''
                         }`}
                         style={{
-                          backgroundColor: isDateSelected(date) 
-                            ? '#664373' 
-                            : isToday(date) 
-                            ? 'transparent' 
+                          backgroundColor: isDateSelected(date)
+                            ? '#664373'
+                            : isToday(date)
+                            ? 'transparent'
                             : 'transparent',
                           borderColor: isToday(date) ? '#664373' : 'transparent',
                           opacity: isDateDisabled(date) ? 0.3 : 1,
