@@ -13,26 +13,22 @@ type TransactionActionProps = {
 
 const iconMap: Record<TransactionActionType, keyof typeof Ionicons.glyphMap> = {
   delete: 'trash-outline',
-  edit: 'create-outline', 
+  edit: 'create-outline',
   details: 'list-outline',
 };
 
 const defaultTitleMap: Record<TransactionActionType, string> = {
   delete: "Excluir",
-  edit: "Editar", 
+  edit: "Editar",
   details: "Detalhes",
 };
 
 export function TransactionAction(props: TransactionActionProps) {
   const { disabled, onClick, title, type } = props;
 
-  const handlePress = () => {
-    onClick();
-  };
-
   return (
     <TouchableOpacity
-      onPress={handlePress}
+      onPress={onClick}
       disabled={disabled}
       accessibilityLabel={title ?? defaultTitleMap[type]}
       style={{
@@ -47,10 +43,10 @@ export function TransactionAction(props: TransactionActionProps) {
         elevation: 20
       }}
     >
-      <Ionicons 
-        name={iconMap[type]} 
-        size={20} 
-        color="#6b7280" 
+      <Ionicons
+        name={iconMap[type]}
+        size={20}
+        color="#6b7280"
       />
     </TouchableOpacity>
   );

@@ -42,7 +42,6 @@ export default function SignupScreen() {
       confirmPassword: '',
     },
     mode: 'onBlur',
-    resetOnSuccess: true,
   });
 
   const handleSubmit = async (values: SignupFormData) => {
@@ -55,7 +54,7 @@ export default function SignupScreen() {
 
       form.resetForm();
     });
-    
+
     // Show error if signup failed
     if (signupOperation.error) {
       Alert.alert('Erro', signupOperation.error);
