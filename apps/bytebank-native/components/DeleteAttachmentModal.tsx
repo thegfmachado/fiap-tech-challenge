@@ -19,14 +19,13 @@ export function DeleteAttachmentModal({
     <ConfirmationModal
       visible={visible}
       title="Remover anexo?"
-      description="Você tem certeza que deseja remover o anexo"
+      description="Você tem certeza que deseja remover o anexo? Esta ação não poderá ser desfeita."
       itemName={fileName || undefined}
-      confirmText="Remover"
-      cancelText="Cancelar"
+      confirmText="Remover anexo"
       loadingText="Removendo..."
       onClose={onClose}
       onConfirm={onConfirm}
-      showTwoButtons={true} 
+      showTwoButtons
       confirmButtonColor={Colors.light.danger}
     />
   );
