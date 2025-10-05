@@ -1,7 +1,6 @@
 import { FilterType, IDashboardData, IFinancialMovement } from "@fiap-tech-challenge/models";
 import { supabase } from "../lib/supabase";
 import { ITransaction } from "@fiap-tech-challenge/database/types";
-import { Filter } from "react-native-svg";
 
 const MONTHS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 const WEEK_DAYS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
