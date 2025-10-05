@@ -13,9 +13,24 @@ import { TransactionAttachment, BaseTransaction } from './TransactionAttachment'
 import { useFormValidation, formSchemas } from '@/hooks/useFormValidation';
 import { Colors } from '@/constants/Colors';
 
+interface ISelectedFile {
+  name: string;
+  uri: string;
+  type: string;
+  size: number;
+}
+
+export interface TransactionWithFile extends ITransaction {
+  selectedFile?: ISelectedFile;
+}
+
+export interface TransactionInsertWithFile extends ITransactionInsert {
+  selectedFile?: ISelectedFile;
+}
+
 export type TransactionFormProps = {
   disabled?: boolean;
-  onSubmit: (transaction: ITransaction | ITransactionInsert) => void;
+  onSubmit: (transaction: TransactionWithFile | TransactionInsertWithFile) => void;
   readOnly?: boolean;
   transaction?: ITransaction;
   onAttachmentChange?: (transaction: ITransaction) => void;
@@ -48,7 +63,7 @@ export function TransactionForm({
   onAttachmentChange,
 }: TransactionFormProps) {
   const [showCalendar, setShowCalendar] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<{ name: string; uri: string; type: string; size: number } | null>(null);
+  const [selectedFile, setSelectedFile] = useState<ISelectedFile | null>(null);
 
   const form = useFormValidation(createTransactionSchema, {
     defaultValues: transaction ? {
@@ -79,10 +94,10 @@ export function TransactionForm({
     const transactionData = {
       ...values,
       date: values.date.toISOString(),
-    } as ITransaction | ITransactionInsert;
+    } as TransactionWithFile | TransactionInsertWithFile;
 
     if (selectedFile) {
-      (transactionData as any).selectedFile = selectedFile;
+      transactionData.selectedFile = selectedFile;
     }
 
     onSubmit(transactionData);

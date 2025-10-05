@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import type { ITransaction } from '@fiap-tech-challenge/database/types';
 import { TransactionsQueriesService } from '@fiap-tech-challenge/database/queries';
 import { supabase } from '@/lib/supabase';
-import { TransactionForm } from './TransactionForm';
+import { TransactionForm, TransactionWithFile, TransactionInsertWithFile } from './TransactionForm';
 import { Colors } from '@/constants/Colors';
 
 const transactionService = new TransactionsQueriesService(supabase);
@@ -29,7 +29,7 @@ export function EditTransactionModal({
 }: EditTransactionModalProps) {
   const [submitting, setSubmitting] = useState(false);
 
-  const handleUpdateTransaction = async (transactionData: any) => {
+  const handleUpdateTransaction = async (transactionData: TransactionWithFile | TransactionInsertWithFile) => {
     setSubmitting(true);
 
     try {
