@@ -1,7 +1,7 @@
 import React from 'react';
 import { ConfirmationModal } from './ConfirmationModal';
 import type { ITransaction } from '@fiap-tech-challenge/database/types';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { Colors } from '@/constants/Colors';
 
 export interface DeleteTransactionModalProps {
   visible: boolean;
