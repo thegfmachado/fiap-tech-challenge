@@ -4,11 +4,10 @@ import {
   Alert,
   Text
 } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-
 
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
@@ -17,34 +16,42 @@ import { useAuth } from '@/contexts/auth-context';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 
-const loginSchema = z.object({
+const forgotPasswordSchema = z.object({
   email: z.string({ required_error: 'Este campo é obrigatório' }).email('Email inválido'),
-  password: z.string({ required_error: 'Este campo é obrigatório' }).min(6, 'A senha deve ter pelo menos 6 caracteres'),
 });
 
-type LoginFormData = z.infer<typeof loginSchema>;
+type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 
-export default function LoginScreen() {
-  const { signIn } = useAuth();
+export default function ForgotPasswordScreen() {
+  const { resetPassword } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<ForgotPasswordFormData>({
+    resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
       email: '',
-      password: '',
     },
   });
 
-  const handleSubmit = async (values: LoginFormData) => {
+  const handleSubmit = async (values: ForgotPasswordFormData) => {
     setIsLoading(true);
 
     try {
-      await signIn(values.email, values.password);
-      // Navigation will be handled by the auth route guard
+      await resetPassword(values.email);
+
+      Alert.alert(
+        'E-mail enviado!',
+        'Instruções para redefinir sua senha foram enviadas para o seu e-mail. Verifique sua caixa de entrada e siga as instruções.',
+        [
+          {
+            text: 'OK',
+            onPress: () => router.push('/login'),
+          },
+        ]
+      );
     } catch (error) {
-      console.error('Login error:', error);
-      Alert.alert('Erro', 'Erro ao fazer login. Verifique suas credenciais e tente novamente.');
+      console.error('Reset password error:', error);
+      Alert.alert('Erro', 'Erro ao enviar e-mail de recuperação. Verifique o e-mail informado e tente novamente.');
     } finally {
       setIsLoading(false);
     }
@@ -52,8 +59,12 @@ export default function LoginScreen() {
 
   return (
     <AuthScreenLayout>
-      <ThemedText className="text-4xl text-center mb-12" type="title">
-        Bem-vindo de volta!
+      <ThemedText className="text-4xl text-center mb-4" type="title">
+        Esqueci minha senha
+      </ThemedText>
+
+      <ThemedText className="text-center mb-8 px-8 text-gray-600">
+        Digite seu e-mail e enviaremos instruções para redefinir sua senha
       </ThemedText>
 
       <ThemedView className="px-8">
@@ -75,51 +86,22 @@ export default function LoginScreen() {
           )}
         />
 
-        <Controller
-          control={form.control}
-          name="password"
-          render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-            <Input
-              label="Senha"
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              placeholder="Digite sua senha"
-              secureTextEntry
-              showPasswordToggle
-              autoComplete="password"
-              autoCapitalize="none"
-              error={error?.message}
-            />
-          )}
-        />
-
         <Button
-          title="Entrar"
+          title="Enviar instruções"
           onPress={form.handleSubmit(handleSubmit)}
           loading={isLoading}
-          className="mt-6 mb-4"
+          className="mt-6 mb-8"
         />
-
-        <ThemedView className="flex-row justify-center items-center mb-8">
-          <Link href="/forgot-password" asChild>
-            <TouchableOpacity>
-              <ThemedText type="link">
-                Esqueci minha senha
-              </ThemedText>
-            </TouchableOpacity>
-          </Link>
-        </ThemedView>
 
         <ThemedView className="flex-row justify-center items-center gap-1">
           <Text className="text-sm">
-            Ainda não tem uma conta?
+            Lembrou da senha?
           </Text>
 
-          <Link href="/signup" asChild>
+          <Link href="/login" asChild>
             <TouchableOpacity>
               <ThemedText className="text-sm" type="link">
-                Criar conta gratuita
+                Voltar ao login
               </ThemedText>
             </TouchableOpacity>
           </Link>
