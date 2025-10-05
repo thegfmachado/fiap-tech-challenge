@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS } from '@/utils/constants';
+import { Colors } from '@/constants/Colors';
 import { Transaction } from '@/utils/transactionMapper';
 import { TransactionType } from '@fiap-tech-challenge/models';
 
@@ -44,7 +44,7 @@ function TransactionItem({
   onPress?: (transaction: Transaction) => void; 
 }) {
   const isCredit = transaction.type === TransactionType.CREDIT;
-  const textColor = isCredit ? COLORS.SUCCESS : COLORS.DANGER;
+  const textColor = isCredit ? Colors.light.success : Colors.light.danger;
 
   return (
     <TouchableOpacity
@@ -81,7 +81,7 @@ function TransactionItem({
           <Ionicons 
             name="clipboard-outline" 
             size={20} 
-            color={COLORS.GRAY_MEDIUM} 
+            color={Colors.light.grayMedium} 
           />
         </TouchableOpacity>
       </View>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS } from '@/utils/constants';
+import { Colors } from '@/constants/Colors';
 
 /**
  * Props do componente BalanceCard
@@ -74,7 +74,7 @@ export function BalanceCard({
 
   const getBalanceColor = () => {
     if (balance >= 0) {
-      return COLORS.PRIMARY_LIGHT;
+      return Colors.light.primaryLight;
     }
     return '#9F523B';
   };
@@ -94,7 +94,7 @@ export function BalanceCard({
     <View className="items-center">
       <Text 
         className="font-medium text-base mb-1"
-        style={{ color: COLORS.PRIMARY_LIGHT }}
+        style={{ color: Colors.light.primaryLight }}
       >
         Saldo
       </Text>
@@ -102,7 +102,7 @@ export function BalanceCard({
       <View className="flex-row items-center gap-4">
         <Text 
           className="text-4xl font-bold break-words max-w-full"
-          style={{ color: COLORS.PRIMARY_LIGHT }}
+          style={{ color: Colors.light.primaryLight }}
           accessible={true}
           accessibilityLabel={`Saldo atual: ${isVisible ? formatCurrency(balance) : 'valor oculto'}`}
         >
@@ -119,7 +119,7 @@ export function BalanceCard({
           <Ionicons
             name={isVisible ? 'eye-outline' : 'eye-off-outline'}
             size={20}
-            color={COLORS.PRIMARY_LIGHT}
+            color={Colors.light.primaryLight}
           />
         </TouchableOpacity>
       </View>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS } from '@/utils/constants';
+import { Colors } from '@/constants/Colors';
 
 /**
  * Dados para exibição de entrada ou saída
@@ -185,7 +185,7 @@ export default function IncomeExpenseSummaryCard({
             className="font-bold"
             style={{ 
               fontSize: 24,
-              color: COLORS.PRIMARY_LIGHT,
+              color: Colors.light.primaryLight,
               lineHeight: 28,
             }}
           >
@@ -214,7 +214,7 @@ export default function IncomeExpenseSummaryCard({
             className="font-semibold"
             style={{ 
               fontSize: 24,
-              color: COLORS.PRIMARY,
+              color: Colors.light.primary,
               lineHeight: 28,
             }}
           >
