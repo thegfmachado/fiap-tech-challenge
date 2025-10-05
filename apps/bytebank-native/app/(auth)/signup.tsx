@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Text,
   TouchableOpacity,
   Alert
 } from 'react-native';
 import { Link, router } from 'expo-router';
-import { useForm, Controller } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller } from 'react-hook-form';
 import { z } from 'zod';
-
 
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
@@ -16,57 +14,50 @@ import { AuthScreenLayout } from '@/components/auth/AuthScreenLayout';
 import { useAuth } from '@/contexts/auth-context';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
+import { useAsyncAction } from '@/hooks/useAsyncOperation';
+import { useFormValidation, formSchemas, createPasswordConfirmationSchema } from '@/hooks/useFormValidation';
 
-const signupSchema = z.object({
-  name: z.string({ required_error: 'Este campo é obrigatório' }).min(2, 'O nome deve ter pelo menos 2 caracteres'),
-  email: z.string({ required_error: 'Este campo é obrigatório' }).email('Email inválido'),
-  password: z.string({ required_error: 'Este campo é obrigatório' }).min(6, 'A senha deve ter pelo menos 6 caracteres'),
-  confirmPassword: z.string({ required_error: 'Este campo é obrigatório' }).min(6, 'A senha deve ter pelo menos 6 caracteres'),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: 'Senhas não coincidem',
-  path: ['confirmPassword'],
-});
+const signupSchema = createPasswordConfirmationSchema(formSchemas.signup);
 
 type SignupFormData = z.infer<typeof signupSchema>;
 
 export default function SignupScreen() {
   const { signUp } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
+  const signupOperation = useAsyncAction({
+    onSuccess: () => {
+      Alert.alert(
+        'Conta Criada!',
+        'Sua conta foi criada com sucesso. Faça login para continuar.',
+        [{ text: 'OK', onPress: () => router.push('/login') }]
+      );
+    },
+    onError: (error) => `Erro ao criar conta: ${error instanceof Error ? error.message : 'Tente novamente'}`,
+  });
 
-  const form = useForm<SignupFormData>({
-    resolver: zodResolver(signupSchema),
+  const form = useFormValidation(signupSchema, {
     defaultValues: {
       name: '',
       email: '',
       password: '',
       confirmPassword: '',
     },
+    mode: 'onBlur',
   });
 
   const handleSubmit = async (values: SignupFormData) => {
-    setIsLoading(true);
-
-    try {
+    await signupOperation.execute(async () => {
       await signUp({
         name: values.name,
         email: values.email,
         password: values.password,
       });
 
-      form.reset();
+      form.resetForm();
+    });
 
-      Alert.alert(
-        'Conta criada!',
-        'Um e-mail de confirmação foi enviado para o e-mail informado. Confirme sua conta e faça login para continuar.',
-        [{ text: 'OK' }]
-      );
-
-      router.replace('/login');
-    } catch (error) {
-      console.error('Signup error:', error);
-      Alert.alert('Erro', 'Erro ao criar conta. Verifique os dados e tente novamente.');
-    } finally {
-      setIsLoading(false);
+    // Show error if signup failed
+    if (signupOperation.error) {
+      Alert.alert('Erro', signupOperation.error);
     }
   };
 
@@ -160,7 +151,7 @@ export default function SignupScreen() {
         <Button
           title="Enviar"
           onPress={form.handleSubmit(handleSubmit)}
-          loading={isLoading}
+          loading={signupOperation.isLoading}
           className="mb-6"
         />
 

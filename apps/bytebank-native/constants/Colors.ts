@@ -3,7 +3,6 @@
  * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
  */
 
-import { LineChart } from "react-native-chart-kit";
 
 const tintColorLight = '#664373';
 const tintColorDark = '#fff';
@@ -18,7 +17,17 @@ export const Colors = {
     tabIconDefault: '#687076',
     tabIconSelected: tintColorLight,
     gradient: '#DCD4E7',
-    lineChartColor: '#664373'
+    lineChartColor: '#664373',
+    // Semantic colors
+    primary: tintColorLight,
+    primaryLight: '#AA8BB5',
+    danger: '#dc2626',
+    success: '#10b981',
+    warning: '#f59e0b',
+    info: '#3b82f6',
+    grayLight: '#9ca3af',
+    grayMedium: '#6b7280',
+    grayBlue: '#374151',
   },
   dark: {
     text: '#ECEDEE',
@@ -29,6 +38,25 @@ export const Colors = {
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
     gradient: '#151718',
-    lineChartColor: '#664373'
+    lineChartColor: '#664373',
+    // Semantic colors (same as light mode for consistency)
+    primary: tintColorLight,
+    primaryLight: '#AA8BB5',
+    danger: '#dc2626',
+    success: '#10b981',
+    warning: '#f59e0b',
+    info: '#3b82f6',
+    grayLight: '#f3f4f6',
+    grayMedium: '#6b7280',
+    grayBlue: '#374151',
   },
-};
+} as const;
+
+/**
+ * Size constants for consistent spacing
+ */
+export const Sizes = {
+  // Icon sizes
+  iconLarge: 76,
+  iconMedium: 24,
+} as const;

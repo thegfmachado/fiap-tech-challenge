@@ -11,9 +11,11 @@ import { StatusBar } from 'expo-status-bar';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { AuthProvider } from '@/contexts/auth-context';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import IntroSlider from '@/components/IntroSlider';
 
 import '../global.css';
+import { Colors } from '@/constants/Colors';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -61,24 +63,34 @@ export default function RootLayout() {
   if (storageLoading) {
     return (
       <View className="flex-1 justify-center items-center">
-        <ActivityIndicator color="#664373" size="large" />
+        <ActivityIndicator color={Colors.light.primary} size="large" />
       </View>
     );
   }
 
-  return firstLaunch ?
-    (
-      <IntroSlider onDone={handleDone} />
-    ) : (
-      <AuthProvider>
-        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-          <Stack initialRouteName="(auth)">
-            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="+not-found" />
-          </Stack>
-          <StatusBar style="auto" />
-        </ThemeProvider>
-      </AuthProvider>
-    );
+  return (
+    <ErrorBoundary
+      errorTitle="Erro na Aplicação"
+      errorMessage="Ocorreu um erro inesperado na aplicação. Por favor, reinicie o app."
+      onError={(error, errorInfo) => {
+        console.error('💥 Erro global capturado:', error);
+        console.error('📍 Informações:', errorInfo);
+      }}
+    >
+      {firstLaunch ? (
+        <IntroSlider onDone={handleDone} />
+      ) : (
+        <AuthProvider>
+          <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+            <Stack initialRouteName="(auth)">
+              <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="+not-found" />
+            </Stack>
+            <StatusBar style="auto" />
+          </ThemeProvider>
+        </AuthProvider>
+      )}
+    </ErrorBoundary>
+  );
 }

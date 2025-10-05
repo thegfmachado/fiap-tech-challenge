@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { dashboardService } from "../services/dasboard-service";
+import { dashboardService } from "../services/dashboard-service";
 import { useAuth } from "@/contexts/auth-context";
 import { FilterType, IDashboardData } from "@fiap-tech-challenge/models";
 

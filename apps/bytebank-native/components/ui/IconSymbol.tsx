@@ -4,7 +4,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { SymbolViewProps, SymbolWeight } from 'expo-symbols';
 import { OpaqueColorValue } from 'react-native';
-
+import Octicons from '@expo/vector-icons/Octicons';
 /**
  * Add your SF Symbols to Material Icons mappings here.
  * - see Material Icons in the [Icons Directory](https://icons.expo.fyi) filtering for MaterialCommunityIcons and MaterialIcons.
@@ -23,7 +23,11 @@ const MAPPING = {
   'rectangle.portrait.and.arrow.right': 'logout',
 } as const satisfies Partial<Record<SymbolViewProps['name'], React.ComponentProps<typeof MaterialIcons>['name']>>;
 
-type IconSymbolName = keyof typeof MAPPING | keyof typeof MAPPING_COMMUNITY;
+const MAPPING_OCTICONS = {
+  'home': 'home',
+} as const satisfies Partial<Record<SymbolViewProps['name'], React.ComponentProps<typeof Octicons>['name']>>;
+
+type IconSymbolName = keyof typeof MAPPING | keyof typeof MAPPING_COMMUNITY | keyof typeof MAPPING_OCTICONS;
 
 /**
  * An icon component that uses native SF Symbols on iOS, and Material Icons on Android and web.
@@ -45,6 +49,10 @@ export function IconSymbol({
 
   if (name in MAPPING_COMMUNITY) {
     return <MaterialCommunityIcons color={color} size={size} name={MAPPING_COMMUNITY[name as keyof typeof MAPPING_COMMUNITY]} className={className} />;
+  }
+
+  if (name in MAPPING_OCTICONS) {
+    return <Octicons color={color} size={size} name={MAPPING_OCTICONS[name as keyof typeof MAPPING_OCTICONS]} className={className} />;
   }
 
   return <MaterialIcons color={color} size={size} name={MAPPING[name as keyof typeof MAPPING]} className={className} />;
