@@ -5,7 +5,8 @@ import { Ionicons } from '@expo/vector-icons';
 import type { ITransaction } from '@fiap-tech-challenge/database/types';
 import { TransactionsQueriesService } from '@fiap-tech-challenge/database/queries';
 import { supabase } from '@/lib/supabase';
-import { TransactionForm } from './TransactionForm';
+import { TransactionForm, TransactionWithFile, TransactionInsertWithFile } from './TransactionForm';
+import { Colors } from '@/constants/Colors';
 
 const transactionService = new TransactionsQueriesService(supabase);
 
@@ -28,29 +29,29 @@ export function EditTransactionModal({
 }: EditTransactionModalProps) {
   const [submitting, setSubmitting] = useState(false);
 
-  const handleUpdateTransaction = async (transactionData: any) => {
+  const handleUpdateTransaction = async (transactionData: TransactionWithFile | TransactionInsertWithFile) => {
     setSubmitting(true);
-    
+
     try {
       const { selectedFile, ...cleanTransactionData } = transactionData;
       const updatedTransaction = await transactionService.updateTransaction(
-        transaction.id, 
+        transaction.id,
         cleanTransactionData
       );
-      
+
       onSuccess?.(updatedTransaction);
-      
+
       Alert.alert(
         'Sucesso!',
         readOnly ? 'Transação visualizada.' : 'Transação atualizada com sucesso.',
         [{ text: 'OK' }]
       );
-      
+
       onClose();
     } catch (error) {
       console.error('Erro ao atualizar transação:', error);
       onError?.(error as Error);
-      
+
       Alert.alert(
         'Erro',
         'Ocorreu um erro ao atualizar a transação. Tente novamente.',
@@ -89,7 +90,7 @@ export function EditTransactionModal({
             disabled={submitting}
             className={`w-8 h-8 items-center justify-center ${submitting ? 'opacity-50' : ''}`}
           >
-            <Ionicons name="close" size={24} color="#6b7280" />
+            <Ionicons name="close" size={24} color={Colors.light.grayMedium} />
           </TouchableOpacity>
         </View>
 

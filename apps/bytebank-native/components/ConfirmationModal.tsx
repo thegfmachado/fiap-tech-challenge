@@ -6,57 +6,57 @@ import { useAsyncAction } from '@/hooks/useAsyncOperation';
 
 /**
  * Propriedades do componente ConfirmationModal
- * 
+ *
  * @interface ConfirmationModalProps
  */
 export interface ConfirmationModalProps {
   /** Controla se o modal está visível */
   visible: boolean;
-  
+
   /** Título principal exibido no modal */
   title: string;
-  
+
   /** Descrição adicional (padrão: "Esta ação não poderá ser desfeita.") */
   description?: string;
-  
+
   /** Nome do item sendo confirmado para ação (opcional) */
   itemName?: string;
-  
+
   /** Texto do botão de confirmação (padrão: "Confirmar") */
   confirmText?: string;
-  
+
   /** Texto do botão de cancelar (padrão: "Cancelar") */
   cancelText?: string;
-  
+
   /** Texto exibido durante loading (padrão: "Processando...") */
   loadingText?: string;
-  
+
   /** Callback executado quando modal é fechado */
   onClose: () => void;
-  
+
   /** Callback assíncrono executado na confirmação */
   onConfirm: () => Promise<void>;
-  
+
   /** Cor personalizada do botão de confirmação (padrão: primária) */
   confirmButtonColor?: string;
-  
+
   /** Se deve mostrar botões de confirmação e cancelamento (padrão: true) */
   showTwoButtons?: boolean;
 }
 
 /**
  * Modal de confirmação reutilizável com estados de loading
- * 
+ *
  * Componente que exibe um modal de confirmação com:
  * - Ícone de aviso
  * - Título e descrição customizáveis
  * - Botões de ação com estados de loading
  * - Tratamento automático de operações assíncronas
  * - Visual consistente com o design system
- * 
+ *
  * @param {ConfirmationModalProps} props - Propriedades do componente
  * @returns {JSX.Element} Componente modal de confirmação
- * 
+ *
  * @example
  * ```tsx
  * <ConfirmationModal
@@ -81,7 +81,7 @@ export function ConfirmationModal({
   loadingText = "Processando...",
   onClose,
   onConfirm,
-  confirmButtonColor = "#664373",
+  confirmButtonColor = Colors.light.primary,
   showTwoButtons = true,
 }: ConfirmationModalProps) {
   const { isLoading, execute } = useAsyncAction();
@@ -108,11 +108,11 @@ export function ConfirmationModal({
       accessible={true}
       accessibilityViewIsModal={true}
     >
-      <View 
+      <View
         className="flex-1 bg-black/50 items-center justify-center px-6"
         accessible={false}
       >
-        <View 
+        <View
           className="bg-white rounded-2xl p-8 w-full max-w-sm items-center"
           accessible={true}
           accessibilityRole="alert"
@@ -127,17 +127,17 @@ export function ConfirmationModal({
             accessibilityLabel="Fechar modal"
             accessibilityHint="Toque para fechar o modal de confirmação"
           >
-            <Ionicons name="close" size={16} color="#6b7280" />
+            <Ionicons name="close" size={16} color={Colors.light.grayMedium} />
           </TouchableOpacity>
-          
-          <View 
+
+          <View
             className="items-center justify-center w-20 h-20 mb-6"
             accessible={false}
           >
-            <Ionicons 
-              name="warning-outline" 
-              size={Sizes.iconLarge} 
-              color={Colors.light.primaryLight} 
+            <Ionicons
+              name="warning-outline"
+              size={Sizes.iconLarge}
+              color={Colors.light.primaryLight}
             />
           </View>
 
@@ -145,16 +145,16 @@ export function ConfirmationModal({
             {title}
           </Text>
 
-          <Text className="text-sm text-gray-900 text-center mb-2 text-gray-600">
+          <Text className="text-sm text-gray-900 text-center mb-2">
             {description}
           </Text>
-          
+
           {itemName && (
             <Text className="text-sm text-gray-900 font-medium text-center mb-6">
               &quot;{itemName}&quot;?
             </Text>
           )}
-          
+
           {!itemName && (
             <View className="mb-8" />
           )}
@@ -205,7 +205,7 @@ export function ConfirmationModal({
             <TouchableOpacity
               onPress={handleConfirm}
               disabled={isLoading}
-              className={`rounded-lg py-3 px-4 items-center justify-center px-8 ${isLoading ? 'opacity-50' : ''}`}
+              className={`rounded-lg py-3 px-4 items-center justify-center ${isLoading ? 'opacity-50' : ''}`}
               style={{ backgroundColor: confirmButtonColor }}
             >
               {isLoading ? (

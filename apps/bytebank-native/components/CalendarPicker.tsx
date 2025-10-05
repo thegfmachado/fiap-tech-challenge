@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Modal, SafeAreaView, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { Colors } from '@/constants/Colors';
 
 interface CalendarPickerProps {
   visible: boolean;
@@ -18,6 +19,7 @@ const months = [
 ];
 
 const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+const weekLength = 7;
 
 export default function CalendarPicker({
   visible,
@@ -39,6 +41,7 @@ export default function CalendarPicker({
     const lastDay = new Date(year, month + 1, 0);
     const daysInMonth = lastDay.getDate();
     const startDayOfWeek = firstDay.getDay();
+    const endDayOfWeek = lastDay.getDay();
 
     const days: (Date | null)[] = [];
 
@@ -48,6 +51,10 @@ export default function CalendarPicker({
 
     for (let day = 1; day <= daysInMonth; day++) {
       days.push(new Date(year, month, day));
+    }
+
+    for (let i = endDayOfWeek; i < 6; i++) {
+      days.push(null);
     }
 
     return days;
@@ -106,7 +113,7 @@ export default function CalendarPicker({
       <SafeAreaView className="flex-1 bg-white">
         <View className="flex-row items-center justify-between p-4 border-b border-gray-200">
           <TouchableOpacity onPress={onClose} className="p-2">
-            <Ionicons name="close" size={24} color="#6b7280" />
+            <Ionicons name="close" size={24} color={Colors.light.grayMedium} />
           </TouchableOpacity>
           <Text className="text-lg font-semibold text-gray-900">{title}</Text>
           <View className="w-10" />
@@ -114,24 +121,22 @@ export default function CalendarPicker({
 
         <ScrollView className="flex-1">
           <View className="flex-row items-center justify-between p-4">
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={() => navigateMonth('prev')}
-              className="p-2 rounded-md"
-              style={{ backgroundColor: '#f3f4f6' }}
+              className="p-2 rounded-md bg-gray-100"
             >
-              <Ionicons name="chevron-back" size={20} color="#374151" />
+              <Ionicons name="chevron-back" size={20} color={Colors.light.grayBlue} />
             </TouchableOpacity>
 
             <Text className="text-xl font-bold text-gray-900">
               {months[currentMonth.getMonth()]} {currentMonth.getFullYear()}
             </Text>
 
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={() => navigateMonth('next')}
-              className="p-2 rounded-md"
-              style={{ backgroundColor: '#f3f4f6' }}
+              className="p-2 rounded-md bg-gray-100"
             >
-              <Ionicons name="chevron-forward" size={20} color="#374151" />
+              <Ionicons name="chevron-forward" size={20} color={Colors.light.grayBlue} />
             </TouchableOpacity>
           </View>
 
@@ -144,9 +149,9 @@ export default function CalendarPicker({
           </View>
 
           <View className="px-4">
-            {Array.from({ length: Math.ceil(days.length / 7) }).map((_, weekIndex) => (
+            {Array.from({ length: Math.ceil(days.length / weekLength) }).map((_, weekIndex) => (
               <View key={weekIndex} className="flex-row mb-1">
-                {days.slice(weekIndex * 7, weekIndex * 7 + 7).map((date, dayIndex) => (
+                {days.slice(weekIndex * weekLength, weekIndex * weekLength + weekLength).map((date, dayIndex) => (
                   <View key={dayIndex} className="flex-1 items-center">
                     {date ? (
                       <TouchableOpacity
@@ -154,32 +159,21 @@ export default function CalendarPicker({
                         disabled={isDateDisabled(date)}
                         className={`w-10 h-10 rounded-full items-center justify-center ${
                           isDateSelected(date)
-                            ? 'shadow-sm'
+                            ? 'bg-primary shadow-sm'
                             : isToday(date)
-                            ? 'border-2'
+                            ? 'border-2 border-primary'
                             : ''
-                        }`}
-                        style={{
-                          backgroundColor: isDateSelected(date) 
-                            ? '#664373' 
-                            : isToday(date) 
-                            ? 'transparent' 
-                            : 'transparent',
-                          borderColor: isToday(date) ? '#664373' : 'transparent',
-                          opacity: isDateDisabled(date) ? 0.3 : 1,
-                        }}
+                        } ${isDateDisabled(date) ? 'opacity-30' : ''}`}
                       >
                         <Text className={`text-sm font-medium ${
                           isDateSelected(date)
                             ? 'text-white'
                             : isToday(date)
-                            ? 'text-gray-900'
+                            ? 'text-primary'
                             : isDateDisabled(date)
                             ? 'text-gray-400'
                             : 'text-gray-900'
-                        }`} style={{
-                          color: isToday(date) && !isDateSelected(date) ? '#664373' : undefined
-                        }}>
+                        }`}>
                           {date.getDate()}
                         </Text>
                       </TouchableOpacity>
@@ -197,8 +191,8 @@ export default function CalendarPicker({
               onPress={() => handleDateSelect(new Date())}
               className="flex-row items-center justify-center py-3 px-4 rounded-md border border-gray-300"
             >
-              <Ionicons name="today" size={16} color="#664373" style={{ marginRight: 8 }} />
-              <Text className="text-sm font-medium" style={{ color: '#664373' }}>
+              <Ionicons name="today" size={16} color={Colors.light.primary} />
+              <Text className="text-sm font-medium text-primary ml-2">
                 Selecionar hoje
               </Text>
             </TouchableOpacity>

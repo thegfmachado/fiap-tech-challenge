@@ -1,16 +1,16 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { supabase } from '@/lib/supabase';
 import { TransactionsQueriesService } from '@fiap-tech-challenge/database/queries';
-import { 
-  type Transaction, 
-  mapITransactionArrayToTransactionArray 
+import {
+  type Transaction,
+  mapITransactionArrayToTransactionArray
 } from '@/utils/transactionMapper';
 
 export { type Transaction } from '@/utils/transactionMapper';
 
 /**
  * Representa um intervalo de datas para filtros de transação
- * 
+ *
  * @interface DateRange
  * @property {Date} [from] - Data de início do intervalo (opcional)
  * @property {Date} [to] - Data de fim do intervalo (opcional)
@@ -22,7 +22,7 @@ export interface DateRange {
 
 /**
  * Estado da paginação para listagem de transações
- * 
+ *
  * @interface PaginationState
  * @property {number} page - Página atual (começando em 0)
  * @property {number} limit - Limite de items por página
@@ -36,7 +36,7 @@ export interface PaginationState {
 
 /**
  * Estado dos filtros aplicados à listagem de transações
- * 
+ *
  * @interface FiltersState
  * @property {string} searchTerm - Termo de busca textual
  * @property {string} typeFilter - Filtro por tipo de transação ('' para todos)
@@ -49,12 +49,20 @@ export interface FiltersState {
 }
 
 function useDebouncedCallback<T extends (...args: unknown[]) => void>(callback: T, delay: number) {
-  const timeout = useRef<ReturnType<typeof setTimeout>>(null);
+  const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  return (...args: Parameters<T>) => {
+  useEffect(() => {
+    return () => {
+      if (timeout.current) {
+        clearTimeout(timeout.current);
+      }
+    };
+  }, []);
+
+  return useCallback((...args: Parameters<T>) => {
     if (timeout.current) clearTimeout(timeout.current);
     timeout.current = setTimeout(() => callback(...args), delay);
-  };
+  }, [callback, delay]);
 }
 
 const initialPaginationState: PaginationState = {
@@ -71,14 +79,14 @@ const initialFilters: FiltersState = {
 
 /**
  * Hook personalizado para gerenciar transações com paginação, filtros e busca
- * 
+ *
  * Fornece funcionalidades completas de CRUD para transações, incluindo:
  * - Listagem paginada com carregamento incremental
  * - Filtros por texto, tipo e intervalo de datas
  * - Cache otimizado e debouncing para performance
  * - Estados de loading separados para diferentes operações
  * - Tratamento de erros robusto
- * 
+ *
  * @returns {Object} Objeto contendo:
  *   - transactions: Array de transações carregadas
  *   - hasMoreTransactions: Indica se há mais transações para carregar
@@ -92,7 +100,7 @@ const initialFilters: FiltersState = {
  *   - resetTransactions: Função para resetar lista e recarregar
  *   - updateFilters: Função para atualizar filtros
  *   - resetFilters: Função para limpar todos os filtros
- * 
+ *
  * @example
  * ```typescript
  * const {
@@ -104,13 +112,13 @@ const initialFilters: FiltersState = {
  *   loadMoreTransactions,
  *   resetTransactions
  * } = useTransactions();
- * 
+ *
  * // Atualizar filtros
  * updateFilters({
  *   searchTerm: 'pagamento',
  *   typeFilter: TransactionType.DEBIT
  * });
- * 
+ *
  * // Carregar mais transações
  * if (hasMoreTransactions) {
  *   loadMoreTransactions();
@@ -124,7 +132,7 @@ export function useTransactions() {
   const [loadingMoreTransactions, setLoadingMoreTransactions] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
-  
+
   const [filters, setFilters] = useState<FiltersState>(initialFilters);
   const [pagination, setPagination] = useState<PaginationState>(initialPaginationState);
 
@@ -220,7 +228,7 @@ export function useTransactions() {
     setTransactions([]);
     setHasMoreTransactions(true);
     setLoadingAllTransactions(true);
-    
+
     try {
       setError(null);
       const queryParams = getQueryParams(0, initialPaginationState.limit - 1, customFilters);
@@ -303,9 +311,9 @@ export function useTransactions() {
 
   const transactionCount = useMemo(() => transactions.length, [transactions.length]);
   const hasTransactions = useMemo(() => transactions.length > 0, [transactions.length]);
-  const isFilterActive = useMemo(() => 
-    filters.searchTerm !== '' || 
-    filters.typeFilter !== '' || 
+  const isFilterActive = useMemo(() =>
+    filters.searchTerm !== '' ||
+    filters.typeFilter !== '' ||
     filters.dateRange !== undefined
   , [filters.searchTerm, filters.typeFilter, filters.dateRange]);
 

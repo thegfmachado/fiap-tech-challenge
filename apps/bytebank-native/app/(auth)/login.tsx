@@ -94,11 +94,13 @@ export default function LoginScreen() {
         />
 
         <ThemedView className="flex-row justify-center items-center mb-8">
-          <TouchableOpacity>
-            <ThemedText type="link">
-              Esqueci minha senha
-            </ThemedText>
-          </TouchableOpacity>
+          <Link href="/forgot-password" asChild>
+            <TouchableOpacity>
+              <ThemedText type="link">
+                Esqueci minha senha
+              </ThemedText>
+            </TouchableOpacity>
+          </Link>
         </ThemedView>
 
         <ThemedView className="flex-row justify-center items-center gap-1">

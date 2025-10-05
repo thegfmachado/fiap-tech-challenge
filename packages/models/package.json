@@ -20,7 +20,7 @@
   "devDependencies": {
     "@fiap-tech-challenge/eslint-config": "file:../eslint-config",
     "@fiap-tech-challenge/typescript-config": "file:../typescript-config",
-    "@types/node": "^20",
-    "typescript": "^5"
+    "@types/node": "20.19.x",
+    "typescript": "5.8.3"
   }
 }

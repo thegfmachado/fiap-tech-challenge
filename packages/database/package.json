@@ -42,8 +42,8 @@
   "devDependencies": {
     "@fiap-tech-challenge/eslint-config": "file:../eslint-config",
     "@fiap-tech-challenge/typescript-config": "file:../typescript-config",
-    "@types/node": "^20",
+    "@types/node": "20.19.x",
     "supabase": "2.31.4",
-    "typescript": "^5"
+    "typescript": "5.8.3"
   }
 }

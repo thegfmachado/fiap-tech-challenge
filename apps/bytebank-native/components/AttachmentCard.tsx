@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
 import { FileIcon } from './ui/FileIcon';
@@ -54,7 +54,7 @@ export function AttachmentCard({
               {isDownloading ? (
                 <View className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
               ) : (
-                <Ionicons name="download-outline" size={20} color="#664373" />
+                <Ionicons name="download-outline" size={20} color={Colors.light.primary} />
               )}
             </TouchableOpacity>
           )}

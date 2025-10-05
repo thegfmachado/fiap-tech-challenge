@@ -1,99 +1,136 @@
-import { Image } from 'expo-image';
-import { Platform } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { View, Text, ScrollView, Animated } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import { Card, CardType } from "@/components/Card";
+import DashboardCharts from "@/components/DashboardCharts";
+import { useDashboard } from "@/contexts/dashboard-context";
+import { useFocusEffect } from "@react-navigation/native";
+import { FilterType } from "@fiap-tech-challenge/models";
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
+export default function Dashboard() {
 
-export default function DashboardScreen() {
+  const PIXELS_BELOW_ORIGINAL_POSITION_INITIAL = 30;
+  const PIXELS_BELOW_ORIGINAL_POSITION_FINAL = 0;
+  const ANIMATION_PROGRESS_START = 0;
+  const ANIMATION_PROGRESS_END = 1;
+
+  const { dashboard, refresh } = useDashboard();
+
+  const ANIMATION_COUNT = 5;
+  const animations = React.useMemo(
+    () => Array.from({ length: ANIMATION_COUNT }, () => new Animated.Value(0)),
+    []
+  );
+
+  const [filter, setFilter] = useState<FilterType>(FilterType.YEAR);
+
+  useEffect(() => {
+    refresh(filter);
+  }, [filter]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (dashboard) {
+        animations.forEach((anim) => anim.setValue(0));
+
+        Animated.sequence(
+          animations.map((anim) =>
+            Animated.timing(anim, {
+              toValue: 1,
+              duration: 500,
+              useNativeDriver: true,
+            })
+          )
+        ).start();
+      }
+    }, [dashboard])
+  );
+
+  if (!dashboard) {
+    return null;
+  }
+
+  const getAnimatedStyle = (anim: Animated.Value) => ({
+    transform: [
+      {
+        translateY: anim.interpolate({
+          inputRange: [ANIMATION_PROGRESS_START, ANIMATION_PROGRESS_END],
+          outputRange: [PIXELS_BELOW_ORIGINAL_POSITION_INITIAL, PIXELS_BELOW_ORIGINAL_POSITION_FINAL],
+        }),
+      },
+    ],
+  });
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#553860', dark: '#553860' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#8A6AA1"
-          name="chart.line.uptrend.xyaxis.circle.fill"
-          className="-bottom-[70px] -left-[35px]"
+    <ScrollView className="px-4 pt-6 bg-gray-50">
+      <Animated.View
+        className="flex-row items-center justify-between mb-4 mt-4 opacity-0"
+        style={[getAnimatedStyle(animations[0]), { opacity: animations[0] }]}
+      >
+        <Text className="text-2xl font-bold">Dashboards</Text>
+
+        <View className="w-[160px]">
+          <Picker
+            selectedValue={filter}
+            onValueChange={(value) => setFilter(value)}
+          >
+            <Picker.Item label="Semana atual" value={FilterType.WEEK} />
+            <Picker.Item label="Mês atual" value={FilterType.MONTH} />
+            <Picker.Item label="Ano atual" value={FilterType.YEAR} />
+          </Picker>
+        </View>
+      </Animated.View>
+
+      <Animated.View
+        className="opacity-0"
+        style={[getAnimatedStyle(animations[1]), { opacity: animations[1] }]}
+      >
+        <Card
+          title="Receita total"
+          value={dashboard.income.total}
+          percentage={parseFloat(dashboard.income.increasePercentage)}
+          type={CardType.amount}
+          filterType={filter}
         />
-      }>
-      <ThemedView className="flex-row gap-2">
-        <ThemedText type="title">Dashboard Aqui!</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} className="self-center" />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText className="font-mono">
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+      </Animated.View>
+
+      <View className="flex-row gap-4 mt-4">
+        <Animated.View
+          className="flex-1 opacity-0"
+          style={[getAnimatedStyle(animations[2]), { opacity: animations[2] }]}
+        >
+          <Card
+            title="Entradas"
+            value={dashboard.amount.total}
+            percentage={parseFloat(dashboard.amount.increasePercentage)}
+            type={CardType.income}
+            filterType={filter}
+          />
+        </Animated.View>
+
+        <Animated.View
+          className="flex-1 opacity-0"
+          style={[getAnimatedStyle(animations[3]), { opacity: animations[3] }]}
+        >
+          <Card
+            title="Saídas"
+            value={dashboard.expenses.total}
+            percentage={parseFloat(dashboard.expenses.increasePercentage)}
+            type={CardType.expenses}
+            filterType={filter}
+          />
+        </Animated.View>
+      </View>
+
+      <Animated.View
+        className="mt-5 opacity-0"
+        style={[getAnimatedStyle(animations[4]), { opacity: animations[4] }]}
+      >
+        <DashboardCharts
+          lineData={dashboard.incomeByRange}
+          barData={dashboard.amountAndExpensesByRange}
+        />
+      </Animated.View>
+    </ScrollView>
   );
 }
-
-

@@ -11,10 +11,26 @@ import { RadioGroup } from './ui/RadioGroup';
 import CalendarPicker from './CalendarPicker';
 import { TransactionAttachment, BaseTransaction } from './TransactionAttachment';
 import { useFormValidation, formSchemas } from '@/hooks/useFormValidation';
+import { Colors } from '@/constants/Colors';
+
+interface ISelectedFile {
+  name: string;
+  uri: string;
+  type: string;
+  size: number;
+}
+
+export interface TransactionWithFile extends ITransaction {
+  selectedFile?: ISelectedFile;
+}
+
+export interface TransactionInsertWithFile extends ITransactionInsert {
+  selectedFile?: ISelectedFile;
+}
 
 export type TransactionFormProps = {
   disabled?: boolean;
-  onSubmit: (transaction: ITransaction | ITransactionInsert) => void;
+  onSubmit: (transaction: TransactionWithFile | TransactionInsertWithFile) => void;
   readOnly?: boolean;
   transaction?: ITransaction;
   onAttachmentChange?: (transaction: ITransaction) => void;
@@ -47,7 +63,7 @@ export function TransactionForm({
   onAttachmentChange,
 }: TransactionFormProps) {
   const [showCalendar, setShowCalendar] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<{ name: string; uri: string; type: string; size: number } | null>(null);
+  const [selectedFile, setSelectedFile] = useState<ISelectedFile | null>(null);
 
   const form = useFormValidation(createTransactionSchema, {
     defaultValues: transaction ? {
@@ -78,10 +94,10 @@ export function TransactionForm({
     const transactionData = {
       ...values,
       date: values.date.toISOString(),
-    } as ITransaction | ITransactionInsert;
+    } as TransactionWithFile | TransactionInsertWithFile;
 
     if (selectedFile) {
-      (transactionData as any).selectedFile = selectedFile;
+      transactionData.selectedFile = selectedFile;
     }
 
     onSubmit(transactionData);
@@ -118,8 +134,8 @@ export function TransactionForm({
               placeholder="Descrição da transação"
               editable={!readOnly && !disabled}
               className={`border rounded-md px-3 py-2 ${
-                errors.description 
-                  ? 'border-red-300 bg-red-50' 
+                errors.description
+                  ? 'border-red-300 bg-red-50'
                   : 'border-gray-300 bg-white'
               } ${(readOnly || disabled) ? 'opacity-50' : ''}`}
             />
@@ -153,8 +169,8 @@ export function TransactionForm({
         <TouchableOpacity
           onPress={() => !readOnly && !disabled && setShowCalendar(true)}
           className={`border rounded-md px-3 py-2 flex-row items-center justify-between ${
-            errors.date 
-              ? 'border-red-300 bg-red-50' 
+            errors.date
+              ? 'border-red-300 bg-red-50'
               : 'border-gray-300 bg-white'
           } ${(readOnly || disabled) ? 'opacity-50' : ''}`}
           disabled={readOnly || disabled}
@@ -162,7 +178,7 @@ export function TransactionForm({
           <Text className="text-gray-900">
             {formatDate(selectedDate)}
           </Text>
-          <Ionicons name="calendar-outline" size={16} color="#6b7280" />
+          <Ionicons name="calendar-outline" size={16} color={Colors.light.grayMedium} />
         </TouchableOpacity>
         {errors.date && (
           <Text className="text-sm text-red-600 mt-1">{errors.date.message}</Text>

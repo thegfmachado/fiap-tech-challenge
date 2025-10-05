@@ -1,6 +1,7 @@
 import React from 'react';
 import { ConfirmationModal } from './ConfirmationModal';
 import type { ITransaction } from '@fiap-tech-challenge/database/types';
+import { Colors } from '@/constants/Colors';
 
 export interface DeleteTransactionModalProps {
   visible: boolean;
@@ -15,24 +16,25 @@ export function DeleteTransactionModal({
   onClose,
   onConfirm,
 }: DeleteTransactionModalProps) {
-  const handleConfirm = async () => {
-    if (!transaction) return;
-    await onConfirm(transaction.id);
+  if (!transaction) {
+    return null
   };
 
-  if (!transaction) return null;
+  const handleConfirm = async () => {
+    await onConfirm(transaction.id);
+  };
 
   return (
     <ConfirmationModal
       visible={visible}
-      title="Você tem certeza que quer deletar essa transação?"
-      description="Esta ação não poderá ser desfeita."
+      title="Deletar transação?"
+      description="Você tem certeza que quer deletar essa transação? Esta ação não poderá ser desfeita."
       confirmText="Deletar transação"
       loadingText="Deletando..."
       onClose={onClose}
       onConfirm={handleConfirm}
-      showTwoButtons={false}
-      confirmButtonColor="#664373"
+      showTwoButtons
+      confirmButtonColor={Colors.light.danger}
     />
   );
 }

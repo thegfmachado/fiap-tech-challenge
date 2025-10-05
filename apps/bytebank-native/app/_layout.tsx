@@ -15,6 +15,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import IntroSlider from '@/components/IntroSlider';
 
 import '../global.css';
+import { Colors } from '@/constants/Colors';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -62,7 +63,7 @@ export default function RootLayout() {
   if (storageLoading) {
     return (
       <View className="flex-1 justify-center items-center">
-        <ActivityIndicator color="#664373" size="large" />
+        <ActivityIndicator color={Colors.light.primary} size="large" />
       </View>
     );
   }

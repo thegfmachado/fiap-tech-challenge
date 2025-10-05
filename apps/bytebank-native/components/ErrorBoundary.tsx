@@ -1,5 +1,5 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { Component, ReactNode } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors, Sizes } from '@/constants/Colors';
 
@@ -9,19 +9,19 @@ import { Colors, Sizes } from '@/constants/Colors';
 interface ErrorBoundaryProps {
   /** Componentes filhos a serem renderizados */
   children: ReactNode;
-  
+
   /** Callback opcional quando erro ocorre */
   onError?: (error: Error, errorInfo: React.ErrorInfo) => void;
-  
+
   /** Fallback UI customizado */
   fallback?: ReactNode;
-  
+
   /** Se deve mostrar detalhes do erro (apenas em desenvolvimento) */
   showErrorDetails?: boolean;
-  
+
   /** Título customizado para o erro */
   errorTitle?: string;
-  
+
   /** Mensagem customizada para o erro */
   errorMessage?: string;
 }
@@ -37,11 +37,11 @@ interface ErrorBoundaryState {
 
 /**
  * Error Boundary para capturar e tratar erros em componentes React
- * 
+ *
  * Componente que intercepta erros JavaScript em qualquer lugar da árvore
  * de componentes filhos e exibe uma UI de fallback em vez de quebrar
  * toda a aplicação.
- * 
+ *
  * @example
  * ```tsx
  * <ErrorBoundary
@@ -56,7 +56,7 @@ interface ErrorBoundaryState {
 export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
-    
+
     this.state = {
       hasError: false,
       error: null,
@@ -66,7 +66,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
   /**
    * Método estático chamado quando um erro é capturado
-   * 
+   *
    * @param error - O erro capturado
    * @returns Novo estado com informações do erro
    */
@@ -80,7 +80,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   /**
    * Método chamado quando um erro é capturado
    * Usado para logging e side effects
-   * 
+   *
    * @param error - O erro capturado
    * @param errorInfo - Informações adicionais do erro
    */
@@ -110,14 +110,14 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
    * Renderizar UI de fallback ou componentes normais
    */
   render() {
-    const { 
-      children, 
-      fallback, 
-      showErrorDetails = __DEV__, 
+    const {
+      children,
+      fallback,
+      showErrorDetails = __DEV__,
       errorTitle = "Ops! Algo deu errado",
       errorMessage = "Ocorreu um erro inesperado. Tente novamente."
     } = this.props;
-    
+
     const { hasError, error, errorInfo } = this.state;
 
     if (hasError) {
@@ -127,11 +127,11 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
       return (
         <View className="flex-1 items-center justify-center p-6 bg-white">
-          <View className="items-center justify-center mb-6" style={{ width: 80, height: 80 }}>
-            <Ionicons 
-              name="warning-outline" 
-              size={Sizes.iconLarge} 
-              color={Colors.light.danger} 
+          <View className="items-center justify-center mb-6 w-20 h-20">
+            <Ionicons
+              name="warning-outline"
+              size={Sizes.iconLarge}
+              color={Colors.light.danger}
             />
           </View>
 
@@ -139,17 +139,17 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             {errorTitle}
           </Text>
 
-          <Text className="text-sm text-gray-900 text-center mb-6 text-gray-600">
+          <Text className="text-sm text-center mb-6 text-gray-600">
             {errorMessage}
           </Text>
 
           {showErrorDetails && error && (
             <View className="w-full mb-6 p-4 bg-gray-100 rounded-lg">
-              <Text className="text-xs text-gray-600 font-mono text-red-600">
+              <Text className="text-xs font-mono text-red-600">
                 {error.toString()}
               </Text>
               {errorInfo && (
-                <Text className="text-xs text-gray-600 font-mono text-gray-500 mt-2">
+                <Text className="text-xs font-mono text-gray-500 mt-2">
                   {errorInfo.componentStack}
                 </Text>
               )}
@@ -158,8 +158,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
           <TouchableOpacity
             onPress={this.resetError}
-            className="rounded-lg py-3 px-4 items-center justify-center bg-primary px-8"
-            style={{ backgroundColor: Colors.light.primaryLight }}
+            className="rounded-lg py-3 px-4 items-center justify-center bg-primary-light"
           >
             <Text className="font-semibold text-center text-base text-white">
               Tentar Novamente
@@ -175,11 +174,11 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
 /**
  * HOC para envolver componentes com ErrorBoundary
- * 
+ *
  * @param Component - Componente a ser envolvido
  * @param errorBoundaryProps - Props do ErrorBoundary
  * @returns Componente envolvido com ErrorBoundary
- * 
+ *
  * @example
  * ```tsx
  * const SafeTransactionsList = withErrorBoundary(TransactionsList, {

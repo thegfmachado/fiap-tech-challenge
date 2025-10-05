@@ -31,7 +31,7 @@ const slides = [
 
 function SliderButton({ label }: { label: string }) {
   return (
-    <View className="p-4 bg-[#664373] rounded items-center justify-center w-full">
+    <View className="p-4 bg-primary rounded items-center justify-center w-full">
       <Text className="text-white font-bold">{label}</Text>
     </View>
   );
@@ -39,7 +39,7 @@ function SliderButton({ label }: { label: string }) {
 
 export default function IntroSlider({ onDone }: { onDone: () => void }) {
   const renderItem = ({ item }: { item: typeof slides[number] }) => (
-    <View className="flex-1 w-screen h-screen bg-[#AA8BB5] items-center justify-center p-5">
+    <View className="flex-1 w-screen h-screen bg-primary-light items-center justify-center p-5">
       <Text className="text-3xl font-bold text-white mb-10 text-center">{item.title}</Text>
       <item.image width={256} height={256} />
       <Text className="text-base text-white mt-2 text-center">{item.text}</Text>

@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as DocumentPicker from 'expo-document-picker';
+import { Colors } from '@/constants/Colors';
 
 interface FileUploadProps {
   onFileSelect: (file: { name: string; uri: string; type: string; size: number } | null) => void;
@@ -51,7 +52,7 @@ export function FileUpload({
 
       if (!result.canceled && result.assets && result.assets.length > 0) {
         const file = result.assets[0];
-        
+
         const validation = validateFile(file);
         if (!validation.isValid) {
           Alert.alert('Erro', validation.error || 'Arquivo inválido');
@@ -87,14 +88,14 @@ export function FileUpload({
           </>
         ) : (
           <>
-            <Ionicons name="cloud-upload-outline" size={32} color="#664373" />
+            <Ionicons name="cloud-upload-outline" size={32} color={Colors.light.primary} />
             <Text className="text-primary font-semibold mt-2">
               Adicionar Arquivo
             </Text>
           </>
         )}
       </TouchableOpacity>
-      
+
       <Text className="text-xs text-gray-500 mt-2 text-center">
         Formatos aceitos: JPG, PNG, PDF, TXT, CSV, XLS. Máximo: 10MB
       </Text>

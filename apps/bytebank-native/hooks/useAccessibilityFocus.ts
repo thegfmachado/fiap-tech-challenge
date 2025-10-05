@@ -1,5 +1,6 @@
-import React, { useRef, useEffect, useCallback, useState } from 'react';
-import { findNodeHandle, AccessibilityInfo, Platform } from 'react-native';
+import { isMobile } from '@/constants/device';
+import { useRef, useEffect, useCallback, useState } from 'react';
+import { findNodeHandle, AccessibilityInfo } from 'react-native';
 
 /**
  * Opções para o hook de foco de acessibilidade
@@ -7,31 +8,32 @@ import { findNodeHandle, AccessibilityInfo, Platform } from 'react-native';
 interface UseAccessibilityFocusOptions {
   /** Se deve focar automaticamente quando o componente monta */
   autoFocus?: boolean;
-  
   /** Delay em ms antes de focar (útil para modals) */
   focusDelay?: number;
-  
   /** Se deve anunciar o foco para screen readers */
   announceForScreenReader?: boolean;
+  /** Mensagem customizada para anunciar no screen reader */
+  announcementMessage?: string;
 }
 
 /**
  * Hook para gerenciar foco de acessibilidade
- * 
+ *
  * Fornece funções para gerenciar foco de acessibilidade de forma
  * consistente, incluindo suporte para screen readers.
- * 
+ *
  * @param {UseAccessibilityFocusOptions} options - Opções de configuração
  * @returns Objeto com ref e funções de foco
- * 
+ *
  * @example
  * ```tsx
  * const { ref, focus, blur } = useAccessibilityFocus({
  *   autoFocus: true,
  *   focusDelay: 300,
- *   announceForScreenReader: true
+ *   announceForScreenReader: true,
+ *   announcementMessage: 'Modal aberto'
  * });
- * 
+ *
  * return (
  *   <View ref={ref} accessible>
  *     <Text>Conteúdo focável</Text>
@@ -43,10 +45,11 @@ export function useAccessibilityFocus(options: UseAccessibilityFocusOptions = {}
   const {
     autoFocus = false,
     focusDelay = 100,
-    announceForScreenReader = false
+    announceForScreenReader = false,
+    announcementMessage = 'Conteúdo carregado'
   } = options;
-  
-  const ref = useRef<any>(null);
+
+  const ref = useRef<React.Component | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   /**
@@ -64,14 +67,14 @@ export function useAccessibilityFocus(options: UseAccessibilityFocusOptions = {}
 
       timeoutRef.current = setTimeout(() => {
         AccessibilityInfo.setAccessibilityFocus(reactTag);
-        
+
         // Anunciar para screen readers se solicitado
-        if (announceForScreenReader && Platform.OS === 'ios') {
-          AccessibilityInfo.announceForAccessibility('Conteúdo carregado');
+        if (announceForScreenReader) {
+          AccessibilityInfo.announceForAccessibility(announcementMessage);
         }
       }, focusDelay);
     }
-  }, [focusDelay, announceForScreenReader]);
+  }, [focusDelay, announceForScreenReader, announcementMessage]);
 
   /**
    * Remove o foco do elemento
@@ -120,24 +123,21 @@ export function useAccessibilityFocus(options: UseAccessibilityFocusOptions = {}
 
 /**
  * Hook para anunciar mensagens para screen readers
- * 
+ *
  * @returns Função para anunciar mensagens
- * 
+ *
  * @example
  * ```tsx
  * const announce = useAccessibilityAnnouncement();
- * 
+ *
  * const handleSuccess = () => {
  *   announce('Transação salva com sucesso');
  * };
  * ```
  */
 export function useAccessibilityAnnouncement() {
-  return useCallback((message: string, priority: 'polite' | 'assertive' = 'polite') => {
-    if (Platform.OS === 'ios') {
-      AccessibilityInfo.announceForAccessibility(message);
-    } else if (Platform.OS === 'android') {
-      // No Android, podemos usar AccessibilityInfo.announceForAccessibility também
+  return useCallback((message: string) => {
+    if (isMobile) {
       AccessibilityInfo.announceForAccessibility(message);
     }
   }, []);
@@ -145,13 +145,13 @@ export function useAccessibilityAnnouncement() {
 
 /**
  * Hook para detectar se um screen reader está ativo
- * 
+ *
  * @returns Estado booleano indicando se screen reader está ativo
- * 
+ *
  * @example
  * ```tsx
  * const isScreenReaderEnabled = useScreenReaderEnabled();
- * 
+ *
  * return (
  *   <View>
  *     {isScreenReaderEnabled && (

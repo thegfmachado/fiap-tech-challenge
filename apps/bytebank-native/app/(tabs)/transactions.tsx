@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from 'react';
-import { 
-  SafeAreaView, 
-  View, 
-  Text, 
-  TouchableOpacity, 
-  RefreshControl, 
+import {
+  SafeAreaView,
+  View,
+  Text,
+  TouchableOpacity,
+  RefreshControl,
   ActivityIndicator,
   ScrollView,
   Alert
@@ -25,6 +25,7 @@ import TransactionsList from '@/components/TransactionsList';
 import { TransactionsQueriesService } from '@fiap-tech-challenge/database/queries';
 import { supabase } from '@/lib/supabase';
 import { mapTransactionToITransaction, mapITransactionToTransaction, type Transaction } from '@/utils/transactionMapper';
+import { Colors } from '@/constants/Colors';
 
 const transactionService = new TransactionsQueriesService(supabase);
 
@@ -34,7 +35,7 @@ export default function TransactionsScreen() {
   const [editTransaction, setEditTransaction] = useState<ITransaction | null>(null);
   const [viewTransaction, setViewTransaction] = useState<ITransaction | null>(null);
   const [deleteTransaction, setDeleteTransaction] = useState<ITransaction | null>(null);
-  
+
   const {
     transactions,
     loading,
@@ -54,7 +55,7 @@ export default function TransactionsScreen() {
       attachment_name: transaction.attachment_name ?? null,
       attachment_url: transaction.attachment_url ?? null,
     });
-    
+
     setEditTransaction(fullTransaction);
   }, []);
 
@@ -85,20 +86,20 @@ export default function TransactionsScreen() {
 
   const handleTransactionCreated = useCallback((newTransaction: ITransaction) => {
     const localTransaction: Transaction = mapITransactionToTransaction(newTransaction);
-    
+
     handleSyncTransactions(localTransaction, 'create');
     setShowCreateModal(false);
   }, [handleSyncTransactions]);
 
   const handleTransactionPress = useCallback((transaction: Transaction) => {
     const fullTransaction: ITransaction = mapTransactionToITransaction(transaction);
-    
+
     setViewTransaction(fullTransaction);
   }, []);
 
   const handleTransactionUpdated = useCallback((updatedTransaction: ITransaction) => {
     const localTransaction: Transaction = mapITransactionToTransaction(updatedTransaction);
-    
+
     handleSyncTransactions(localTransaction, 'edit');
     setEditTransaction(null);
   }, [handleSyncTransactions]);
@@ -110,14 +111,14 @@ export default function TransactionsScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      <ScrollView 
+      <ScrollView
         className="flex-1"
         refreshControl={
-          <RefreshControl 
-            refreshing={loading} 
+          <RefreshControl
+            refreshing={loading}
             onRefresh={refreshTransactions}
-            colors={['#664373']}
-            tintColor="#664373"
+            colors={[Colors.light.primary]}
+            tintColor={Colors.light.primary}
           />
         }
       >
@@ -134,10 +135,10 @@ export default function TransactionsScreen() {
                 onPress={() => setShowFilters(!showFilters)}
                 className={`p-2 ${showFilters ? 'opacity-100' : 'opacity-60'}`}
               >
-                <Ionicons 
+                <Ionicons
                   name="funnel-outline"
-                  size={24} 
-                  color={showFilters ? '#664373' : '#6b7280'}
+                  size={24}
+                  color={showFilters ? Colors.light.primary : Colors.light.grayMedium}
                 />
               </TouchableOpacity>
             </View>
@@ -171,13 +172,13 @@ export default function TransactionsScreen() {
               renderActions={(transaction: Transaction) => {
                 return (
                   <>
-                    <TransactionAction 
-                      type="edit" 
-                      onClick={() => handleEdit(transaction)} 
+                    <TransactionAction
+                      type="edit"
+                      onClick={() => handleEdit(transaction)}
                     />
-                    <TransactionAction 
-                      type="delete" 
-                      onClick={() => handleDelete(transaction.id)} 
+                    <TransactionAction
+                      type="delete"
+                      onClick={() => handleDelete(transaction.id)}
                     />
                   </>
                 );
@@ -185,7 +186,7 @@ export default function TransactionsScreen() {
             />
             {loadingMore && (
               <View className="flex-row items-center justify-center w-full p-4 h-20 gap-4">
-                <ActivityIndicator size="small" color="#6b7280" />
+                <ActivityIndicator size="small" color={Colors.light.grayMedium} />
                 <Text className="text-sm text-gray-500">
                   Carregando mais...
                 </Text>
