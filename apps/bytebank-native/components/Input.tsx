@@ -8,6 +8,7 @@ import {
 import { IconSymbol } from './ui/IconSymbol';
 import { ThemedView } from './ThemedView';
 import { useThemeColor } from '@/hooks/useThemeColor';
+import { Colors } from '@/constants/Colors';
 
 interface InputProps extends TextInputProps {
   label: string;
@@ -54,7 +55,7 @@ export function Input({
             setIsFocused(false);
             props.onBlur?.(e);
           }}
-          placeholderTextColor="#9CA3AF"
+          placeholderTextColor={Colors.light.grayLight}
         />
 
         {showPasswordToggle && (

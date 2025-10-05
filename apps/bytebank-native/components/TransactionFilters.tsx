@@ -4,37 +4,38 @@ import { Ionicons } from '@expo/vector-icons';
 import { FiltersState } from '@/hooks/useTransactions';
 import { TransactionType } from '@fiap-tech-challenge/models';
 import CalendarPicker from './CalendarPicker';
+import { Colors } from '@/constants/Colors';
 
 /**
  * Propriedades do componente TransactionFilters
- * 
+ *
  * @interface TransactionFiltersProps
  */
 interface TransactionFiltersProps {
   /** Estado atual dos filtros aplicados */
   filters: FiltersState;
-  
+
   /** Callback para atualizar os filtros */
   onFiltersChange: (filters: FiltersState) => void;
-  
+
   /** Callback para aplicar os filtros atuais */
   onApplyFilters: () => void;
-  
+
   /** Callback para limpar todos os filtros */
   onClearFilters: () => void;
 }
 
 /**
  * Componente de filtros para transações
- * 
+ *
  * Fornece interface para filtrar transações por:
  * - Termo de busca textual
  * - Tipo de transação (Todos, Depósito, Saque)
  * - Intervalo de datas (de/até)
- * 
+ *
  * @param {TransactionFiltersProps} props - Propriedades do componente
  * @returns {JSX.Element} Componente de filtros
- * 
+ *
  * @example
  * ```tsx
  * <TransactionFilters
@@ -65,7 +66,7 @@ export default function TransactionFilters({
   const handleFromDateSelect = (selectedDate: Date) => {
     const maxDate = filters.dateRange?.to || undefined;
     const finalDate = maxDate && selectedDate > maxDate ? maxDate : selectedDate;
-    
+
     onFiltersChange({
       ...filters,
       dateRange: {
@@ -78,7 +79,7 @@ export default function TransactionFilters({
   const handleToDateSelect = (selectedDate: Date) => {
     const minDate = filters.dateRange?.from || undefined;
     const finalDate = minDate && selectedDate < minDate ? minDate : selectedDate;
-    
+
     onFiltersChange({
       ...filters,
       dateRange: {
@@ -113,7 +114,7 @@ export default function TransactionFilters({
           <TextInput
             className="border border-gray-300 rounded-md px-3 py-2 bg-white w-full"
             placeholder="Digite o valor ou nome da transação"
-            placeholderTextColor="#9ca3af"
+            placeholderTextColor={Colors.light.grayLight}
             value={filters.searchTerm}
             onChangeText={handleSearchTermChange}
           />
@@ -134,7 +135,7 @@ export default function TransactionFilters({
                   Todos
                 </Text>
               </TouchableOpacity>
-              
+
               <TouchableOpacity
                 onPress={() => handleTypeFilterChange(TransactionType.CREDIT)}
                 className={`flex-1 py-3 px-4 border-r border-gray-300 ${
@@ -147,7 +148,7 @@ export default function TransactionFilters({
                   Depósito
                 </Text>
               </TouchableOpacity>
-              
+
               <TouchableOpacity
                 onPress={() => handleTypeFilterChange(TransactionType.DEBIT)}
                 className={`flex-1 py-3 px-4 ${
@@ -171,7 +172,7 @@ export default function TransactionFilters({
             </Text>
             {(filters.dateRange?.from || filters.dateRange?.to) && (
               <TouchableOpacity onPress={clearDateRange}>
-                <Text className="text-xs underline" style={{ color: '#664373' }}>
+                <Text className="text-xs underline text-primary">
                   Limpar datas
                 </Text>
               </TouchableOpacity>
@@ -187,9 +188,9 @@ export default function TransactionFilters({
               }`}>
                 {filters.dateRange?.from ? formatDate(filters.dateRange.from) : 'Data inicial'}
               </Text>
-              <Ionicons name="calendar-outline" size={16} color="#6b7280" />
+              <Ionicons name="calendar-outline" size={16} color={Colors.light.grayMedium} />
             </TouchableOpacity>
-            
+
             <TouchableOpacity
               onPress={() => setShowToCalendar(true)}
               className="flex-1 border border-gray-300 rounded-md px-3 py-2 bg-white flex-row items-center justify-between"
@@ -199,7 +200,7 @@ export default function TransactionFilters({
               }`}>
                 {filters.dateRange?.to ? formatDate(filters.dateRange.to) : 'Data final'}
               </Text>
-              <Ionicons name="calendar-outline" size={16} color="#6b7280" />
+              <Ionicons name="calendar-outline" size={16} color={Colors.light.grayMedium} />
             </TouchableOpacity>
           </View>
         </View>
@@ -208,14 +209,13 @@ export default function TransactionFilters({
       <View className="flex-row gap-2">
         <TouchableOpacity
           onPress={onApplyFilters}
-          className="flex-1 rounded-md py-2"
-          style={{ backgroundColor: '#664373' }}
+          className="flex-1 rounded-md py-2 bg-primary"
         >
           <Text className="text-white font-semibold text-center text-sm">
             Buscar
           </Text>
         </TouchableOpacity>
-        
+
         <TouchableOpacity
           onPress={onClearFilters}
           className="flex-1 bg-transparent border border-gray-300 rounded-md py-2"

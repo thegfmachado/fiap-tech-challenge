@@ -25,7 +25,9 @@ export const Colors = {
     success: '#10b981',
     warning: '#f59e0b',
     info: '#3b82f6',
+    grayLight: '#9ca3af',
     grayMedium: '#6b7280',
+    grayBlue: '#374151',
   },
   dark: {
     text: '#ECEDEE',
@@ -44,7 +46,9 @@ export const Colors = {
     success: '#10b981',
     warning: '#f59e0b',
     info: '#3b82f6',
+    grayLight: '#f3f4f6',
     grayMedium: '#6b7280',
+    grayBlue: '#374151',
   },
 } as const;
 

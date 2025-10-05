@@ -7,6 +7,7 @@ import { TransactionsQueriesService } from '@fiap-tech-challenge/database/querie
 import { supabase } from '@/lib/supabase';
 import { TransactionForm } from './TransactionForm';
 import { TransactionAttachmentService } from '@/lib/services/attachment-service';
+import { Colors } from '@/constants/Colors';
 
 const transactionService = new TransactionsQueriesService(supabase);
 const attachmentService = new TransactionAttachmentService();
@@ -28,15 +29,15 @@ export function CreateTransactionModal({
 
   const handleCreateTransaction = async (transactionData: ITransactionInsert & { selectedFile?: any }) => {
     setSubmitting(true);
-    
+
     try {
       const { selectedFile, ...cleanTransactionData } = transactionData;
-      
+
       let createdTransaction = await transactionService.createTransaction(cleanTransactionData);
       if (selectedFile && createdTransaction) {
         try {
           await attachmentService.uploadAttachment(createdTransaction.id, selectedFile);
-          
+
           const updatedTransaction = await transactionService.getTransactionById(createdTransaction.id);
           if (updatedTransaction) {
             createdTransaction = updatedTransaction;
@@ -45,13 +46,13 @@ export function CreateTransactionModal({
           console.error('Erro no upload do arquivo:', uploadError);
         }
       }
-      
+
       onSuccess?.(createdTransaction);
       onClose();
-      
+
       Alert.alert(
         'Sucesso!',
-        selectedFile 
+        selectedFile
           ? 'Transação e anexo criados com sucesso.'
           : 'Transação criada com sucesso.',
         [{ text: 'OK' }]
@@ -59,7 +60,7 @@ export function CreateTransactionModal({
     } catch (error) {
       console.error('Erro ao criar transação:', error);
       onError?.(error as Error);
-      
+
       Alert.alert(
         'Erro',
         'Ocorreu um erro ao criar a transação. Tente novamente.',
@@ -94,7 +95,7 @@ export function CreateTransactionModal({
             disabled={submitting}
             className={`w-8 h-8 items-center justify-center ${submitting ? 'opacity-50' : ''}`}
           >
-            <Ionicons name="close" size={24} color="#6b7280" />
+            <Ionicons name="close" size={24} color={Colors.light.grayMedium} />
           </TouchableOpacity>
         </View>
 

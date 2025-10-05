@@ -2,6 +2,7 @@ import React from 'react';
 import { ActivityIndicator, TouchableOpacity } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { Colors } from '@/constants/Colors';
 
 interface LoadingStateProps {
   message?: string;
@@ -10,7 +11,7 @@ interface LoadingStateProps {
 export function LoadingState({ message = 'Carregando...' }: LoadingStateProps) {
   return (
     <ThemedView className="flex-1 justify-center items-center p-6">
-      <ActivityIndicator size="large" color="#664373" />
+      <ActivityIndicator size="large" color={Colors.light.primary} />
       <ThemedText className="mt-4 text-gray-600 text-center">
         {message}
       </ThemedText>
@@ -30,10 +31,9 @@ export function ErrorState({ message, onRetry }: ErrorStateProps) {
         ❌ {message}
       </ThemedText>
       {onRetry && (
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={onRetry}
           className="bg-primary px-4 py-2 rounded-lg"
-          style={{ backgroundColor: '#664373' }}
         >
           <ThemedText className="text-white font-medium">
             Tentar novamente

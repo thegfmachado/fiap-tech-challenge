@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import type { ITransaction } from '@fiap-tech-challenge/database/types';
 import { TransactionForm } from './TransactionForm';
+import { Colors } from '@/constants/Colors';
 
 export interface ViewTransactionModalProps {
   visible: boolean;
@@ -35,7 +36,7 @@ export function ViewTransactionModal({
             onPress={onClose}
             className="w-8 h-8 items-center justify-center"
           >
-            <Ionicons name="arrow-back" size={24} color="#6b7280" />
+            <Ionicons name="arrow-back" size={24} color={Colors.light.grayMedium} />
           </TouchableOpacity>
           <Text className="text-lg font-semibold text-gray-900">
             Detalhes da transação
@@ -45,7 +46,7 @@ export function ViewTransactionModal({
               onPress={handleEdit}
               className="w-8 h-8 items-center justify-center"
             >
-              <Ionicons name="pencil" size={20} color="#664373" />
+              <Ionicons name="pencil" size={20} color={Colors.light.primary} />
             </TouchableOpacity>
           )}
           {!onEdit && <View className="w-8" />}

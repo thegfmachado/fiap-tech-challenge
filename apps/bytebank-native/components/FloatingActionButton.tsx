@@ -8,16 +8,15 @@ interface FloatingActionButtonProps {
   icon?: keyof typeof Ionicons.glyphMap;
 }
 
-export default function FloatingActionButton({ 
-  onPress, 
+export default function FloatingActionButton({
+  onPress,
   label = 'Nova transação',
   icon = 'add'
 }: FloatingActionButtonProps) {
   return (
     <TouchableOpacity
       onPress={onPress}
-      className="flex-row items-center px-4 py-2 rounded-md"
-      style={{ backgroundColor: '#664373' }}
+      className="flex-row items-center px-4 py-2 rounded-md bg-primary"
       activeOpacity={0.8}
     >
       <Ionicons name={icon} size={16} color="white" />

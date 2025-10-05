@@ -11,6 +11,7 @@ import { RadioGroup } from './ui/RadioGroup';
 import CalendarPicker from './CalendarPicker';
 import { TransactionAttachment, BaseTransaction } from './TransactionAttachment';
 import { useFormValidation, formSchemas } from '@/hooks/useFormValidation';
+import { Colors } from '@/constants/Colors';
 
 export type TransactionFormProps = {
   disabled?: boolean;
@@ -118,8 +119,8 @@ export function TransactionForm({
               placeholder="Descrição da transação"
               editable={!readOnly && !disabled}
               className={`border rounded-md px-3 py-2 ${
-                errors.description 
-                  ? 'border-red-300 bg-red-50' 
+                errors.description
+                  ? 'border-red-300 bg-red-50'
                   : 'border-gray-300 bg-white'
               } ${(readOnly || disabled) ? 'opacity-50' : ''}`}
             />
@@ -153,8 +154,8 @@ export function TransactionForm({
         <TouchableOpacity
           onPress={() => !readOnly && !disabled && setShowCalendar(true)}
           className={`border rounded-md px-3 py-2 flex-row items-center justify-between ${
-            errors.date 
-              ? 'border-red-300 bg-red-50' 
+            errors.date
+              ? 'border-red-300 bg-red-50'
               : 'border-gray-300 bg-white'
           } ${(readOnly || disabled) ? 'opacity-50' : ''}`}
           disabled={readOnly || disabled}
@@ -162,7 +163,7 @@ export function TransactionForm({
           <Text className="text-gray-900">
             {formatDate(selectedDate)}
           </Text>
-          <Ionicons name="calendar-outline" size={16} color="#6b7280" />
+          <Ionicons name="calendar-outline" size={16} color={Colors.light.grayMedium} />
         </TouchableOpacity>
         {errors.date && (
           <Text className="text-sm text-red-600 mt-1">{errors.date.message}</Text>

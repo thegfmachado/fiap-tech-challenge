@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { Colors } from '@/constants/Colors';
 
 type TransactionActionType = "delete" | "edit" | "details";
 
@@ -31,22 +32,13 @@ export function TransactionAction(props: TransactionActionProps) {
       onPress={onClick}
       disabled={disabled}
       accessibilityLabel={title ?? defaultTitleMap[type]}
-      style={{
-        padding: 8,
-        opacity: disabled ? 0.5 : 1,
-        backgroundColor: 'transparent',
-        minWidth: 40,
-        minHeight: 40,
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 20,
-        elevation: 20
-      }}
+      className={`p-2 bg-transparent min-w-[40px] min-h-[40px] justify-center items-center z-20 ${disabled ? 'opacity-50' : ''}`}
+      style={{ elevation: 20 }}
     >
       <Ionicons
         name={iconMap[type]}
         size={20}
-        color="#6b7280"
+        color={Colors.light.grayMedium}
       />
     </TouchableOpacity>
   );

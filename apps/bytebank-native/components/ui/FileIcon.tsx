@@ -1,5 +1,6 @@
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
+import { Colors } from '@/constants/Colors';
 
 interface FileIconProps {
   fileName: string;
@@ -7,7 +8,7 @@ interface FileIconProps {
   color?: string;
 }
 
-export function FileIcon({ fileName, size = 20, color = '#6b7280' }: FileIconProps) {
+export function FileIcon({ fileName, size = 20, color = Colors.light.grayMedium }: FileIconProps) {
   const extension = fileName.split('.').pop()?.toLowerCase();
 
   const getIconName = (): keyof typeof Ionicons.glyphMap => {
@@ -32,10 +33,10 @@ export function FileIcon({ fileName, size = 20, color = '#6b7280' }: FileIconPro
   };
 
   return (
-    <Ionicons 
-      name={getIconName()} 
-      size={size} 
-      color={color} 
+    <Ionicons
+      name={getIconName()}
+      size={size}
+      color={color}
     />
   );
 }

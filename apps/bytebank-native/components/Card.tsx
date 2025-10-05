@@ -46,7 +46,7 @@ export function Card({ title, value, percentage, type, filterType }: DashboardCa
           <Text className="font-bold text-sm">{title}</Text>
           <Image
             source={icon}
-            style={{ width: 24, height: 24 }}
+            className="w-6 h-6"
             resizeMode="contain"
           />
         </View>

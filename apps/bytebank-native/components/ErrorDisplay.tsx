@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { ComponentProps } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors, Sizes } from '@/constants/Colors';
 
@@ -14,34 +14,36 @@ export type ErrorType = 'network' | 'validation' | 'server' | 'notFound' | 'perm
 export interface ErrorDisplayProps {
   /** Tipo do erro (afeta ícone e cores) */
   type?: ErrorType;
-  
+
   /** Título do erro */
   title?: string;
-  
+
   /** Mensagem detalhada do erro */
   message?: string;
-  
+
   /** Se deve mostrar botão de retry */
   showRetry?: boolean;
-  
+
   /** Callback para retry */
   onRetry?: () => void;
-  
+
   /** Texto do botão de retry */
   retryText?: string;
-  
+
   /** Se deve mostrar o erro em tamanho compacto */
   compact?: boolean;
-  
+
   /** Props adicionais para o container */
   containerProps?: any;
 }
+
+type IconName = ComponentProps<typeof Ionicons>['name'];
 
 /**
  * Configurações padrão para cada tipo de erro
  */
 const errorConfigs: Record<ErrorType, {
-  icon: string;
+  icon: IconName;
   color: string;
   defaultTitle: string;
   defaultMessage: string;
@@ -86,13 +88,13 @@ const errorConfigs: Record<ErrorType, {
 
 /**
  * Componente para exibir diferentes tipos de erro com UI consistente
- * 
+ *
  * Fornece uma interface unificada para mostrar erros de diferentes tipos,
  * com ícones apropriados, mensagens padronizadas e opções de retry.
- * 
+ *
  * @param {ErrorDisplayProps} props - Propriedades do componente
  * @returns {JSX.Element} Componente de exibição de erro
- * 
+ *
  * @example
  * ```tsx
  * // Erro de rede simples
@@ -100,7 +102,7 @@ const errorConfigs: Record<ErrorType, {
  *   type="network"
  *   onRetry={() => refetch()}
  * />
- * 
+ *
  * // Erro customizado
  * <ErrorDisplay
  *   type="server"
@@ -109,7 +111,7 @@ const errorConfigs: Record<ErrorType, {
  *   retryText="Recarregar"
  *   onRetry={() => fetchTransactions()}
  * />
- * 
+ *
  * // Modo compacto
  * <ErrorDisplay
  *   type="validation"
@@ -138,23 +140,24 @@ export function ErrorDisplay({
         className="flex-row items-center p-4 bg-red-50 rounded-lg border border-red-200"
         {...containerProps}
       >
-        <Ionicons
-          name={config.icon as any}
-          size={Sizes.iconMedium}
-          color={config.color}
-          style={{ marginRight: 12 }}
-        />
+        <View className="mr-3">
+          <Ionicons
+            name={config.icon}
+            size={Sizes.iconMedium}
+            color={config.color}
+          />
+        </View>
         <View className="flex-1">
-          <Text className="text-xs text-gray-600 text-red-600">
+          <Text className="text-xs text-red-600">
             {displayMessage}
           </Text>
         </View>
         {showRetry && onRetry && (
           <TouchableOpacity
             onPress={onRetry}
-            className="ml-3 rounded-lg py-3 px-4 items-center justify-center bg-red-100 px-3 py-1"
+            className="ml-3 rounded-lg py-3 px-4 items-center justify-center bg-red-100"
           >
-            <Text className="text-xs text-gray-600 text-red-700 font-medium">
+            <Text className="text-xs text-gray-600 font-medium">
               Repetir
             </Text>
           </TouchableOpacity>
@@ -168,7 +171,7 @@ export function ErrorDisplay({
       className="flex-1 items-center justify-center p-6"
       {...containerProps}
     >
-      <View className="items-center justify-center mb-4" style={{ width: 64, height: 64 }}>
+      <View className="items-center justify-center mb-4 w-16 h-16">
         <Ionicons
           name={config.icon as any}
           size={Sizes.iconLarge}
@@ -180,14 +183,14 @@ export function ErrorDisplay({
         {displayTitle}
       </Text>
 
-      <Text className="text-sm text-gray-900 text-center mb-6 text-gray-600 max-w-sm">
+      <Text className="text-sm text-gray-900 text-center mb-6 max-w-sm">
         {displayMessage}
       </Text>
 
       {showRetry && onRetry && (
         <TouchableOpacity
           onPress={onRetry}
-          className="rounded-lg py-3 px-4 items-center justify-center px-6"
+          className="rounded-lg py-3 px-4 items-center justify-center"
           style={{ backgroundColor: config.color }}
         >
           <Text className="font-semibold text-center text-base text-white">
@@ -201,13 +204,13 @@ export function ErrorDisplay({
 
 /**
  * Hook para gerenciar estado de erro
- * 
+ *
  * @returns Objeto com estado e funções de erro
- * 
+ *
  * @example
  * ```tsx
  * const { error, setError, clearError, showError } = useErrorState();
- * 
+ *
  * // Mostrar erro
  * const handleError = (err: Error) => {
  *   setError({
@@ -215,7 +218,7 @@ export function ErrorDisplay({
  *     message: err.message
  *   });
  * };
- * 
+ *
  * // Renderizar erro
  * if (error) {
  *   return (
