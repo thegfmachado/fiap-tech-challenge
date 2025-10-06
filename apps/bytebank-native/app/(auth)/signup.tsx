@@ -21,17 +21,22 @@ const signupSchema = createPasswordConfirmationSchema(formSchemas.signup);
 
 type SignupFormData = z.infer<typeof signupSchema>;
 
+const handleError = (error: unknown) => `Erro ao criar conta: ${error instanceof Error ? error.message : 'Tente novamente'}`;
+
+const handleSuccess = () => {
+  Alert.alert(
+    'Conta Criada!',
+    'Sua conta foi criada com sucesso. Faça login para continuar.',
+    [{ text: 'OK', onPress: () => router.push('/login') }]
+  );
+};
+
 export default function SignupScreen() {
   const { signUp } = useAuth();
+
   const signupOperation = useAsyncAction({
-    onSuccess: () => {
-      Alert.alert(
-        'Conta Criada!',
-        'Sua conta foi criada com sucesso. Faça login para continuar.',
-        [{ text: 'OK', onPress: () => router.push('/login') }]
-      );
-    },
-    onError: (error) => `Erro ao criar conta: ${error instanceof Error ? error.message : 'Tente novamente'}`,
+    onSuccess: handleSuccess,
+    onError: handleError,
   });
 
   const form = useFormValidation(signupSchema, {

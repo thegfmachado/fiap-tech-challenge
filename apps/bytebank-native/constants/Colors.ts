@@ -21,6 +21,7 @@ export const Colors = {
     // Semantic colors
     primary: tintColorLight,
     primaryLight: '#AA8BB5',
+    primaryDark: '#241B28',
     danger: '#dc2626',
     success: '#10b981',
     warning: '#f59e0b',
@@ -42,6 +43,7 @@ export const Colors = {
     // Semantic colors (same as light mode for consistency)
     primary: tintColorLight,
     primaryLight: '#AA8BB5',
+    primaryDark: '#241B28',
     danger: '#dc2626',
     success: '#10b981',
     warning: '#f59e0b',
