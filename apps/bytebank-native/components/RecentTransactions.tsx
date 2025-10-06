@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
 import { Transaction } from '@/utils/transactionMapper';
@@ -36,15 +36,14 @@ function sortTransactionsByDate(transactions: Transaction[]): Transaction[] {
   );
 }
 
-function TransactionItem({ 
-  transaction, 
-  onPress 
-}: { 
-  transaction: Transaction; 
-  onPress?: (transaction: Transaction) => void; 
+function TransactionItem({
+  transaction,
+  onPress
+}: {
+  transaction: Transaction;
+  onPress?: (transaction: Transaction) => void;
 }) {
   const isCredit = transaction.type === TransactionType.CREDIT;
-  const textColor = isCredit ? Colors.light.success : Colors.light.danger;
 
   return (
     <TouchableOpacity
@@ -52,36 +51,33 @@ function TransactionItem({
       className="flex-row items-center justify-between border-t border-gray-200 py-4 px-7"
     >
       <View className="flex-1">
-        <Text 
+        <Text
           className="text-sm text-gray-900 mb-0.5"
           numberOfLines={1}
         >
           {transaction.description}
         </Text>
-        <Text 
+        <Text
           className="text-sm text-gray-500"
         >
           {formatDate(new Date(transaction.date))}
         </Text>
       </View>
-      
+
       <View className="flex-row justify-between items-center gap-1.5">
-        <Text 
-          className="text-sm font-semibold text-right"
-          style={{ color: textColor }}
-        >
-          {`${transaction.type === TransactionType.CREDIT ? "+" : "-"}${formatCurrency(transaction.value, { signDisplay: "never" })}`}
+        <Text className={`text-sm font-semibold text-right ${isCredit ? "color-credit-color" : "color-debit-color"}`}>
+          {`${isCredit ? "+" : "-"}${formatCurrency(transaction.value, { signDisplay: "never" })}`}
         </Text>
-        
+
         <TouchableOpacity
           onPress={() => onPress?.(transaction)}
           className="p-2"
           accessibilityLabel="Ver detalhes"
         >
-          <Ionicons 
-            name="clipboard-outline" 
-            size={20} 
-            color={Colors.light.grayMedium} 
+          <Ionicons
+            name="clipboard-outline"
+            size={20}
+            color={Colors.light.grayMedium}
           />
         </TouchableOpacity>
       </View>
@@ -110,9 +106,9 @@ export function RecentTransactions({
             <View className="w-20 h-5 bg-gray-200 rounded" />
           )}
         </View>
-        
+
         {Array.from({ length: 3 }).map((_, index) => (
-          <View key={index} className="flex-row items-center justify-between py-4 px-7" style={{ borderTopWidth: 1, borderTopColor: '#e5e7eb' }}>
+          <View key={index} className="flex-row items-center justify-between py-4 px-7 border-t border-gray-200">
             <View className="flex-1">
               <View className="w-48 h-4 bg-gray-200 rounded mb-2" />
               <View className="w-24 h-3 bg-gray-200 rounded" />
@@ -135,13 +131,13 @@ export function RecentTransactions({
         </Text>
         {showAllTransactionsButton && (
           <TouchableOpacity onPress={onViewAllPress}>
-            <Text className="text-sm font-medium" style={{ color: '#553860' }}>
+            <Text className="text-sm font-medium color-primary">
               Ver todas →
             </Text>
           </TouchableOpacity>
         )}
       </View>
-      
+
       <View>
         {sortedTransactions.length > 0 ? (
           sortedTransactions.map((transaction) => (

@@ -28,26 +28,17 @@ const formatCurrency = (value: number): string => {
 };
 
 /**
- * Gera string mascarada para valor oculto
- */
-const getMaskedValue = (value: number): string => {
-  const formatted = formatCurrency(value);
-  // Substitui dígitos por asteriscos, mantendo formato
-  return formatted.replace(/\d/g, '*');
-};
-
-/**
  * Card de saldo com funcionalidade de esconder/mostrar valor
- * 
+ *
  * Funcionalidades:
  * - Exibição do saldo atual
  * - Botão para esconder/mostrar valor
  * - Estado de loading
  * - Cores dinâmicas baseadas no valor (positivo/negativo)
- * 
+ *
  * @param props Propriedades do componente
  * @returns JSX.Element
- * 
+ *
  * @example
  * ```tsx
  * <BalanceCard
@@ -72,13 +63,6 @@ export function BalanceCard({
     onVisibilityChange?.(newVisibility);
   };
 
-  const getBalanceColor = () => {
-    if (balance >= 0) {
-      return Colors.light.primaryLight;
-    }
-    return '#9F523B';
-  };
-
   const displayValue = isVisible ? formatCurrency(balance) : 'R$ *********';
 
   if (loading) {
@@ -92,23 +76,19 @@ export function BalanceCard({
 
   return (
     <View className="items-center">
-      <Text 
-        className="font-medium text-base mb-1"
-        style={{ color: Colors.light.primaryLight }}
-      >
+      <Text className="font-medium text-base mb-1 text-primary-light">
         Saldo
       </Text>
 
       <View className="flex-row items-center gap-4">
-        <Text 
-          className="text-4xl font-bold break-words max-w-full"
-          style={{ color: Colors.light.primaryLight }}
+        <Text
+          className="text-4xl font-semibold break-words max-w-full text-primary-light"
           accessible={true}
           accessibilityLabel={`Saldo atual: ${isVisible ? formatCurrency(balance) : 'valor oculto'}`}
         >
           {displayValue}
         </Text>
-        
+
         <TouchableOpacity
           onPress={handleToggleVisibility}
           className="w-8 h-8 items-center justify-center"

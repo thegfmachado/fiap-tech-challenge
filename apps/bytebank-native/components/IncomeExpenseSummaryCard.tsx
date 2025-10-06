@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
+import { useIncomeExpenseSummary } from '@/hooks/useHomeDashboard';
 
 /**
  * Dados para exibição de entrada ou saída
@@ -41,7 +42,7 @@ const formatCurrency = (value: number): string => {
  */
 const IncomeIcon = () => (
   <View className="w-3 h-3 border border-gray-800 rounded-sm items-center justify-center">
-    <Ionicons name="arrow-up" size={8} color="#241B28" />
+    <Ionicons name="arrow-up" size={8} color={Colors.light.primaryDark} />
   </View>
 );
 
@@ -50,7 +51,7 @@ const IncomeIcon = () => (
  */
 const ExpenseIcon = () => (
   <View className="w-3 h-3 border border-gray-800 rounded-sm items-center justify-center">
-    <Ionicons name="arrow-down" size={8} color="#241B28" />
+    <Ionicons name="arrow-down" size={8} color={Colors.light.primaryDark} />
   </View>
 );
 
@@ -63,54 +64,27 @@ const ProgressBar: React.FC<{ incomePercentage: number; expensePercentage: numbe
   expensePercentage,
 }) => {
   return (
-    <View 
-      className="w-full flex-row overflow-hidden"
-      style={{ 
-        height: 27,
-        borderRadius: 13.5,
-      }}
+    <View
+      className="w-full flex-row overflow-hidden h-8 rounded-full"
     >
       {incomePercentage > 0 && (
-        <View 
-          className="items-center justify-center"
-          style={{ 
-            width: `${incomePercentage}%`,
-            backgroundColor: '#664373',
-            borderTopLeftRadius: 13.5,
-            borderBottomLeftRadius: 13.5,
-          }}
+        <View
+          className="items-center justify-center bg-primary flex-1"
+          // ensure the progress bar is at least 12% wide so that the text is visible
+          style={{ maxWidth: `${Math.max(incomePercentage, 12)}%` }}
         >
-          <Text 
-            className="font-normal"
-            style={{ 
-              fontSize: 12,
-              color: '#F1FFF3',
-              lineHeight: 14,
-            }}
-          >
+          <Text className="text-sm text-white">
             {incomePercentage.toFixed(2)}%
           </Text>
         </View>
       )}
-      
+
       {expensePercentage > 0 && (
-        <View 
-          className="items-center justify-center"
-          style={{ 
-            width: `${expensePercentage}%`,
-            backgroundColor: '#CDADD9',
-            borderTopRightRadius: 13.5,
-            borderBottomRightRadius: 13.5,
-          }}
+        <View
+          className="items-center justify-center bg-[#CDADD9] flex-1"
+          style={{ maxWidth: `${Math.max(expensePercentage, 12)}%` }}
         >
-          <Text 
-            className="font-medium text-right"
-            style={{ 
-              fontSize: 13,
-              color: '#241B28',
-              lineHeight: 15,
-            }}
-          >
+          <Text className="text-sm text-gray-900">
             {expensePercentage.toFixed(2)}%
           </Text>
         </View>
@@ -122,13 +96,9 @@ const ProgressBar: React.FC<{ incomePercentage: number; expensePercentage: numbe
 /**
  * Card de resumo de entradas e saídas com barra percentual
  */
-export default function IncomeExpenseSummaryCard({
-  income,
-  expense,
-  loading = false,
-  hasData = false,
-}: IncomeExpenseSummaryCardProps) {
-  
+export function IncomeExpenseSummaryCard() {
+  const { summaryData, hasStats, loading } = useIncomeExpenseSummary();
+
   if (loading) {
     return (
       <View className="p-6">
@@ -150,7 +120,7 @@ export default function IncomeExpenseSummaryCard({
     );
   }
 
-  if (!hasData) {
+  if (!hasStats) {
     return (
       <View className="p-6 items-center">
         <Text className="text-sm text-gray-500 text-center">
@@ -163,68 +133,40 @@ export default function IncomeExpenseSummaryCard({
     );
   }
 
+  const { income, expense } = summaryData;
+
   return (
     <View className="flex-col items-center" style={{ gap: 18 }}>
       <View className="flex-row justify-center" style={{ gap: 36 }}>
-        <View className="items-start" style={{ height: 46 }}>
+        <View className="items-start h-12">
           <View className="flex-row items-center mb-2">
             <IncomeIcon />
-            <Text 
-              className="uppercase ml-2"
-              style={{ 
-                fontSize: 12,
-                fontWeight: '400',
-                color: '#241B28',
-                lineHeight: 14,
-              }}
-            >
+            <Text className="uppercase ml-2 text-gray-900 text-sm">
               {income.label}
             </Text>
           </View>
-          <Text 
-            className="font-bold"
-            style={{ 
-              fontSize: 24,
-              color: Colors.light.primaryLight,
-              lineHeight: 28,
-            }}
-          >
+          <Text className="font-semibold text-primary-light text-3xl leading-8">
             {formatCurrency(income.value)}
           </Text>
         </View>
 
-        <View style={{ width: 1, height: 42, backgroundColor: '#DFF7E2' }} />
+        <View className="w-[1px] h-full bg-gray-400" />
 
-        <View className="items-start" style={{ height: 45 }}>
+        <View className="items-start h-12">
           <View className="flex-row items-center mb-2">
             <ExpenseIcon />
-            <Text 
-              className="uppercase ml-2"
-              style={{ 
-                fontSize: 12,
-                fontWeight: '400',
-                color: '#241B28',
-                lineHeight: 14,
-              }}
-            >
+            <Text className="uppercase ml-2 text-gray-900 text-sm">
               {expense.label}
             </Text>
           </View>
-          <Text 
-            className="font-semibold"
-            style={{ 
-              fontSize: 24,
-              color: Colors.light.primary,
-              lineHeight: 28,
-            }}
-          >
+          <Text className="font-semibold text-primary text-3xl leading-8">
             {formatCurrency(-expense.value)}
           </Text>
         </View>
       </View>
 
-      <View style={{ width: 349.75 }}>
-        <ProgressBar 
+      <View className="w-full mt-2">
+        <ProgressBar
           incomePercentage={income.percentage}
           expensePercentage={expense.percentage}
         />

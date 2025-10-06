@@ -22,14 +22,14 @@ export interface DashboardStats {
 
 /**
  * Hook para gerenciar dados do dashboard da home
- * 
+ *
  * Fornece estatísticas calculadas das transações, incluindo:
  * - Saldo total, entradas e saídas
  * - Percentuais para exibição na barra de progresso
  * - Estados de loading e erro herdados do useTransactions
- * 
+ *
  * @returns Objeto com estatísticas, transações recentes e estados
- * 
+ *
  * @example
  * ```tsx
  * const {
@@ -39,7 +39,7 @@ export interface DashboardStats {
  *   error,
  *   refreshData
  * } = useHomeDashboard();
- * 
+ *
  * // Usar stats para exibir resumo financeiro
  * // Usar recentTransactions para lista (limitado a 3 itens)
  * ```
@@ -78,7 +78,7 @@ export function useHomeDashboard() {
 
     const balance = totalIncome - totalExpenses;
     const totalMovement = totalIncome + totalExpenses;
-    
+
     const incomePercentage = totalMovement > 0 ? (totalIncome / totalMovement) * 100 : 0;
     const expensePercentage = totalMovement > 0 ? (totalExpenses / totalMovement) * 100 : 0;
 
@@ -98,7 +98,7 @@ export function useHomeDashboard() {
   const recentTransactions = useMemo(() => {
     const fifteenDaysAgo = new Date();
     fifteenDaysAgo.setDate(fifteenDaysAgo.getDate() - 15);
-    
+
     return [...transactions]
       .filter(transaction => {
         const transactionDate = new Date(transaction.date);
@@ -127,11 +127,11 @@ export function useHomeDashboard() {
 
 /**
  * Hook especializado para o componente de resumo de entrada/saída
- * 
+ *
  * @returns Dados formatados especificamente para IncomeExpenseSummaryCard
  */
 export function useIncomeExpenseSummary() {
-  const { stats, loading, error } = useHomeDashboard();
+  const { stats, hasStats, loading, error } = useHomeDashboard();
 
   const summaryData = useMemo(() => ({
     income: {
@@ -144,11 +144,11 @@ export function useIncomeExpenseSummary() {
       percentage: stats.expensePercentage,
       label: 'Saídas totais',
     },
-    hasData: stats.totalIncome > 0 || stats.totalExpenses > 0,
   }), [stats]);
 
   return {
     summaryData,
+    hasStats,
     loading,
     error,
   };

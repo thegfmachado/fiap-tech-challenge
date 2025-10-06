@@ -4,15 +4,14 @@ import { router, useFocusEffect } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 
-import { Colors } from '@/constants/Colors';
 
 import { useHomeDashboard } from '@/hooks/useHomeDashboard';
 import { useTransactions } from '@/hooks/useTransactions';
 import { useAuth } from '@/contexts/auth-context';
 
-import BalanceCard from '@/components/BalanceCard';
-import IncomeExpenseSummaryCard from '@/components/IncomeExpenseSummaryCard';
-import RecentTransactions from '@/components/RecentTransactions';
+import { BalanceCard } from '@/components/BalanceCard';
+import { IncomeExpenseSummaryCard } from '@/components/IncomeExpenseSummaryCard';
+import { RecentTransactions } from '@/components/RecentTransactions';
 import { ViewTransactionModal } from '@/components/ViewTransactionModal';
 import { CreateTransactionModal } from '@/components/CreateTransactionModal';
 
@@ -21,11 +20,10 @@ import { mapTransactionToITransaction, mapITransactionToTransaction, Transaction
 import type { ITransaction } from '@fiap-tech-challenge/database/types';
 
 export default function HomeScreen() {
-  const { 
-    stats, 
-    recentTransactions, 
+  const {
+    stats,
+    recentTransactions,
     loading,
-    hasStats,
     refreshData
   } = useHomeDashboard();
 
@@ -73,11 +71,9 @@ export default function HomeScreen() {
 
   const handleTransactionCreated = (newTransaction: ITransaction) => {
     const localTransaction: Transaction = mapITransactionToTransaction(newTransaction);
-    
+
     handleSyncTransactions(localTransaction, 'create');
-    
     refreshData();
-    
     setShowCreateModal(false);
   };
 
@@ -87,74 +83,32 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <ScrollView 
+      <ScrollView
         className="flex-1"
         refreshControl={
-          <RefreshControl 
-            refreshing={refreshing} 
-            onRefresh={handleRefresh} 
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
           />
         }
         showsVerticalScrollIndicator={false}
       >
-        <View 
-          className="flex-col items-center w-full"
-          style={{ 
-            backgroundColor: Colors.light.primary + '15',
-            paddingTop: 28,
-            paddingBottom: 28,
-            paddingLeft: 40,
-            paddingRight: 40,
-          }}
-        >
-          <View className="flex-col items-start self-stretch" style={{ gap: 4 }}>
-            <Text 
-              style={{ 
-                fontWeight: '600',
-                fontSize: 24,
-                lineHeight: 22,
-                color: '#241B28',
-              }}
-            >
+        <View className="flex-col items-center w-full bg-primary/[.08] py-7 px-10">
+          <View className="flex-col items-start self-stretch gap-1">
+            <Text className="font-semibold text-2xl leading-6 text-gray-900">
               Olá,
             </Text>
-            <Text 
-              style={{ 
-                fontWeight: '400',
-                fontSize: 16,
-                lineHeight: 18.8,
-                color: '#241B28',
-              }}
-            >
+            <Text className="text-base leading-6 text-gray-900">
               {user?.user_metadata?.name?.split(' ')[0] || 'Usuário'}
             </Text>
           </View>
         </View>
 
-        <View 
-          className="px-6"
-          style={{ backgroundColor: Colors.light.primary + '15' }}
-        >
-          <IncomeExpenseSummaryCard
-            income={{
-              value: stats.totalIncome,
-              percentage: stats.incomePercentage,
-              label: 'Entradas totais'
-            }}
-            expense={{
-              value: stats.totalExpenses,
-              percentage: stats.expensePercentage,
-              label: 'Saídas totais'
-            }}
-            loading={loading}
-            hasData={hasStats}
-          />
+        <View className="px-6 bg-primary/[.08]">
+          <IncomeExpenseSummaryCard />
         </View>
 
-        <View 
-          className="flex-col items-center w-full px-10 py-6 gap-4"
-          style={{ backgroundColor: Colors.light.primary + '15' }}
-        >
+        <View className="flex-col items-center w-full px-10 py-6 gap-4 bg-primary/[.08]">
           <BalanceCard
             balance={stats.balance}
             loading={loading}
@@ -163,8 +117,7 @@ export default function HomeScreen() {
 
           <TouchableOpacity
             onPress={handleCreateTransaction}
-            className="flex-row items-center px-8 py-4 rounded-lg"
-            style={{ backgroundColor: Colors.light.primary }}
+            className="flex-row items-center px-8 py-4 rounded-lg bg-primary"
             activeOpacity={0.8}
           >
             <Ionicons name="add" size={24} color="white" />
