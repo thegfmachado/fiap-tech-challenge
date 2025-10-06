@@ -1,7 +1,7 @@
 import React from 'react';
-import { 
-  Text, 
-  TouchableOpacity, 
+import {
+  Text,
+  TouchableOpacity,
   Alert
 } from 'react-native';
 import { z } from 'zod';
@@ -18,10 +18,12 @@ import { ThemedText } from '@/components/ThemedText';
 
 type LoginFormData = z.infer<typeof formSchemas.login>;
 
+const handleError = (error: unknown) => `Erro no login: ${error instanceof Error ? error.message : 'Tente novamente'}`;
+
 export default function LoginScreen() {
   const { signIn } = useAuth();
   const loginOperation = useAsyncAction({
-    onError: (error) => `Erro no login: ${error instanceof Error ? error.message : 'Tente novamente'}`,
+    onError: handleError,
   });
 
   const form = useFormValidation(formSchemas.login, {
@@ -36,7 +38,7 @@ export default function LoginScreen() {
     await loginOperation.execute(async () => {
       await signIn(values.email, values.password);
     });
-    
+
     if (loginOperation.error) {
       Alert.alert('Erro no Login', loginOperation.error);
     }
