@@ -1,5 +1,7 @@
+import { isMobile } from '@/constants/device';
 import { supabase } from '@/lib/supabase';
 import { TransactionsQueriesService } from '@fiap-tech-challenge/database/queries';
+import * as FileSystem from 'expo-file-system';
 
 export interface AttachmentUploadResult {
   url: string;
@@ -14,7 +16,7 @@ export class TransactionAttachmentService {
   }
 
   async uploadAttachment(
-    transactionId: string, 
+    transactionId: string,
     file: { name: string; uri: string; type: string; size: number }
   ): Promise<AttachmentUploadResult> {
     try {
@@ -70,21 +72,47 @@ export class TransactionAttachmentService {
     }
   }
 
-  async downloadAttachment(transactionId: string, filePath: string): Promise<Blob> {
+  async downloadAttachment(filePath: string, transactionId?: string): Promise<string> {
     try {
-      const { data, error } = await supabase.storage
+      // Se o filePath não contém '/', é só o nome do arquivo - construir o caminho completo
+      let fullPath = filePath;
+      if (!filePath.includes('/') && transactionId) {
+        fullPath = `transactions/${transactionId}/${filePath}`;
+      }
+
+      // Criar uma URL assinada que funciona para buckets privados
+      const { data: signedUrlData, error: signedUrlError } = await supabase.storage
         .from('transaction-attachments')
-        .download(filePath);
+        .createSignedUrl(fullPath, 60); // URL válida por 60 segundos
 
-      if (error) {
-        throw new Error(`Erro no download: ${error.message}`);
+      if (signedUrlError || !signedUrlData?.signedUrl) {
+        console.error('Erro ao criar URL assinada:', signedUrlError);
+        throw new Error('Não foi possível gerar URL de download');
       }
 
-      if (!data) {
-        throw new Error('Arquivo não encontrado');
-      }
+      if (isMobile) {
+        // Para mobile, baixar diretamente usando FileSystem
+        const cacheDir = FileSystem.cacheDirectory;
+        if (!cacheDir) {
+          throw new Error('Diretório de cache não disponível');
+        }
 
-      return data;
+        const fileName = fullPath.split('/').pop() || 'download';
+        const fileUri = `${cacheDir}${fileName}`;
+
+        // Baixar o arquivo usando a URL assinada
+        const downloadResult = await FileSystem.downloadAsync(signedUrlData.signedUrl, fileUri);
+
+        if (downloadResult.status !== 200) {
+          throw new Error(`Erro no download: Status ${downloadResult.status}`);
+        }
+
+        // Retornar o URI do arquivo baixado
+        return downloadResult.uri;
+      } else {
+        // Para web, retornar a URL assinada
+        return signedUrlData.signedUrl;
+      }
     } catch (error) {
       console.error('Erro no download do anexo:', error);
       throw new Error('Falha ao baixar arquivo');
@@ -97,7 +125,7 @@ export class TransactionAttachmentService {
       if (!fileName.includes('/')) {
         filePath = `transactions/${transactionId}/${fileName}`;
       }
-      
+
       const { error: deleteError } = await supabase.storage
         .from('transaction-attachments')
         .remove([filePath]);
@@ -106,7 +134,7 @@ export class TransactionAttachmentService {
         console.error('Erro no Supabase Storage:', deleteError);
         throw new Error(`Erro ao deletar arquivo: ${deleteError.message}`);
       }
-      
+
       await this.transactionService.updateTransaction(transactionId, {
         attachment_url: null,
         attachment_name: null,
@@ -117,11 +145,15 @@ export class TransactionAttachmentService {
     }
   }
 
-  getAttachmentUrl(fileName: string): string {
-    const { data } = supabase.storage
+  async getAttachmentUrl(fileName: string): Promise<string> {
+    const { data: signedUrlData, error } = await supabase.storage
       .from('transaction-attachments')
-      .getPublicUrl(fileName);
-    
-    return data.publicUrl;
+      .createSignedUrl(fileName, 3600); // URL válida por 1 hora
+
+    if (error || !signedUrlData?.signedUrl) {
+      throw new Error('Não foi possível gerar URL do anexo');
+    }
+
+    return signedUrlData.signedUrl;
   }
 }
