@@ -24,12 +24,30 @@ export class TransactionAttachmentService {
       const fileName = `${timestamp}_${sanitizedName}`;
       const filePath = `transactions/${transactionId}/${fileName}`;
 
-      const response = await fetch(file.uri);
-      const blob = await response.blob();
+      let fileData: Blob | ArrayBuffer;
+
+      // Para React Native, precisamos usar expo-file-system
+      if (isMobile) {
+        const base64 = await FileSystem.readAsStringAsync(file.uri, {
+          encoding: FileSystem.EncodingType.Base64,
+        });
+
+        // Converter base64 para ArrayBuffer
+        const binaryString = atob(base64);
+        const bytes = new Uint8Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) {
+          bytes[i] = binaryString.charCodeAt(i);
+        }
+        fileData = bytes.buffer;
+      } else {
+        // Para web, usar fetch normalmente
+        const response = await fetch(file.uri);
+        fileData = await response.blob();
+      }
 
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('transaction-attachments')
-        .upload(filePath, blob, {
+        .upload(filePath, fileData, {
           contentType: file.type,
         });
 
