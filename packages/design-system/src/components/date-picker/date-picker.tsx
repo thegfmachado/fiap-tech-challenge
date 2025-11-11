@@ -31,7 +31,7 @@ type DatePickerRangeProps = DatePickerBaseProps & {
   onChange?: (range: DateRange | undefined) => void
 }
 
-type DatePickerProps = DatePickerSingleProps | DatePickerRangeProps
+export type DatePickerProps = DatePickerSingleProps | DatePickerRangeProps
 
 const isDayPickerRange = (props: DatePickerProps): props is DatePickerRangeProps => {
   return props.mode === "range"

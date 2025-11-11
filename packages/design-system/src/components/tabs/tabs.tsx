@@ -5,10 +5,12 @@ import * as TabsPrimitive from "@radix-ui/react-tabs"
 
 import { cn } from "../../lib/utils"
 
+export type TabsProps = React.ComponentProps<typeof TabsPrimitive.Root>
+
 function Tabs({
   className,
   ...props
-}: React.ComponentProps<typeof TabsPrimitive.Root>) {
+}: TabsProps) {
   return (
     <TabsPrimitive.Root
       data-slot="tabs"

@@ -8,12 +8,14 @@ import { ptBR } from "date-fns/locale"
 import { buttonVariants } from "../button/button"
 import { cn } from "../../lib/utils"
 
+export type CalendarProps = React.ComponentProps<typeof DayPicker>
+
 function Calendar({
   className,
   classNames,
   showOutsideDays = true,
   ...props
-}: React.ComponentProps<typeof DayPicker>) {
+}: CalendarProps) {
   return (
     <DayPicker
       locale={ptBR}

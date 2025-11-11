@@ -1,8 +1,7 @@
-import * as React from "react";
 import type { Meta, StoryObj } from '@storybook/react';
-import { useArgs } from "storybook/internal/preview-api";
+import { useArgs } from "@storybook/preview-api";
 
-import { Checkbox } from './checkbox';
+import { Checkbox, type CheckboxProps } from './checkbox';
 import { Label } from "../label/label";
 
 export default {
@@ -18,10 +17,10 @@ export default {
       action: 'checkedChange',
     }
   }
-} satisfies Meta<typeof Checkbox>;
+} as Meta<typeof Checkbox>;
 
-export const Default: StoryObj<typeof Checkbox> = {
-  render: function Default(props) {
+export const Default: StoryObj<CheckboxProps> = {
+  render: function Default(props: CheckboxProps) {
     const [{ checked }, updateArgs] = useArgs();
 
     const handleCheckedChange = (value: boolean) => {
@@ -34,9 +33,10 @@ export const Default: StoryObj<typeof Checkbox> = {
         <Checkbox
           {...props}
           checked={checked}
+          id="checkbox"
           onCheckedChange={handleCheckedChange}
         />
-        <Label>Accept terms and conditions</Label>
+        <Label htmlFor="checkbox">Aceitar termos e condições</Label>
       </div>
     );
   },

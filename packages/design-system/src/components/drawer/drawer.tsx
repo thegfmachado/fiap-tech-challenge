@@ -5,34 +5,44 @@ import { Drawer as DrawerPrimitive } from "vaul"
 
 import { cn } from "../../lib/utils"
 
+export type DrawerProps = React.ComponentProps<typeof DrawerPrimitive.Root>
+
 function Drawer({
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Root>) {
+}: DrawerProps) {
   return <DrawerPrimitive.Root data-slot="drawer" {...props} />
 }
 
+export type DrawerTriggerProps = React.ComponentProps<typeof DrawerPrimitive.Trigger>
+
 function DrawerTrigger({
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Trigger>) {
+}: DrawerTriggerProps) {
   return <DrawerPrimitive.Trigger data-slot="drawer-trigger" {...props} />
 }
 
+export type DrawerPortalProps = React.ComponentProps<typeof DrawerPrimitive.Portal>
+
 function DrawerPortal({
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Portal>) {
+}: DrawerPortalProps) {
   return <DrawerPrimitive.Portal data-slot="drawer-portal" {...props} />
 }
 
+export type DrawerCloseProps = React.ComponentProps<typeof DrawerPrimitive.Close>
+
 function DrawerClose({
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Close>) {
+}: DrawerCloseProps) {
   return <DrawerPrimitive.Close data-slot="drawer-close" {...props} />
 }
+
+export type DrawerOverlayProps = React.ComponentProps<typeof DrawerPrimitive.Overlay>
 
 function DrawerOverlay({
   className,
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Overlay>) {
+}: DrawerOverlayProps) {
   return (
     <DrawerPrimitive.Overlay
       data-slot="drawer-overlay"
@@ -45,11 +55,13 @@ function DrawerOverlay({
   )
 }
 
+export type DrawerContentProps = React.ComponentProps<typeof DrawerPrimitive.Content>
+
 function DrawerContent({
   className,
   children,
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Content>) {
+}: DrawerContentProps) {
   return (
     <DrawerPortal data-slot="drawer-portal">
       <DrawerOverlay />
@@ -72,7 +84,9 @@ function DrawerContent({
   )
 }
 
-function DrawerHeader({ className, ...props }: React.ComponentProps<"div">) {
+export type DrawerHeaderProps = React.ComponentProps<"div">
+
+function DrawerHeader({ className, ...props }: DrawerHeaderProps) {
   return (
     <div
       data-slot="drawer-header"
@@ -82,7 +96,9 @@ function DrawerHeader({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-function DrawerFooter({ className, ...props }: React.ComponentProps<"div">) {
+export type DrawerFooterProps = React.ComponentProps<"div">
+
+function DrawerFooter({ className, ...props }: DrawerFooterProps) {
   return (
     <div
       data-slot="drawer-footer"
@@ -92,10 +108,12 @@ function DrawerFooter({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
+export type DrawerTitleProps = React.ComponentProps<typeof DrawerPrimitive.Title>
+
 function DrawerTitle({
   className,
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Title>) {
+}: DrawerTitleProps) {
   return (
     <DrawerPrimitive.Title
       data-slot="drawer-title"
@@ -105,10 +123,12 @@ function DrawerTitle({
   )
 }
 
+export type DrawerDescriptionProps = React.ComponentProps<typeof DrawerPrimitive.Description>
+
 function DrawerDescription({
   className,
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Description>) {
+}: DrawerDescriptionProps) {
   return (
     <DrawerPrimitive.Description
       data-slot="drawer-description"

@@ -6,16 +6,26 @@ import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react"
 
 import { cn } from "../../lib/utils"
 
-function Select({ ...props }: React.ComponentProps<typeof SelectPrimitive.Root>) {
+export type SelectProps = React.ComponentProps<typeof SelectPrimitive.Root>
+
+function Select({ ...props }: SelectProps) {
   return <SelectPrimitive.Root data-slot="select" {...props} />
 }
 
-function SelectGroup({ ...props }: React.ComponentProps<typeof SelectPrimitive.Group>) {
+export type SelectGroupProps = React.ComponentProps<typeof SelectPrimitive.Group>
+
+function SelectGroup({ ...props }: SelectGroupProps) {
   return <SelectPrimitive.Group data-slot="select-group" {...props} />
 }
 
-function SelectValue({ ...props }: React.ComponentProps<typeof SelectPrimitive.Value>) {
+export type SelectValueProps = React.ComponentProps<typeof SelectPrimitive.Value>
+
+function SelectValue({ ...props }: SelectValueProps) {
   return <SelectPrimitive.Value data-slot="select-value" {...props} />
+}
+
+export type SelectTriggerProps = React.ComponentProps<typeof SelectPrimitive.Trigger> & {
+  size?: "sm" | "default"
 }
 
 function SelectTrigger({
@@ -23,9 +33,7 @@ function SelectTrigger({
   size = "default",
   children,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Trigger> & {
-  size?: "sm" | "default"
-}) {
+}: SelectTriggerProps) {
   return (
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
