@@ -5,8 +5,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { DayPicker } from "react-day-picker"
 import { ptBR } from "date-fns/locale"
 
-import { buttonVariants } from "@fiap-tech-challenge/design-system/components"
-import { cn } from "@fiap-tech-challenge/design-system/lib/utils";
+import { buttonVariants } from "../button/button"
+import { cn } from "../../lib/utils"
 
 function Calendar({
   className,

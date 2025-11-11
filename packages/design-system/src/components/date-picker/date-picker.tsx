@@ -1,20 +1,15 @@
 "use client"
 
-import * as React from "react"
 import { DateRange } from "react-day-picker"
 import { Calendar as CalendarIcon } from "lucide-react"
 
-import { Calendar } from "./ui/calendar"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "./ui/popover"
+import { formatDate } from "@fiap-tech-challenge/utils"
+import { Calendar } from "../calendar/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "../popover/popover"
+import { Button } from "../button/button"
+import { cn } from "../../lib/utils"
 
-import { Button } from "@fiap-tech-challenge/design-system/components"
-import { cn } from "@fiap-tech-challenge/design-system/lib/utils";
-
-import { formatDate } from "@bytebank/client/formatters"
+export type { DateRange }
 
 interface DatePickerBaseProps {
   className?: string
@@ -43,16 +38,17 @@ const isDayPickerRange = (props: DatePickerProps): props is DatePickerRangeProps
 }
 
 function DatePickerPlaceholder(props: DatePickerProps) {
+
   if (isDayPickerRange(props)) {
     const { from, to } = props.value || {}
 
     if (from && to) {
       return from?.toISOString() === to?.toISOString()
         ? `${formatDate(from)}`
-        : `${formatDate(from)} - ${formatDate(to)}`;
+        : `${formatDate(from)} - ${formatDate(to)}`
     }
 
-    return "Selecionar datas";
+    return "Selecionar datas"
   }
 
   return props.value ? formatDate(props.value) : "Selecionar data"
@@ -94,3 +90,4 @@ export function DatePicker(props: DatePickerProps) {
     </div>
   )
 }
+

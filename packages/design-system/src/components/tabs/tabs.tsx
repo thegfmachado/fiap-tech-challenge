@@ -3,7 +3,7 @@
 import * as React from "react"
 import * as TabsPrimitive from "@radix-ui/react-tabs"
 
-import { cn } from "@fiap-tech-challenge/design-system/lib/utils";
+import { cn } from "../../lib/utils"
 
 function Tabs({
   className,
@@ -64,3 +64,4 @@ function TabsContent({
 }
 
 export { Tabs, TabsList, TabsTrigger, TabsContent }
+
