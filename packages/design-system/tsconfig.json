@@ -2,11 +2,10 @@
   "extends": "@fiap-tech-challenge/typescript-config/react-library.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "paths": {
-      "@fiap-tech-challenge/design-system/*": ["./src/*"],
-      "@fiap-tech-challenge/utils": ["../utils/src/*"]
-    },
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "composite": true
   },
-  "include": ["."],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
