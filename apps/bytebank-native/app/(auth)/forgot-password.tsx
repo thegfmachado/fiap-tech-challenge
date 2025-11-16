@@ -7,7 +7,8 @@ import {
 import { Link, router } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { forgotPasswordSchema } from '@fiap-tech-challenge/validation-schemas';
+import type { ForgotPasswordSchema } from '@fiap-tech-challenge/validation-schemas';
 
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
@@ -16,11 +17,7 @@ import { useAuth } from '@/contexts/auth-context';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 
-const forgotPasswordSchema = z.object({
-  email: z.string({ required_error: 'Este campo é obrigatório' }).email('Email inválido'),
-});
-
-type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
+type ForgotPasswordFormData = ForgotPasswordSchema;
 
 export default function ForgotPasswordScreen() {
   const { resetPassword } = useAuth();

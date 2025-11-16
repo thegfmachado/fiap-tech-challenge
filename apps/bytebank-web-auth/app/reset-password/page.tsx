@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChartColumn, ChartPie, Loader2, Shield, TrendingUp } from "lucide-react";
@@ -29,6 +28,8 @@ import { WelcomeHero } from "@bytebank-web-auth/components/welcome-hero";
 
 import { HTTPService } from "@fiap-tech-challenge/services/http";
 import { AuthService } from "@bytebank-web-auth/client/services/auth-service";
+import { resetPasswordSchema } from "@fiap-tech-challenge/validation-schemas";
+import type { ResetPasswordSchema } from "@fiap-tech-challenge/validation-schemas";
 
 import { createClient } from "@fiap-tech-challenge/database/client";
 
@@ -54,15 +55,7 @@ const cards = [
   },
 ]
 
-const loginFormSchema = z.object({
-  password: z.string({ required_error: "Este campo é obrigatório" }).min(6, "A senha deve ter pelo menos 6 caracteres"),
-  confirmPassword: z.string({ required_error: "Este campo é obrigatório" }).min(6, "A senha deve ter pelo menos 6 caracteres")
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Senhas não coincidem",
-  path: ["confirmPassword"],
-});
-
-type LoginFormSchemaType = z.infer<typeof loginFormSchema>;
+type ResetPasswordFormSchemaType = ResetPasswordSchema;
 
 export default function Page() {
   const [isAuthLoading, setIsAuthLoading] = React.useState(true);
@@ -78,15 +71,15 @@ export default function Page() {
     })
   }, [])
 
-  const form = useForm<LoginFormSchemaType>({
-    resolver: zodResolver(loginFormSchema),
+  const form = useForm<ResetPasswordFormSchemaType>({
+    resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
       password: "",
       confirmPassword: "",
     },
   });
 
-  const handleSubmit = async (values: LoginFormSchemaType) => {
+  const handleSubmit = async (values: ResetPasswordFormSchemaType) => {
     setIsFormLoading(true);
 
     try {

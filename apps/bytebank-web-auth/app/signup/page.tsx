@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChartColumn, ChartPie, Shield, TrendingUp } from "lucide-react";
@@ -28,6 +27,8 @@ import { WelcomeHero } from "@bytebank-web-auth/components/welcome-hero";
 
 import { HTTPService } from "@fiap-tech-challenge/services/http";
 import { AuthService } from "@bytebank-web-auth/client/services/auth-service";
+import { signupSchema } from "@fiap-tech-challenge/validation-schemas";
+import type { SignupSchema } from "@fiap-tech-challenge/validation-schemas";
 
 const httpService = new HTTPService();
 const authService = new AuthService(httpService);
@@ -51,23 +52,13 @@ const cards = [
   },
 ]
 
-const loginFormSchema = z.object({
-  name: z.string({ required_error: "Este campo é obrigatório" }).min(2, "O nome deve ter pelo menos 2 caracteres"),
-  email: z.string({ required_error: "Este campo é obrigatório" }).email("Email inválido"),
-  password: z.string({ required_error: "Este campo é obrigatório" }).min(6, "A senha deve ter pelo menos 6 caracteres"),
-  confirmPassword: z.string({ required_error: "Este campo é obrigatório" }).min(6, "A senha deve ter pelo menos 6 caracteres")
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Senhas não coincidem",
-  path: ["confirmPassword"],
-});
-
-type LoginFormSchemaType = z.infer<typeof loginFormSchema>;
+type SignupFormSchemaType = SignupSchema;
 
 export default function Page() {
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const form = useForm<LoginFormSchemaType>({
-    resolver: zodResolver(loginFormSchema),
+  const form = useForm<SignupFormSchemaType>({
+    resolver: zodResolver(signupSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -76,7 +67,7 @@ export default function Page() {
     },
   });
 
-  const handleSubmit = async (values: LoginFormSchemaType) => {
+  const handleSubmit = async (values: SignupFormSchemaType) => {
     setIsLoading(true);
 
     const user = await authService.signUp(values);
