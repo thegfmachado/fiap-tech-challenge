@@ -6,7 +6,7 @@ import { Button } from "@fiap-tech-challenge/design-system/components";
 import type { ITransaction } from "@fiap-tech-challenge/database/types";
 import { TransactionType } from "@fiap-tech-challenge/models";
 
-import { formatCurrency, formatDate } from "@bytebank/client/formatters";
+import { formatCurrency, formatDate } from "@fiap-tech-challenge/utils";
 
 export type TransactionsListProps = {
   title: string;

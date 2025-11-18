@@ -18,7 +18,7 @@ import { VisibilityToggler } from "@bytebank/components/visibility-toggler";
 import { CreateNewTransaction } from "@bytebank/components/create-new-transaction";
 import { EditTransaction } from "@bytebank/components/edit-transaction";
 
-import { formatCurrency } from "@bytebank/client/formatters";
+import { formatCurrency } from "@fiap-tech-challenge/utils";
 import type { ITransaction } from "@fiap-tech-challenge/database/types";
 import { useAuth } from "@bytebank/hooks/use-auth";
 import { TransactionSkeleton } from "@bytebank/components/transaction-skeleton";
@@ -59,8 +59,8 @@ export default function Home() {
   }
 
   const handleUpdateTransaction = (updatedTransaction: ITransaction) => {
-    setTransactions(prevTransactions => 
-      prevTransactions.map(transaction => 
+    setTransactions(prevTransactions =>
+      prevTransactions.map(transaction =>
         transaction.id === updatedTransaction.id ? updatedTransaction : transaction
       )
     );

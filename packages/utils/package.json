@@ -1,0 +1,27 @@
+{
+  "name": "@fiap-tech-challenge/utils",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "description": "Shared utility functions for FIAP tech challenge",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint src --ext .ts,.tsx"
+  },
+  "devDependencies": {
+    "@fiap-tech-challenge/eslint-config": "file:../eslint-config",
+    "@fiap-tech-challenge/typescript-config": "file:../typescript-config",
+    "@types/node": "20.19.x",
+    "typescript": "5.8.3"
+  }
+}
+

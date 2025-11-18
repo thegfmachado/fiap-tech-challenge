@@ -18,10 +18,11 @@ const mockUpload = async (transactionId: string, file: File) => {
 };
 
 const mockDownload = async (transactionId: string, fileName: string) => {
-  return new Blob(["Mock file content"], { type: "text/plain" });
+  return new Blob([`Mock file content for ${transactionId} and ${fileName}`], { type: "text/plain" });
 };
 
 const mockDelete = async (transactionId: string, fileName: string) => {
+  console.log(`Deleting file ${fileName} for transaction ${transactionId}`);
   await new Promise((resolve) => setTimeout(resolve, 1000));
 };
 
