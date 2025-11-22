@@ -4,6 +4,8 @@ import { useArgs } from "@storybook/preview-api";
 
 import { DatePicker, type DateRange, type DatePickerProps } from "./date-picker";
 
+const baseDate = new Date('2025-11-11');
+
 export default {
   title: "DatePicker",
   component: DatePicker,
@@ -14,7 +16,8 @@ export default {
     disabled: false,
     fitParent: false,
     readOnly: false,
-  } satisfies Pick<DatePickerProps, "disabled" | "fitParent" | "readOnly">,
+    value: baseDate,
+  } satisfies Pick<DatePickerProps, "disabled" | "fitParent" | "readOnly" | "value">,
   argTypes: {
     disabled: {
       control: {
@@ -47,7 +50,7 @@ export default {
 export const Single: StoryObj<DatePickerProps> = {
   args: {
     mode: "single",
-    value: new Date(),
+    value: baseDate,
   },
   argTypes: {
     value: {
@@ -73,8 +76,8 @@ export const Range: StoryObj<DatePickerProps> = {
   args: {
     mode: "range",
     value: {
-      from: new Date(),
-      to: new Date(new Date().setDate(new Date().getDate() + 7)),
+      from: baseDate,
+      to: new Date(new Date(baseDate).setDate(baseDate.getDate() + 7)),
     },
   },
   argTypes: {

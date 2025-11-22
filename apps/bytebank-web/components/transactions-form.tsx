@@ -1,4 +1,3 @@
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -16,6 +15,7 @@ import {
 } from "@fiap-tech-challenge/design-system/components";
 import type { ITransaction, ITransactionInsert } from "@fiap-tech-challenge/database/types";
 import { TransactionType } from "@fiap-tech-challenge/models";
+import { transactionSchema, type TransactionSchema } from "@fiap-tech-challenge/validation-schemas";
 
 import { CurrencyInput, DatePicker } from "@fiap-tech-challenge/design-system/components";
 import { HTTPService } from "@fiap-tech-challenge/services";
@@ -32,15 +32,7 @@ export type TransactionsFormProps = {
   transaction?: ITransaction;
 }
 
-const createTransactionSchema = z.object({
-  id: z.string(),
-  type: z.enum([TransactionType.CREDIT, TransactionType.DEBIT]),
-  description: z.string({ required_error: "Este campo é obrigatório" }),
-  value: z.number({ required_error: "Este campo é obrigatório" }).min(1, "Valor deve ser maior que 0"),
-  date: z.date({ required_error: "Este campo é obrigatório" }),
-})
-
-type CreateTransactionSchema = z.infer<typeof createTransactionSchema>;
+type CreateTransactionSchema = TransactionSchema;
 
 const options = [
   {
@@ -64,7 +56,7 @@ export function TransactionsForm({
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const form = useForm<CreateTransactionSchema>({
-    resolver: zodResolver(createTransactionSchema),
+    resolver: zodResolver(transactionSchema),
     defaultValues: transaction ? {
       id: transaction.id,
       description: transaction.description,

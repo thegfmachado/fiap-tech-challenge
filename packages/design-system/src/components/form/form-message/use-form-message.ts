@@ -1,8 +1,8 @@
 
-import { FormMessageProps } from "./form-message.types"
+import { FormMessageProps } from "./form-message.types";
 
 import { useFormField } from "../form-field/use-form-field";
-import { cn } from "@fiap-tech-challenge/design-system/lib/utils";
+import { cn } from "../../../lib/utils";
 
 export function useFormMessage(props: FormMessageProps) {
   const { children, className, ...rest } = props

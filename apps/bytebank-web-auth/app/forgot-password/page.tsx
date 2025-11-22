@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChartColumn, ChartPie, Shield, TrendingUp } from "lucide-react";
@@ -29,6 +28,7 @@ import { WelcomeHero } from "@bytebank-web-auth/components/welcome-hero";
 
 import { HTTPService } from "@fiap-tech-challenge/services/http";
 import { AuthService } from "@bytebank-web-auth/client/services/auth-service";
+import { forgotPasswordSchema, type ForgotPasswordSchema } from "@fiap-tech-challenge/validation-schemas";
 
 const httpService = new HTTPService();
 const authService = new AuthService(httpService);
@@ -52,17 +52,13 @@ const cards = [
   },
 ]
 
-const loginFormSchema = z.object({
-  email: z.string({ required_error: "Este campo é obrigatório" }).email("Email inválido"),
-});
-
-type LoginFormSchemaType = z.infer<typeof loginFormSchema>;
+type LoginFormSchemaType = ForgotPasswordSchema;
 
 export default function Page() {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const form = useForm<LoginFormSchemaType>({
-    resolver: zodResolver(loginFormSchema),
+    resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
       email: "",
     },

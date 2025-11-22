@@ -32,6 +32,7 @@ import { Header } from "@bytebank-web-auth/components/template/header";
 import { HTTPService } from "@fiap-tech-challenge/services/http";
 import { AuthService } from "@bytebank-web-auth/client/services/auth-service";
 import { WelcomeHero } from "@bytebank-web-auth/components/welcome-hero";
+import { loginSchema } from "@fiap-tech-challenge/validation-schemas";
 
 const httpService = new HTTPService();
 const authService = new AuthService(httpService);
@@ -55,9 +56,7 @@ const cards = [
   },
 ]
 
-const loginFormSchema = z.object({
-  email: z.string({ required_error: "Este campo é obrigatório" }).email("Email inválido"),
-  password: z.string({ required_error: "Este campo é obrigatório" }).min(6, "A senha deve ter pelo menos 6 caracteres"),
+const loginFormSchema = loginSchema.extend({
   rememberMe: z.boolean().optional(),
 });
 

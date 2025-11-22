@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Controller } from 'react-hook-form';
-import { z } from 'zod';
 
 import { TransactionType } from '@fiap-tech-challenge/models';
 import type { ITransaction, ITransactionInsert } from '@fiap-tech-challenge/database/types';
@@ -10,7 +9,8 @@ import { CurrencyInput } from './ui/CurrencyInput';
 import { RadioGroup } from './ui/RadioGroup';
 import CalendarPicker from './CalendarPicker';
 import { TransactionAttachment, BaseTransaction } from './TransactionAttachment';
-import { useFormValidation, formSchemas } from '@/hooks/useFormValidation';
+import { useFormValidation } from '@/hooks/useFormValidation';
+import { TransactionSchema, transactionSchema } from '@fiap-tech-challenge/validation-schemas';
 import { Colors } from '@/constants/Colors';
 
 interface ISelectedFile {
@@ -35,10 +35,6 @@ export type TransactionFormProps = {
   transaction?: ITransaction;
   onAttachmentChange?: (transaction: ITransaction) => void;
 }
-
-const createTransactionSchema = formSchemas.transaction;
-
-type CreateTransactionSchema = z.infer<typeof createTransactionSchema>;
 
 const transactionTypeOptions = [
   {
@@ -65,7 +61,7 @@ export function TransactionForm({
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedFile, setSelectedFile] = useState<ISelectedFile | null>(null);
 
-  const form = useFormValidation(createTransactionSchema, {
+  const form = useFormValidation(transactionSchema, {
     defaultValues: transaction ? {
       id: transaction.id,
       description: transaction.description,
@@ -90,7 +86,7 @@ export function TransactionForm({
     setShowCalendar(false);
   };
 
-  const handleFormSubmit = (values: CreateTransactionSchema) => {
+  const handleFormSubmit = (values: TransactionSchema) => {
     const transactionData = {
       ...values,
       date: values.date.toISOString(),

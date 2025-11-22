@@ -2,8 +2,8 @@ import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 
-import { DialogOverlay, DialogPortal } from "@fiap-tech-challenge/design-system/components";
-import { cn } from "@fiap-tech-challenge/design-system/lib/utils";
+import { DialogOverlay, DialogPortal } from "../dialog";
+import { cn } from "../../../lib/utils";
 
 const DialogContent = React.forwardRef<
   React.ComponentRef<typeof DialogPrimitive.Content>,

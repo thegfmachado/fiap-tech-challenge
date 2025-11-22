@@ -18,6 +18,7 @@
     "@fiap-tech-challenge/utils": "file:../../packages/utils",
     "@fiap-tech-challenge/models": "file:../../packages/models",
     "@fiap-tech-challenge/services": "file:../../packages/services",
+    "@fiap-tech-challenge/validation-schemas": "file:../../packages/validation-schemas",
     "@hookform/resolvers": "5.0.1",
     "@radix-ui/react-slot": "1.2.3",
     "@supabase/ssr": "0.6.1",
