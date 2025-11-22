@@ -2,7 +2,7 @@ import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 
-import { DialogOverlay, DialogPortal } from "../../index";
+import { DialogOverlay, DialogPortal } from "../dialog";
 import { cn } from "../../../lib/utils";
 
 const DialogContent = React.forwardRef<

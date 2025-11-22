@@ -18,7 +18,7 @@ export const commonValidations = {
   name: z.string({ required_error: 'Este campo é obrigatório' }).min(2, 'O nome deve ter pelo menos 2 caracteres'),
 
   /** Validação de número positivo */
-  positiveNumber: z.number({ required_error: 'Este campo é obrigatório' }).min(0.01, 'Valor deve ser maior que 0'),
+  positiveNumber: z.number({ required_error: 'Este campo é obrigatório' }).positive('Valor deve ser maior que 0'),
 
   /** Validação de data obrigatória */
   requiredDate: z.date({ required_error: 'Este campo é obrigatório' }),
