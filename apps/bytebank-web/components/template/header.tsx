@@ -23,7 +23,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "../ui/drawer";
+} from "@fiap-tech-challenge/design-system/components";
 
 
 import { HTTPService } from "@fiap-tech-challenge/services";

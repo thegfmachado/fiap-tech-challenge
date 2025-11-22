@@ -1,18 +1,26 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { DateRange } from "react-day-picker";
 import { FunnelPlus, Loader2 } from "lucide-react";
 
-import { Button, Input, Label } from "@fiap-tech-challenge/design-system/components";
+import {
+  Button,
+  Input,
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  DatePicker,
+} from "@fiap-tech-challenge/design-system/components";
+import type { DateRange } from "@fiap-tech-challenge/design-system/components";
 import { HTTPService } from "@fiap-tech-challenge/services";
 
 import { TransactionService } from "@bytebank/client/services/transaction-service";
 import type { ITransaction } from "@fiap-tech-challenge/database/types";
 
 import { EditTransaction } from "@bytebank/components/edit-transaction";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "components/ui/select";
-import { DatePicker } from "components/date-picker";
 import { TransactionsList } from "components/transactions-list";
 import { CreateNewTransaction } from "components/create-new-transaction";
 import { Header } from "@bytebank/components/template/header";

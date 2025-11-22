@@ -7,14 +7,13 @@ import { Sidebar } from "@bytebank/components/template/sidebar";
 import { Main } from "@bytebank/components/template/main";
 import { Layout } from "@bytebank/components/template/layout";
 import { DashboardCard } from "@bytebank/components/template/dashboard/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@bytebank/components/ui/tabs";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, AreaChart, Area, CartesianGrid } from 'recharts';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@bytebank/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@fiap-tech-challenge/design-system/components";
 import { Card, CardContent, CardHeader, CardTitle } from "@fiap-tech-challenge/design-system/components";
 import { DashboardService } from "@bytebank/client/services/dashboard-service";
 import { useEffect, useState } from "react";
 import { IDashboardData } from "@fiap-tech-challenge/models";
-import { formatCurrency } from "@bytebank/client/formatters";
+import { formatCurrency } from "@fiap-tech-challenge/utils";
 
 const httpService = new HTTPService();
 const dashboardService = new DashboardService(httpService);

@@ -18,9 +18,6 @@
     "@fiap-tech-challenge/models": "file:../../packages/models",
     "@fiap-tech-challenge/services": "file:../../packages/services",
     "@hookform/resolvers": "5.0.1",
-    "@radix-ui/react-dialog": "1.1.14",
-    "@radix-ui/react-popover": "1.1.14",
-    "@radix-ui/react-select": "2.2.5",
     "@radix-ui/react-slot": "1.2.3",
     "@supabase/ssr": "0.6.1",
     "@supabase/supabase-js": "2.52.0",
@@ -30,7 +27,6 @@
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-hook-form": "7.60.0",
-    "vaul": "1.1.2",
     "zod": "3.24.4"
   },
   "devDependencies": {

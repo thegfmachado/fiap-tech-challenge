@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, Alert } from 'react-native';
-import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 
 import { AttachmentCard } from './AttachmentCard';
@@ -30,18 +29,17 @@ interface TransactionAttachmentProps {
 /**
  * Realiza o download de um arquivo no ambiente Web.
  */
-async function handleWebDownload(blob: Blob, fileName: string) {
-  const objectUrl = URL.createObjectURL(blob);
+async function handleWebDownload(url: string, fileName: string) {
   const link = document.createElement('a');
 
-  link.href = objectUrl;
+  link.href = url;
   link.download = fileName;
+  link.target = '_blank';
 
   document.body.appendChild(link);
   link.click();
 
   document.body.removeChild(link);
-  URL.revokeObjectURL(objectUrl);
 
   Alert.alert(
     'Download Iniciado',
@@ -51,49 +49,12 @@ async function handleWebDownload(blob: Blob, fileName: string) {
 }
 
 /**
- * Converte Blob em string Base64.
- */
-function convertBlobToBase64(blob: Blob): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (typeof reader.result === 'string') {
-        const base64 = reader.result.split(',')[1];
-        resolve(base64);
-      } else {
-        reject(new Error('Erro ao converter arquivo'));
-      }
-    };
-    reader.onerror = reject;
-    reader.readAsDataURL(blob);
-  });
-}
-/**
- * Remove caracteres inválidos do nome do arquivo.
- */
-function sanitizeFileName(fileName: string) {
-  return fileName.replace(/[^a-zA-Z0-9.-]/g, '_');
-}
-
-/**
  * Realiza o download de um arquivo no ambiente mobile.
  */
-async function handleMobileDownload(blob: Blob, fileName: string) {
-  if (!FileSystem.documentDirectory) {
-    throw new Error('Diretório de documentos não disponível');
-  }
-
-  const sanitizedFileName = sanitizeFileName(fileName);
-  const fileUri = `${FileSystem.documentDirectory}${sanitizedFileName}`;
-  const base64Data = await convertBlobToBase64(blob);
-
-  await FileSystem.writeAsStringAsync(fileUri, base64Data, {
-    encoding: FileSystem.EncodingType.Base64,
-  });
+async function handleMobileDownload(fileUri: string, fileName: string) {
 
   if (await Sharing.isAvailableAsync()) {
     await Sharing.shareAsync(fileUri, {
-      mimeType: blob.type,
       dialogTitle: `Compartilhar ${fileName}`,
     });
   } else {
@@ -177,17 +138,17 @@ export function TransactionAttachment({
   };
 
   const handleDownload = async () => {
-    const { attachment_url: url, attachment_name: fileName, id } = transaction ?? {};
+    const { attachment_url: url, attachment_name: fileName, id: transactionId } = transaction ?? {};
 
-    if (!url || !fileName || !id) return;
+    if (!url || !fileName || !transactionId) return;
 
     await downloadOperation.execute(async () => {
-      const blob = await attachmentService.downloadAttachment(id, fileName);
+      const fileUriOrUrl = await attachmentService.downloadAttachment(url, transactionId);
 
       if (isWeb) {
-        await handleWebDownload(blob, fileName);
+        await handleWebDownload(fileUriOrUrl, fileName);
       } else {
-        await handleMobileDownload(blob, fileName);
+        await handleMobileDownload(fileUriOrUrl, fileName);
       }
     });
   };

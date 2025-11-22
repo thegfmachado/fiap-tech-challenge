@@ -17,8 +17,7 @@ import {
 import type { ITransaction, ITransactionInsert } from "@fiap-tech-challenge/database/types";
 import { TransactionType } from "@fiap-tech-challenge/models";
 
-import { CurrencyInput } from "@bytebank/components/ui/currency-input";
-import { DatePicker } from "@bytebank/components/date-picker";
+import { CurrencyInput, DatePicker } from "@fiap-tech-challenge/design-system/components";
 import { HTTPService } from "@fiap-tech-challenge/services";
 import { TransactionService } from "@bytebank/client/services/transaction-service";
 

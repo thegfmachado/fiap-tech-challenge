@@ -3,7 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@fiap-tech-challenge/design-system/*": ["./src/*"]
+      "@fiap-tech-challenge/design-system/*": ["./src/*"],
+      "@fiap-tech-challenge/utils": ["../utils/src/*"]
     },
   },
   "include": ["."],

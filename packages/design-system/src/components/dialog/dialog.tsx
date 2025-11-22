@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 
 import { DialogOverlay } from "./dialog-overlay/dialog-overlay"
@@ -29,3 +30,5 @@ export {
   DialogTitle,
   DialogDescription,
 }
+
+export type DialogProps = React.ComponentProps<typeof DialogPrimitive.Root>
