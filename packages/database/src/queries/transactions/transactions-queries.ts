@@ -11,12 +11,16 @@ export class TransactionsQueriesService implements ITransactionsQueries {
   }
 
   async getAllTransactions(params?: GetAllTransactionsParams): Promise<GetAllTransactionsResponse> {
-    const { type, term, startDate, endDate, from, to } = params || {};
+    const { type, term, startDate, endDate, from, to, userId } = params || {};
 
     let query = this.client
       .from(TransactionsQueriesService.TABLE_NAME)
       .select('*', { count: 'exact' })
       .order('date', { ascending: false });
+
+    if (userId) {
+      query = query.eq('user_id', userId);
+    }
 
     query = this.applyFilters(query, { type, term, startDate, endDate });
 
