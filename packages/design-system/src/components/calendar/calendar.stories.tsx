@@ -4,13 +4,15 @@ import { useArgs } from "@storybook/preview-api";
 
 import { Calendar, type CalendarProps } from "./calendar";
 
+const baseDate = new Date('2025-01-01');
+
 export default {
   title: "Calendar",
   component: Calendar,
   args: {
     disabled: false,
     mode: "single",
-    selected: new Date(),
+    selected: baseDate,
     showOutsideDays: true,
     numberOfMonths: 1,
   },
