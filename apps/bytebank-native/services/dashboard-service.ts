@@ -1,6 +1,7 @@
 import { FilterType, IDashboardData, IFinancialMovement } from "@fiap-tech-challenge/models";
-import { supabase } from "../lib/supabase";
 import { ITransaction } from "@fiap-tech-challenge/database/types";
+import { ITransactionsQueries, TransactionsQueriesService } from "@fiap-tech-challenge/database/queries";
+import { supabase } from "../lib/supabase";
 
 const MONTHS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 const WEEK_DAYS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
@@ -10,14 +11,14 @@ export interface IDashboardService {
 }
 
 export class DashboardService implements IDashboardService {
+  private queries: ITransactionsQueries;
+
+  constructor(queries: ITransactionsQueries) {
+    this.queries = queries;
+  }
+
   async getDashboard(userId: string, period: FilterType): Promise<IDashboardData> {
-    const { data, error } = await supabase
-      .from("transactions")
-      .select("*")
-      .eq("user_id", userId);
-
-    if (error) throw error;
-
+    const { data } = await this.queries.getAllTransactions({ userId });
     const transactions = (data as ITransaction[]) || [];
 
     const currentTransactions = transactions.filter((t) =>
@@ -215,4 +216,4 @@ export class DashboardService implements IDashboardService {
   }
 }
 
-export const dashboardService = new DashboardService();
+export const dashboardService = new DashboardService(new TransactionsQueriesService(supabase));

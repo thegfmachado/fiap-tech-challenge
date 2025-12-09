@@ -3,6 +3,7 @@ import type { ITransaction, ITransactionInsert, ITransactionUpdate } from '../..
 export type GetAllTransactionsParams = {
   term?: string;
   type?: string;
+  userId?: string;
   startDate?: string;
   endDate?: string;
   from?: number;
