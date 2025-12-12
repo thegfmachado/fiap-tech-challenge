@@ -4,13 +4,15 @@ import { useArgs } from "@storybook/preview-api";
 
 import { Calendar, type CalendarProps } from "./calendar";
 
+const baseDate = new Date('2025-01-01T00:00:00');
+
 export default {
   title: "Calendar",
   component: Calendar,
   args: {
     disabled: false,
     mode: "single",
-    selected: new Date(),
+    selected: baseDate,
     showOutsideDays: true,
     numberOfMonths: 1,
   },
@@ -62,6 +64,7 @@ export const Default: StoryObj = {
       <div className="rounded-md border p-4">
         <Calendar
           {...props}
+          defaultMonth={selected}
           mode="single"
           selected={selected}
           onSelect={handleSelect}

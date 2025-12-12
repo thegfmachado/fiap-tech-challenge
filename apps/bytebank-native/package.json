@@ -15,6 +15,7 @@
     "@fiap-tech-challenge/database": "file:../../packages/database",
     "@fiap-tech-challenge/models": "file:../../packages/models",
     "@fiap-tech-challenge/services": "file:../../packages/services",
+    "@fiap-tech-challenge/validation-schemas": "file:../../packages/validation-schemas",
     "@hookform/resolvers": "5.0.1",
     "@react-native-async-storage/async-storage": "2.1.2",
     "@react-native-picker/picker": "2.11.1",

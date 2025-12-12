@@ -15,9 +15,8 @@ import { useAuth } from '@/contexts/auth-context';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { useAsyncAction } from '@/hooks/useAsyncOperation';
-import { useFormValidation, formSchemas, createPasswordConfirmationSchema } from '@/hooks/useFormValidation';
-
-const signupSchema = createPasswordConfirmationSchema(formSchemas.signup);
+import { useFormValidation } from '@/hooks/useFormValidation';
+import { signupSchema } from '@fiap-tech-challenge/validation-schemas';
 
 type SignupFormData = z.infer<typeof signupSchema>;
 

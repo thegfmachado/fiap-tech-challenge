@@ -3,7 +3,7 @@ import { FormDescriptionProps } from "./form-description.types";
 
 import { useFormField } from "../form-field/use-form-field";
 
-import { cn } from "@fiap-tech-challenge/design-system/lib/utils";
+import { cn } from "../../../lib/utils";
 
 export function useFormDescription(props: FormDescriptionProps) {
   const { className, ...rest } = props;

@@ -1,5 +1,5 @@
 import { cva } from "class-variance-authority";
-import { cn } from "@fiap-tech-challenge/design-system/lib/utils";
+import { cn } from "../../lib/utils";
 import { Slot } from "@radix-ui/react-slot";
 
 import type { ButtonProps } from "./button.types";
