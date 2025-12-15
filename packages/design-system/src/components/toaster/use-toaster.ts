@@ -1,7 +1,7 @@
 import React from "react";
 import type { ToasterProps } from "sonner";
 import { useTheme } from "next-themes";
-import { cn } from "@fiap-tech-challenge/design-system/lib/utils";
+import { cn } from "../../lib/utils";
 
 export function useToaster(props: ToasterProps): ToasterProps {
   const { theme = "system" } = useTheme();

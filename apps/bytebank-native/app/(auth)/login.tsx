@@ -9,14 +9,15 @@ import { Controller } from 'react-hook-form';
 import { Link } from 'expo-router';
 import { useAuth } from '@/contexts/auth-context';
 import { useAsyncAction } from '@/hooks/useAsyncOperation';
-import { useFormValidation, formSchemas } from '@/hooks/useFormValidation';
+import { useFormValidation } from '@/hooks/useFormValidation';
+import { loginSchema } from '@fiap-tech-challenge/validation-schemas';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
 import { AuthScreenLayout } from '@/components/auth/AuthScreenLayout';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 
-type LoginFormData = z.infer<typeof formSchemas.login>;
+type LoginFormData = z.infer<typeof loginSchema>;
 
 const handleError = (error: unknown) => `Erro no login: ${error instanceof Error ? error.message : 'Tente novamente'}`;
 
@@ -26,7 +27,7 @@ export default function LoginScreen() {
     onError: handleError,
   });
 
-  const form = useFormValidation(formSchemas.login, {
+  const form = useFormValidation(loginSchema, {
     defaultValues: {
       email: '',
       password: '',

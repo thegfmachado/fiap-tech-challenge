@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { InputProps } from "./input.types";
-import { cn } from "@fiap-tech-challenge/design-system/lib/utils";
+import { cn } from "../../lib/utils";
 
 export function useInput(props: InputProps) {
   const { className, type, showPasswordToggle = true } = props;

@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 
-import { cn } from "@fiap-tech-challenge/design-system/lib/utils";
+import { cn } from "../../../lib/utils";
 
 const DialogDescription = React.forwardRef<
   React.ComponentRef<typeof DialogPrimitive.Description>,
