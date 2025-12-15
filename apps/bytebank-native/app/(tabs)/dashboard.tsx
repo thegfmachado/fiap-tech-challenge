@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, Animated } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { Card, CardType } from "@/components/Card";
-import DashboardCharts from "@/components/DashboardCharts";
+import { Card, CardType } from "@/components/ui/Card";
+import DashboardCharts from "@/components/dashboard/DashboardCharts";
 import { useDashboard } from "@/contexts/dashboard-context";
 import { useFocusEffect } from "@react-navigation/native";
 import { FilterType } from "@fiap-tech-challenge/models";

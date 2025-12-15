@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConfirmationModal } from './ConfirmationModal';
+import { ConfirmationModal } from '../../ui/ConfirmationModal';
 import { Colors } from '@/constants/Colors';
 
 export interface DeleteAttachmentModalProps {

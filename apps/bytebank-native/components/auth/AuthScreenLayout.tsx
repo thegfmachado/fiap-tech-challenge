@@ -4,8 +4,8 @@ import {
   KeyboardAvoidingView
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ThemedView } from '@/components/ThemedView';
-import { GradientLogo } from '@/components/GradientLogo';
+import { ThemedView } from '@/components/ui/ThemedView';
+import { GradientLogo } from '@/components/ui/GradientLogo';
 import { isIOS } from '@/constants/device';
 
 interface AuthScreenLayoutProps {

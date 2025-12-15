@@ -9,11 +9,11 @@ import { useHomeDashboard } from '@/hooks/useHomeDashboard';
 import { useTransactions } from '@/hooks/useTransactions';
 import { useAuth } from '@/contexts/auth-context';
 
-import { BalanceCard } from '@/components/BalanceCard';
-import { IncomeExpenseSummaryCard } from '@/components/IncomeExpenseSummaryCard';
-import { RecentTransactions } from '@/components/RecentTransactions';
-import { ViewTransactionModal } from '@/components/ViewTransactionModal';
-import { CreateTransactionModal } from '@/components/CreateTransactionModal';
+import { BalanceCard } from '@/components/ui/BalanceCard';
+import { IncomeExpenseSummaryCard } from '@/components/transactions/IncomeExpenseSummaryCard';
+import { RecentTransactions } from '@/components/transactions/RecentTransactions';
+import { ViewTransactionModal } from '@/components/transactions/modals/ViewTransactionModal';
+import { CreateTransactionModal } from '@/components/transactions/modals/CreateTransactionModal';
 
 import { mapTransactionToITransaction, mapITransactionToTransaction, Transaction } from '@/utils/transactionMapper';
 

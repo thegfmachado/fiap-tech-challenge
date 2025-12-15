@@ -3,7 +3,7 @@ import { View, Text, Modal, TouchableOpacity, SafeAreaView } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 
 import type { ITransaction } from '@fiap-tech-challenge/database/types';
-import { TransactionForm } from './TransactionForm';
+import { TransactionForm } from '../TransactionForm';
 import { Colors } from '@/constants/Colors';
 
 export interface ViewTransactionModalProps {

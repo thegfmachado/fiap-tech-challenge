@@ -10,12 +10,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { forgotPasswordSchema } from '@fiap-tech-challenge/validation-schemas';
 import type { ForgotPasswordSchema } from '@fiap-tech-challenge/validation-schemas';
 
-import { Input } from '@/components/Input';
-import { Button } from '@/components/Button';
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
 import { AuthScreenLayout } from '@/components/auth/AuthScreenLayout';
 import { useAuth } from '@/contexts/auth-context';
-import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ui/ThemedView';
+import { ThemedText } from '@/components/ui/ThemedText';
 
 type ForgotPasswordFormData = ForgotPasswordSchema;
 

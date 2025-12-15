@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConfirmationModal } from './ConfirmationModal';
+import { ConfirmationModal } from '../../ui/ConfirmationModal';
 import type { ITransaction } from '@fiap-tech-challenge/database/types';
 import { Colors } from '@/constants/Colors';
 

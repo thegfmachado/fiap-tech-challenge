@@ -5,9 +5,9 @@ import { Controller } from 'react-hook-form';
 
 import { TransactionType } from '@fiap-tech-challenge/models';
 import type { ITransaction, ITransactionInsert } from '@fiap-tech-challenge/database/types';
-import { CurrencyInput } from './ui/CurrencyInput';
-import { RadioGroup } from './ui/RadioGroup';
-import CalendarPicker from './CalendarPicker';
+import { CurrencyInput } from '../ui/CurrencyInput';
+import { RadioGroup } from '../ui/RadioGroup';
+import CalendarPicker from '../ui/CalendarPicker';
 import { TransactionAttachment, BaseTransaction } from './TransactionAttachment';
 import { useFormValidation } from '@/hooks/useFormValidation';
 import { TransactionSchema, transactionSchema } from '@fiap-tech-challenge/validation-schemas';

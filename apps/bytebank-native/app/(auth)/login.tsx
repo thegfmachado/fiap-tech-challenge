@@ -11,11 +11,11 @@ import { useAuth } from '@/contexts/auth-context';
 import { useAsyncAction } from '@/hooks/useAsyncOperation';
 import { useFormValidation } from '@/hooks/useFormValidation';
 import { loginSchema } from '@fiap-tech-challenge/validation-schemas';
-import { Input } from '@/components/Input';
-import { Button } from '@/components/Button';
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
 import { AuthScreenLayout } from '@/components/auth/AuthScreenLayout';
-import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ui/ThemedView';
+import { ThemedText } from '@/components/ui/ThemedText';
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
