@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, Alert } from 'react-native';
 import * as Sharing from 'expo-sharing';
 
-import { AttachmentCard } from './AttachmentCard';
-import { FileUpload } from './FileUpload';
-import { DeleteAttachmentModal } from './DeleteAttachmentModal';
+import { AttachmentCard } from '../ui/AttachmentCard';
+import { FileUpload } from '../ui/FileUpload';
+import { DeleteAttachmentModal } from './modals/DeleteAttachmentModal';
 import { TransactionAttachmentService } from '@/lib/services/attachment-service';
 import { TransactionsQueriesService } from '@fiap-tech-challenge/database/queries';
 import { supabase } from '@/lib/supabase';

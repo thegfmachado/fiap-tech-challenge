@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { type Transaction } from '@/utils/transactionMapper';
 import { TransactionType } from '@fiap-tech-challenge/models';
-import FloatingActionButton from './FloatingActionButton';
+import FloatingActionButton from '../ui/FloatingActionButton';
 
 /**
  * Propriedades do componente TransactionsList

@@ -12,7 +12,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { AuthProvider } from '@/contexts/auth-context';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
-import IntroSlider from '@/components/IntroSlider';
+import IntroSlider from '@/components/ui/IntroSlider';
 
 import '../global.css';
 import { Colors } from '@/constants/Colors';

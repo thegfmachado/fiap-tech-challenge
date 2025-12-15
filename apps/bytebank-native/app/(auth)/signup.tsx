@@ -8,12 +8,12 @@ import { Link, router } from 'expo-router';
 import { Controller } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Input } from '@/components/Input';
-import { Button } from '@/components/Button';
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
 import { AuthScreenLayout } from '@/components/auth/AuthScreenLayout';
 import { useAuth } from '@/contexts/auth-context';
-import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ui/ThemedView';
+import { ThemedText } from '@/components/ui/ThemedText';
 import { useAsyncAction } from '@/hooks/useAsyncOperation';
 import { useFormValidation } from '@/hooks/useFormValidation';
 import { signupSchema } from '@fiap-tech-challenge/validation-schemas';

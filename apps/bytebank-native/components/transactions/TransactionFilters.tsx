@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { FiltersState } from '@/hooks/useTransactions';
 import { TransactionType } from '@fiap-tech-challenge/models';
-import CalendarPicker from './CalendarPicker';
+import CalendarPicker from '../ui/CalendarPicker';
 import { Colors } from '@/constants/Colors';
 
 /**

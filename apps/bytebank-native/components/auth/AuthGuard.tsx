@@ -2,7 +2,7 @@ import React from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Redirect } from 'expo-router';
 import { useAuth } from '../../contexts/auth-context';
-import { ThemedView } from '../ThemedView';
+import { ThemedView } from '../ui/ThemedView';
 import { useThemeColor } from '@/hooks/useThemeColor';
 
 interface AuthGuardProps {

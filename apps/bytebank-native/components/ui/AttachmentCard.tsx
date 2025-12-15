@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
-import { FileIcon } from './ui/FileIcon';
+import { FileIcon } from './FileIcon';
 
 interface AttachmentCardProps {
   fileName: string;

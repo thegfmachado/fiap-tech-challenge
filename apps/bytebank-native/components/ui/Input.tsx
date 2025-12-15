@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   TextInputProps
 } from 'react-native';
-import { IconSymbol } from './ui/IconSymbol';
+import { IconSymbol } from './IconSymbol';
 import { ThemedView } from './ThemedView';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { Colors } from '@/constants/Colors';

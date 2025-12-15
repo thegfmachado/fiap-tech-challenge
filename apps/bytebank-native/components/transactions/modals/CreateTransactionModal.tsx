@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import type { ITransaction } from '@fiap-tech-challenge/database/types';
 import { TransactionsQueriesService } from '@fiap-tech-challenge/database/queries';
 import { supabase } from '@/lib/supabase';
-import { TransactionForm, TransactionInsertWithFile } from './TransactionForm';
+import { TransactionForm, TransactionInsertWithFile } from '../TransactionForm';
 import { TransactionAttachmentService } from '@/lib/services/attachment-service';
 import { Colors } from '@/constants/Colors';
 
