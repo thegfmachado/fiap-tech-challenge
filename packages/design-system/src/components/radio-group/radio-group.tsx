@@ -4,7 +4,7 @@ import * as React from "react";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import { Circle } from "lucide-react";
 
-import { cn } from "@fiap-tech-challenge/design-system/lib/utils";
+import { cn } from "../../lib/utils";
 
 export type RadioGroupProps = React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root> & {
   readOnly?: boolean

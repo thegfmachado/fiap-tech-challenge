@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { cn } from "@fiap-tech-challenge/design-system/lib/utils"
+import { cn } from "../../lib/utils"
 
 type FormItemContextValue = {
   id: string

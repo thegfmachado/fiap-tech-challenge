@@ -1,5 +1,5 @@
 
-import { cn } from "@fiap-tech-challenge/design-system/lib/utils"
+import { cn } from "../../lib/utils";
 import { LabelProps } from "./label.types";
 
 export function useLabel(props: LabelProps) {
