@@ -1,6 +1,8 @@
 import { cookies } from "next/headers";
-import { createServerClient } from "@fiap-tech-challenge/database/server";
+
 import { TransactionsQueriesService } from "@fiap-tech-challenge/database/queries";
+import { createServerClient } from "@fiap-tech-challenge/database/server";
+
 import { TransactionService } from "./transaction-service";
 
 export async function createTransactionService() {

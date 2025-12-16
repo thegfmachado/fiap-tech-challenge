@@ -1,8 +1,25 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import { FunnelPlus, Loader2 } from "lucide-react";
 
+
+
+import { CreateNewTransaction } from "components/create-new-transaction";
+import { TransactionAction } from "components/transaction-action";
+import { TransactionsList } from "components/transactions-list";
+import { FunnelPlus, Loader2 } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+
+import { TransactionService } from "@bytebank/client/services/transaction-service";
+import { DeleteTransaction } from "@bytebank/components/delete-transaction";
+import { EditTransaction } from "@bytebank/components/edit-transaction";
+import { Header } from "@bytebank/components/template/header";
+import { Layout } from "@bytebank/components/template/layout";
+import { Main } from "@bytebank/components/template/main";
+import { Sidebar } from "@bytebank/components/template/sidebar";
+import { TransactionSkeleton } from "@bytebank/components/transaction-skeleton";
+
+import type { ITransaction } from "@fiap-tech-challenge/database/types";
+import type { DateRange } from "@fiap-tech-challenge/design-system/components";
 import {
   Button,
   Input,
@@ -14,22 +31,7 @@ import {
   SelectValue,
   DatePicker,
 } from "@fiap-tech-challenge/design-system/components";
-import type { DateRange } from "@fiap-tech-challenge/design-system/components";
 import { HTTPService } from "@fiap-tech-challenge/services";
-
-import { TransactionService } from "@bytebank/client/services/transaction-service";
-import type { ITransaction } from "@fiap-tech-challenge/database/types";
-
-import { EditTransaction } from "@bytebank/components/edit-transaction";
-import { TransactionsList } from "components/transactions-list";
-import { CreateNewTransaction } from "components/create-new-transaction";
-import { Header } from "@bytebank/components/template/header";
-import { TransactionAction } from "components/transaction-action";
-import { DeleteTransaction } from "@bytebank/components/delete-transaction";
-import { Sidebar } from "@bytebank/components/template/sidebar";
-import { Main } from "@bytebank/components/template/main";
-import { Layout } from "@bytebank/components/template/layout";
-import { TransactionSkeleton } from "@bytebank/components/transaction-skeleton";
 
 function useDebouncedCallback<T extends (...args: unknown[]) => void>(callback: T, delay: number) {
   const timeout = useRef<ReturnType<typeof setTimeout>>(null);

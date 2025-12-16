@@ -1,21 +1,17 @@
 "use client";
 
-import { useState } from "react";
 import { House, PanelLeft, X, ArrowRightLeft, ChartNoAxesColumn } from "lucide-react";
-
-import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 
-import {
-  Button,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-  Skeleton,
-} from "@fiap-tech-challenge/design-system/components";
+
+
+
+
+import { AuthService } from "@bytebank/client/services/auth-service";
+import { useAuth } from "@bytebank/hooks/use-auth";
 
 import {
   Drawer,
@@ -23,13 +19,15 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@fiap-tech-challenge/design-system/components";
 
-
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+  Skeleton} from "@fiap-tech-challenge/design-system/components";
 import { HTTPService } from "@fiap-tech-challenge/services";
-
-import { AuthService } from "@bytebank/client/services/auth-service";
-import { useAuth } from "@bytebank/hooks/use-auth";
 
 const httpService = new HTTPService();
 const authService = new AuthService(httpService);

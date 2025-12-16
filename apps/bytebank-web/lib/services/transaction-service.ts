@@ -1,9 +1,9 @@
+import type { ITransactionsQueries } from "@fiap-tech-challenge/database/queries";
+import type { ITransactionInsert, ITransactionUpdate } from "@fiap-tech-challenge/database/types";
 import { HttpError } from "@fiap-tech-challenge/services";
 
-import { ITransactionService } from "./transaction-service.interface";
+import type { ITransactionService } from "./transaction-service.interface";
 
-import { ITransactionInsert, ITransactionUpdate } from "@fiap-tech-challenge/database/types";
-import { ITransactionsQueries } from "@fiap-tech-challenge/database/queries";
 
 export class TransactionService implements ITransactionService {
   private readonly queries: ITransactionsQueries

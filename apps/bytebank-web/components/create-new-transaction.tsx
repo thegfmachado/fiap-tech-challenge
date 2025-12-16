@@ -1,8 +1,11 @@
-import { HTTPService } from "@fiap-tech-challenge/services";
+
+import { SquarePlus } from "lucide-react";
+import { useState } from "react";
 
 import { TransactionService } from "@bytebank/client/services/transaction-service";
-import type { ITransaction, ITransactionInsert } from "@fiap-tech-challenge/database/types";
 import { TransactionsForm } from "@bytebank/components/transactions-form";
+
+import type { ITransaction, ITransactionInsert } from "@fiap-tech-challenge/database/types";
 import {
   Button,
   Dialog,
@@ -12,8 +15,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@fiap-tech-challenge/design-system/components";
-import { SquarePlus } from "lucide-react";
-import { useState } from "react";
+import { HTTPService } from "@fiap-tech-challenge/services";
 
 const httpService = new HTTPService();
 const transactionService = new TransactionService(httpService);

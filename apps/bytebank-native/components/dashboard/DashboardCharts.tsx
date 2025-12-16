@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { LineDashboardChart } from "./LineDashboardChart";
 import { BarDashboardChart } from "./BarDashboardChart";
-import { IAmountAndExpensesByRange, IDashboardData, IIncomeByRange } from "@fiap-tech-challenge/models";
+import { IAmountAndExpensesByRange, IIncomeByRange } from "@fiap-tech-challenge/models";
 
 type TabOption = "overview" | "details";
 

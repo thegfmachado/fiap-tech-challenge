@@ -1,6 +1,6 @@
 
-import { ReactElement, type MouseEventHandler } from "react";
 import { Trash2Icon, SquarePen, ClipboardList } from "lucide-react";
+import type { ReactElement, MouseEventHandler } from "react";
 
 import { Button } from "@fiap-tech-challenge/design-system/components";
 

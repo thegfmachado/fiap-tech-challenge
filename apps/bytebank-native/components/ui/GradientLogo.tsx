@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 
-import Logo from '../assets/images/logo.svg';
+import Logo from '../../assets/images/logo.svg';
 import { useThemeColor } from "@/hooks/useThemeColor";
 
 const GRADIENT_START_POINT = 0;

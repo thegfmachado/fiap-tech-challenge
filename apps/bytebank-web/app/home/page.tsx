@@ -2,26 +2,26 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-import { Skeleton } from "@fiap-tech-challenge/design-system/components";
-import { HTTPService } from "@fiap-tech-challenge/services";
 
 import { TransactionService } from "@bytebank/client/services/transaction-service";
-
-import { Header } from "@bytebank/components/template/header";
-import { Sidebar } from "@bytebank/components/template/sidebar";
-import { Layout } from "@bytebank/components/template/layout";
-import { Main } from "@bytebank/components/template/main";
-
-import { TransactionsList } from "@bytebank/components/transactions-list";
-import { TransactionAction } from "@bytebank/components/transaction-action";
-import { VisibilityToggler } from "@bytebank/components/visibility-toggler";
 import { CreateNewTransaction } from "@bytebank/components/create-new-transaction";
 import { EditTransaction } from "@bytebank/components/edit-transaction";
-
-import { formatCurrency } from "@fiap-tech-challenge/utils";
-import type { ITransaction } from "@fiap-tech-challenge/database/types";
-import { useAuth } from "@bytebank/hooks/use-auth";
+import { Header } from "@bytebank/components/template/header";
+import { Layout } from "@bytebank/components/template/layout";
+import { Main } from "@bytebank/components/template/main";
+import { Sidebar } from "@bytebank/components/template/sidebar";
+import { TransactionAction } from "@bytebank/components/transaction-action";
 import { TransactionSkeleton } from "@bytebank/components/transaction-skeleton";
+import { TransactionsList } from "@bytebank/components/transactions-list";
+import { VisibilityToggler } from "@bytebank/components/visibility-toggler";
+import { useAuth } from "@bytebank/hooks/use-auth";
+
+import type { ITransaction } from "@fiap-tech-challenge/database/types";
+import { Skeleton } from "@fiap-tech-challenge/design-system/components";
+import { HTTPService } from "@fiap-tech-challenge/services";
+import { formatCurrency } from "@fiap-tech-challenge/utils";
+
+
 
 const httpService = new HTTPService();
 const transactionService = new TransactionService(httpService);

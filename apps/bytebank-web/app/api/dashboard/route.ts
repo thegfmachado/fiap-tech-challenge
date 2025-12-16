@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
 
 import { createTransactionService } from "@bytebank/lib/services/transaction-service.factory";
-import { handleResponseError } from "@fiap-tech-challenge/services/http";
+
+import type { ITransaction } from "@fiap-tech-challenge/database/types";
 import { TransactionType } from "@fiap-tech-challenge/models";
 import type { IDashboardData, IIncomeByRange, IAmountAndExpensesByRange, IFinancialMovement } from "@fiap-tech-challenge/models";
-import type { ITransaction } from "@fiap-tech-challenge/database/types";
+import { handleResponseError } from "@fiap-tech-challenge/services/http";
 
 const MONTHS = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',

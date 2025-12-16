@@ -1,11 +1,10 @@
-import { useMemo } from "react";
-import Link from "next/link";
 import { cva } from "class-variance-authority";
+import Link from "next/link";
+import { useMemo } from "react";
 
-import { Button } from "@fiap-tech-challenge/design-system/components";
 import type { ITransaction } from "@fiap-tech-challenge/database/types";
+import { Button } from "@fiap-tech-challenge/design-system/components";
 import { TransactionType } from "@fiap-tech-challenge/models";
-
 import { formatCurrency, formatDate } from "@fiap-tech-challenge/utils";
 
 export type TransactionsListProps = {

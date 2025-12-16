@@ -26,7 +26,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     refresh(filter);
-  }, [filter]);
+  }, [filter, refresh]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -43,7 +43,7 @@ export default function Dashboard() {
           )
         ).start();
       }
-    }, [dashboard])
+    }, [dashboard, animations])
   );
 
   if (!dashboard) {

@@ -2,8 +2,9 @@
 
 import { Home, ArrowLeftRight, ChartNoAxesColumn } from "lucide-react"
 import Link from "next/link"
-import { Button } from "@fiap-tech-challenge/design-system/components";
 import { usePathname } from "next/navigation";
+
+import { Button } from "@fiap-tech-challenge/design-system/components";
 
 const sidebarItems = [
   {

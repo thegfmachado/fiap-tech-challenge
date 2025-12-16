@@ -1,7 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest} from "next/server";
+import { NextResponse } from "next/server";
+
+import { createAttachmentService } from "@bytebank/lib/services/attachment-service.factory";
 
 import { handleResponseError } from "@fiap-tech-challenge/services/http";
-import { createAttachmentService } from "@bytebank/lib/services/attachment-service.factory";
 
 interface RouteParams {
   id: string;
