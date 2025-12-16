@@ -5,9 +5,7 @@ import { useForm } from "react-hook-form";
 import { TransactionService } from "@bytebank/client/services/transaction-service";
 
 import type { ITransaction, ITransactionInsert } from "@fiap-tech-challenge/database/types";
-import type {
-  BaseTransaction
-} from "@fiap-tech-challenge/design-system/components";
+import type { BaseTransaction } from "@fiap-tech-challenge/design-system/components";
 import {
   Input,
   Form,
