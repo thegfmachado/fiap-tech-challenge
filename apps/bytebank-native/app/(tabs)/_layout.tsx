@@ -3,7 +3,6 @@ import React from 'react';
 
 import { HapticTab } from '@/components/ui/HapticTab';
 import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { AuthGuard } from '@/components/auth/AuthGuard';
@@ -26,7 +25,6 @@ export default function TabLayout() {
             },
             headerShown: false,
             tabBarButton: HapticTab,
-            tabBarBackground: TabBarBackground,
             tabBarStyle: {
               backgroundColor: colors.background
             },

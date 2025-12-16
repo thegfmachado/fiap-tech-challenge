@@ -1,5 +1,9 @@
+import { OctagonAlert } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { TransactionService } from "@bytebank/client/services/transaction-service";
+
+import type { ITransaction } from "@fiap-tech-challenge/database/types";
 import {
   Button,
   Dialog,
@@ -7,12 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@fiap-tech-challenge/design-system/components";
-
 import { HTTPService } from "@fiap-tech-challenge/services";
-
-import { TransactionService } from "@bytebank/client/services/transaction-service";
-import type { ITransaction } from "@fiap-tech-challenge/database/types";
-import { OctagonAlert } from "lucide-react";
 
 const httpService = new HTTPService();
 const transactionService = new TransactionService(httpService);

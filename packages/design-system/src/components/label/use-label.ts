@@ -1,6 +1,5 @@
-
+import type { LabelProps } from "./label.types";
 import { cn } from "../../lib/utils";
-import { LabelProps } from "./label.types";
 
 export function useLabel(props: LabelProps) {
   const { children, className, ...rest } = props

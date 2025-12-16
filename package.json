@@ -22,6 +22,7 @@
     "db:generate:types": "npm run db:generate:types --workspace=@fiap-tech-challenge/database",
     "dev": "turbo dev",
     "lint": "turbo lint",
+    "lint:fix": "turbo lint -- --fix",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "docker:build": "docker compose build",
     "docker:up": "docker compose up -d",

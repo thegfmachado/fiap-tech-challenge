@@ -1,5 +1,7 @@
 import { z } from 'zod';
+
 import { TransactionType } from '@fiap-tech-challenge/models';
+
 import { commonValidations } from './common-validations.js';
 
 /**
@@ -17,4 +19,3 @@ export const transactionSchema = z.object({
  * Type export for TypeScript support
  */
 export type TransactionSchema = z.infer<typeof transactionSchema>;
-

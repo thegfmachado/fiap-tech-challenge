@@ -1,6 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react";
-
 import { useArgs } from "@storybook/preview-api";
+import type { Meta, StoryObj } from "@storybook/react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger, type TabsProps } from "./tabs";
 
@@ -77,4 +76,3 @@ export const Default: StoryObj<TabsProps> = {
     );
   },
 };
-

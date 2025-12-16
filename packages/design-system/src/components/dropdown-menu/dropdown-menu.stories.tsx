@@ -1,6 +1,6 @@
-import * as React from "react";
-import type { Meta, StoryObj } from '@storybook/react';
 import type * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
+import type { Meta, StoryObj } from '@storybook/react';
+import * as React from "react";
 
 import {
   DropdownMenu,
@@ -16,7 +16,6 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
 } from './dropdown-menu';
-
 import { Button } from "../button/button";
 
 export default {

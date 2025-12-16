@@ -3,6 +3,7 @@
 import * as React from "react"
 
 import { formatCurrency } from "@fiap-tech-challenge/utils"
+
 import { Input } from "../input/input"
 
 interface CurrencyInputState {
@@ -56,4 +57,3 @@ export function CurrencyInput(props: CurrencyInputProps) {
     <Input {...props} value={innerValue.formattedValue} onChange={onChange} />
   )
 }
-

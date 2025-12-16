@@ -17,4 +17,3 @@ export function formatCurrency(
     ...options,
   }).format(value);
 }
-

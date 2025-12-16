@@ -1,9 +1,6 @@
-
-import { FormDescriptionProps } from "./form-description.types";
-
-import { useFormField } from "../form-field/use-form-field";
-
+import type { FormDescriptionProps } from "./form-description.types";
 import { cn } from "../../../lib/utils";
+import { useFormField } from "../form-field/use-form-field";
 
 export function useFormDescription(props: FormDescriptionProps) {
   const { className, ...rest } = props;

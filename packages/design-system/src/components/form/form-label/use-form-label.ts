@@ -1,9 +1,6 @@
-
-import { FormLabelProps } from "./form-label.types";
-
-import { useFormField } from "../form-field/use-form-field";
-
+import type { FormLabelProps } from "./form-label.types";
 import { cn } from "../../../lib/utils";
+import { useFormField } from "../form-field/use-form-field";
 
 export function useFormLabel(props: FormLabelProps) {
   const { className, ...rest } = props;

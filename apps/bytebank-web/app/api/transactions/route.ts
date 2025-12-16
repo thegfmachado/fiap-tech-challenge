@@ -1,6 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest} from "next/server";
+import { NextResponse } from "next/server";
 
 import { createTransactionService } from "@bytebank/lib/services/transaction-service.factory";
+
 import { handleResponseError } from "@fiap-tech-challenge/services/http";
 
 export async function GET(request: Request) {

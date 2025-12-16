@@ -1,8 +1,8 @@
-import { HttpError } from "@fiap-tech-challenge/services";
+import type { IAuthQueries } from "@fiap-tech-challenge/database/queries";
 import type { IUser } from "@fiap-tech-challenge/models";
+import { HttpError } from "@fiap-tech-challenge/services";
 
 import type { IAuthService } from "./auth-service.interface";
-import { IAuthQueries } from "@fiap-tech-challenge/database/queries";
 
 export class AuthService implements IAuthService {
 

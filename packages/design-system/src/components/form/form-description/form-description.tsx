@@ -1,5 +1,4 @@
-import { FormDescriptionProps } from "./form-description.types";
-
+import type { FormDescriptionProps } from "./form-description.types";
 import { useFormDescription } from "./use-form-description";
 
 function FormDescription(props: FormDescriptionProps) {

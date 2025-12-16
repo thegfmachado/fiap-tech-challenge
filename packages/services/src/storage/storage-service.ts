@@ -1,5 +1,6 @@
-import { TypedSupabaseClient } from "@fiap-tech-challenge/database/types";
-import { IStorageService } from "./storage-service.interface.js";
+import type { TypedSupabaseClient } from "@fiap-tech-challenge/database/types";
+
+import type { IStorageService } from "./storage-service.interface.js";
 
 export class StorageService implements IStorageService {
   private readonly client: TypedSupabaseClient;

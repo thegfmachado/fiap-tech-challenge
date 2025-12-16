@@ -1,6 +1,6 @@
-import { Label } from "../../label/label"
-import { FormLabelProps } from "./form-label.types"
+import type { FormLabelProps } from "./form-label.types"
 import { useFormLabel } from "./use-form-label";
+import { Label } from "../../label/label"
 
 function FormLabel(props: FormLabelProps) {
   const { className, error, formItemId } = useFormLabel(props);

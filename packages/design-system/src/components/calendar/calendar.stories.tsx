@@ -1,6 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react";
-
 import { useArgs } from "@storybook/preview-api";
+import type { Meta, StoryObj } from "@storybook/react";
 
 import { Calendar, type CalendarProps } from "./calendar";
 
@@ -73,4 +72,3 @@ export const Default: StoryObj = {
     );
   },
 } as Meta<CalendarProps>;
-

@@ -1,6 +1,6 @@
 "use client"
 
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 
 export function Layout(props: PropsWithChildren) {
   const { children } = props;

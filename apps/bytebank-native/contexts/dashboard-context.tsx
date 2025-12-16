@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { dashboardService } from "../services/dashboard-service";
 import { useAuth } from "@/contexts/auth-context";
 import { FilterType, IDashboardData } from "@fiap-tech-challenge/models";
@@ -14,9 +14,8 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
   const [dashboard, setDashboard] = useState<IDashboardData | null>(null);
 
-  const fetchDashboard = async (range: FilterType) => {
-
-    if (!user) return;
+  const fetchDashboard = useCallback(async (range: FilterType) => {
+    if (!user?.id) return;
 
     try {
       const data = await dashboardService.getDashboard(user.id, range);
@@ -24,16 +23,18 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
     } catch (err) {
       console.error("Error fetching dashboard data:", err);
     }
-  };
+  }, [user?.id]);
 
   useEffect(() => {
     if (user) {
       fetchDashboard(FilterType.YEAR);
     }
-  }, [user]);
+  }, [user, fetchDashboard]);
+
+  const value = useMemo(() => ({ dashboard, refresh: fetchDashboard }), [dashboard, fetchDashboard]);
 
   return (
-    <DashboardContext.Provider value={{ dashboard, refresh: fetchDashboard }}>
+    <DashboardContext.Provider value={value}>
       {children}
     </DashboardContext.Provider>
   );

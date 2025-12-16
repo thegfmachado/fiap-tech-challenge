@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
+
 import { Label } from './label';
-import { LabelProps } from './label.types';
+import type { LabelProps } from './label.types';
 
 export default {
   title: 'Label',

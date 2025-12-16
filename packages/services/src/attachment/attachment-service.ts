@@ -1,5 +1,5 @@
-import { IStorageService } from "../storage/storage-service.interface.js";
-import { IAttachmentService, IAttachment } from "./attachment-service.interface.js";
+import type { IAttachmentService, IAttachment } from "./attachment-service.interface.js";
+import type { IStorageService } from "../storage/storage-service.interface.js";
 
 export class AttachmentService implements IAttachmentService {
   private readonly storageService: IStorageService;

@@ -27,4 +27,3 @@ export const commonValidations = {
   confirmPassword: () =>
     z.string({ required_error: 'Este campo é obrigatório' }).min(6, 'A senha deve ter pelo menos 6 caracteres'),
 } as const;
-

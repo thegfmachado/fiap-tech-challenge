@@ -1,6 +1,6 @@
+import type { Preview } from '@storybook/react'
 import * as React from 'react';
 
-import type { Preview } from '@storybook/react'
 import { Root } from './root';
 
 import '../src/styles/globals.css';

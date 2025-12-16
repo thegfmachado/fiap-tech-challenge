@@ -1,6 +1,5 @@
-import type { Meta, StoryFn } from "@storybook/react";
-
 import { useArgs } from "@storybook/preview-api";
+import type { Meta, StoryFn } from "@storybook/react";
 
 import { CurrencyInput, type CurrencyInputProps } from "./currency-input";
 
@@ -76,4 +75,3 @@ export const Default: StoryFn<typeof CurrencyInput> = (props: CurrencyInputProps
     </div>
   );
 };
-

@@ -1,18 +1,32 @@
 "use client";
 
-import { HTTPService } from "@fiap-tech-challenge/services/http";
-
-import { Header } from "@bytebank/components/template/header";
-import { Sidebar } from "@bytebank/components/template/sidebar";
-import { Main } from "@bytebank/components/template/main";
-import { Layout } from "@bytebank/components/template/layout";
-import { DashboardCard } from "@bytebank/components/template/dashboard/card";
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, AreaChart, Area, CartesianGrid } from 'recharts';
-import { Tabs, TabsContent, TabsList, TabsTrigger, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@fiap-tech-challenge/design-system/components";
-import { Card, CardContent, CardHeader, CardTitle } from "@fiap-tech-challenge/design-system/components";
-import { DashboardService } from "@bytebank/client/services/dashboard-service";
 import { useEffect, useState } from "react";
-import { IDashboardData } from "@fiap-tech-challenge/models";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, AreaChart, Area, CartesianGrid } from 'recharts';
+
+import { DashboardService } from "@bytebank/client/services/dashboard-service";
+import { DashboardCard } from "@bytebank/components/template/dashboard/card";
+import { Header } from "@bytebank/components/template/header";
+import { Layout } from "@bytebank/components/template/layout";
+import { Main } from "@bytebank/components/template/main";
+import { Sidebar } from "@bytebank/components/template/sidebar";
+
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle
+} from "@fiap-tech-challenge/design-system/components";
+import type { IDashboardData } from "@fiap-tech-challenge/models";
+import { HTTPService } from "@fiap-tech-challenge/services/http";
 import { formatCurrency } from "@fiap-tech-challenge/utils";
 
 const httpService = new HTTPService();

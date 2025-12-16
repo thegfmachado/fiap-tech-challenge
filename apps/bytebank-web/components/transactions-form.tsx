@@ -1,7 +1,11 @@
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
+import { TransactionService } from "@bytebank/client/services/transaction-service";
+
+import type { ITransaction, ITransactionInsert } from "@fiap-tech-challenge/database/types";
+import type { BaseTransaction } from "@fiap-tech-challenge/design-system/components";
 import {
   Input,
   Form,
@@ -11,15 +15,11 @@ import {
   FormMessage,
   Button, RadioGroup, FormLabel, RadioGroupItem,
   TransactionAttachment,
-  BaseTransaction,
+  CurrencyInput, DatePicker
 } from "@fiap-tech-challenge/design-system/components";
-import type { ITransaction, ITransactionInsert } from "@fiap-tech-challenge/database/types";
 import { TransactionType } from "@fiap-tech-challenge/models";
-import { transactionSchema, type TransactionSchema } from "@fiap-tech-challenge/validation-schemas";
-
-import { CurrencyInput, DatePicker } from "@fiap-tech-challenge/design-system/components";
 import { HTTPService } from "@fiap-tech-challenge/services";
-import { TransactionService } from "@bytebank/client/services/transaction-service";
+import { transactionSchema, type TransactionSchema } from "@fiap-tech-challenge/validation-schemas";
 
 const httpService = new HTTPService();
 const transactionService = new TransactionService(httpService);
@@ -97,7 +97,7 @@ export function TransactionsForm({
               <FormLabel>Tipo de transação</FormLabel>
               <FormControl>
                 <RadioGroup disabled={field.disabled} defaultValue={field.value} onValueChange={field.onChange} readOnly={readOnly}
-                            className="flex space-x-4">
+                  className="flex space-x-4">
                   {options.map(option => (
                     <FormItem key={option.value} className="flex items-center">
                       <FormControl>

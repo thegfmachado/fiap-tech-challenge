@@ -1,13 +1,14 @@
 "use client"
 
-import { DateRange } from "react-day-picker"
 import { Calendar as CalendarIcon } from "lucide-react"
+import type { DateRange } from "react-day-picker"
 
 import { formatDate } from "@fiap-tech-challenge/utils"
+
+import { cn } from "../../lib/utils"
+import { Button } from "../button/button"
 import { Calendar } from "../calendar/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "../popover/popover"
-import { Button } from "../button/button"
-import { cn } from "../../lib/utils"
 
 export type { DateRange }
 
@@ -90,4 +91,3 @@ export function DatePicker(props: DatePickerProps) {
     </div>
   )
 }
-

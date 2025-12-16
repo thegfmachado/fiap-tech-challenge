@@ -13,9 +13,9 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { AuthProvider } from '@/contexts/auth-context';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import IntroSlider from '@/components/ui/IntroSlider';
+import { Colors } from '@/constants/Colors';
 
 import '../global.css';
-import { Colors } from '@/constants/Colors';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
