@@ -10,7 +10,21 @@ import { Layout } from "@bytebank/components/template/layout";
 import { Main } from "@bytebank/components/template/main";
 import { Sidebar } from "@bytebank/components/template/sidebar";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger, Select, SelectContent, SelectItem, SelectTrigger, SelectValue , Card, CardContent, CardHeader, CardTitle } from "@fiap-tech-challenge/design-system/components";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle
+} from "@fiap-tech-challenge/design-system/components";
 import type { IDashboardData } from "@fiap-tech-challenge/models";
 import { HTTPService } from "@fiap-tech-challenge/services/http";
 import { formatCurrency } from "@fiap-tech-challenge/utils";
