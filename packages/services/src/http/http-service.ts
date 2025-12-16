@@ -1,4 +1,4 @@
-import { IHTTPService } from "./http-service.interface.js";
+import type { IHTTPService } from "./http-service.interface.js";
 
 export class HTTPService implements IHTTPService {
   private async request<T>(url: string, method: string, body?: unknown): Promise<T> {

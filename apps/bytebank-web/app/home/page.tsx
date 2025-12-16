@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-
 import { TransactionService } from "@bytebank/client/services/transaction-service";
 import { CreateNewTransaction } from "@bytebank/components/create-new-transaction";
 import { EditTransaction } from "@bytebank/components/edit-transaction";
@@ -20,8 +19,6 @@ import type { ITransaction } from "@fiap-tech-challenge/database/types";
 import { Skeleton } from "@fiap-tech-challenge/design-system/components";
 import { HTTPService } from "@fiap-tech-challenge/services";
 import { formatCurrency } from "@fiap-tech-challenge/utils";
-
-
 
 const httpService = new HTTPService();
 const transactionService = new TransactionService(httpService);

@@ -1,8 +1,5 @@
 "use client";
 
-
-
-
 import { CreateNewTransaction } from "components/create-new-transaction";
 import { TransactionAction } from "components/transaction-action";
 import { TransactionsList } from "components/transactions-list";
@@ -118,7 +115,6 @@ export default function Transaction() {
     }
   }, [getQueryParams, pagination.limit]);
 
-
   const fetchMoreTransactions = useCallback(async () => {
     if (!hasMoreTransactions) return;
 
@@ -224,7 +220,6 @@ export default function Transaction() {
                 <FunnelPlus />
               </Button>
             </div>
-
 
             {filtersVisible && (
               <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">

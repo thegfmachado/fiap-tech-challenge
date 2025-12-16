@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import type { z } from 'zod';
 
 /**
  * Adds password confirmation validation to a schema
@@ -26,4 +26,3 @@ export const withPasswordConfirmation = <T extends { password: string; confirmPa
     }
   );
 };
-

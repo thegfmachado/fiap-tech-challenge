@@ -1,13 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/react';
-
 import { zodResolver } from "@hookform/resolvers/zod"
+import type { Meta, StoryObj } from '@storybook/react';
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from './form';
-
-import { Input } from '../input/input';
 import { Button } from '../button/button';
+import { Input } from '../input/input';
 
 export default {
   title: 'Form',

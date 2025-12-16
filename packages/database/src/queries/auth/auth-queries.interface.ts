@@ -1,4 +1,5 @@
 import type { User } from '@supabase/supabase-js';
+
 import type { IUser } from '@fiap-tech-challenge/models';
 
 export interface IAuthQueries {

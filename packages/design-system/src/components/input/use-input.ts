@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { InputProps } from "./input.types";
+import type { InputProps } from "./input.types";
 import { cn } from "../../lib/utils";
 
 export function useInput(props: InputProps) {

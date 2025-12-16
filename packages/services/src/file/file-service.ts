@@ -1,4 +1,4 @@
-import { IFileService } from "./file-service.interface.js";
+import type { IFileService } from "./file-service.interface.js";
 
 export class FileService implements IFileService {
   async uploadFile<T>(url: string, file: File): Promise<T> {

@@ -12,8 +12,6 @@ import {
 } from "@fiap-tech-challenge/design-system/components";
 import { HTTPService } from "@fiap-tech-challenge/services";
 
-
-
 const httpService = new HTTPService();
 const transactionService = new TransactionService(httpService);
 

@@ -1,14 +1,14 @@
 "use client"
 
-import * as React from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
+import type * as React from "react"
 
-import { DialogOverlay } from "./dialog-overlay/dialog-overlay"
 import { DialogContent } from "./dialog-content/dialog-content"
-import { DialogHeader } from "./dialog-header/dialog-header"
-import { DialogFooter } from "./dialog-footer/dialog-footer"
-import { DialogTitle } from "./dialog-title/dialog-title"
 import { DialogDescription } from "./dialog-description/dialog-description"
+import { DialogFooter } from "./dialog-footer/dialog-footer"
+import { DialogHeader } from "./dialog-header/dialog-header"
+import { DialogOverlay } from "./dialog-overlay/dialog-overlay"
+import { DialogTitle } from "./dialog-title/dialog-title"
 
 const Dialog = DialogPrimitive.Root
 

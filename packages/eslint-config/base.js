@@ -20,6 +20,7 @@ export const config = [
       turbo: turboPlugin,
     },
     rules: {
+      "no-multiple-empty-lines": ["error", { "max": 1, "maxBOF": 0, "maxEOF": 0 }],
       "@typescript-eslint/consistent-type-imports": [
         "error",
         {

@@ -6,10 +6,6 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
-
-
-
-
 import { AuthService } from "@bytebank/client/services/auth-service";
 import { useAuth } from "@bytebank/hooks/use-auth";
 

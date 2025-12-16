@@ -1,6 +1,7 @@
-import React from "react";
-import type { ToasterProps } from "sonner";
 import { useTheme } from "next-themes";
+import type React from "react";
+import type { ToasterProps } from "sonner";
+
 import { cn } from "../../lib/utils";
 
 export function useToaster(props: ToasterProps): ToasterProps {

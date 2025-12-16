@@ -1,6 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react";
-
 import { useArgs } from "@storybook/preview-api";
+import type { Meta, StoryObj } from "@storybook/react";
 
 import { DatePicker, type DateRange, type DatePickerProps } from "./date-picker";
 
@@ -106,4 +105,3 @@ export const Range: StoryObj<DatePickerProps> = {
     );
   },
 };
-

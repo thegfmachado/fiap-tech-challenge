@@ -1,5 +1,4 @@
-
-import { FormMessageProps } from "./form-message.types"
+import type { FormMessageProps } from "./form-message.types"
 import { useFormMessage } from "./use-form-message"
 
 function FormMessage(props: FormMessageProps) {

@@ -1,8 +1,9 @@
 import type { User } from '@supabase/supabase-js';
+
 import type { IUser } from '@fiap-tech-challenge/models';
 
-import type { TypedSupabaseClient } from '../../types.js';
 import type { IAuthQueries } from './auth-queries.interface.js';
+import type { TypedSupabaseClient } from '../../types.js';
 
 export class AuthQueriesService implements IAuthQueries {
   private client: TypedSupabaseClient;

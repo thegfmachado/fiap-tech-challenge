@@ -1,10 +1,14 @@
 "use client";
 
-import * as React from "react";
-import { useForm } from "react-hook-form";
+import { AuthService } from "@bytebank-web-auth/client/services/auth-service";
+import { Header } from "@bytebank-web-auth/components/template/header";
+import { WelcomeHero } from "@bytebank-web-auth/components/welcome-hero";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChartColumn, ChartPie, Loader2, Shield, TrendingUp } from "lucide-react";
+import * as React from "react";
+import { useForm } from "react-hook-form";
 
+import { createClient } from "@fiap-tech-challenge/database/client";
 import {
   Card,
   CardContent,
@@ -22,16 +26,9 @@ import {
   Skeleton,
   toast,
 } from "@fiap-tech-challenge/design-system/components";
-
-import { Header } from "@bytebank-web-auth/components/template/header";
-import { WelcomeHero } from "@bytebank-web-auth/components/welcome-hero";
-
 import { HTTPService } from "@fiap-tech-challenge/services/http";
-import { AuthService } from "@bytebank-web-auth/client/services/auth-service";
 import { resetPasswordSchema } from "@fiap-tech-challenge/validation-schemas";
 import type { ResetPasswordSchema } from "@fiap-tech-challenge/validation-schemas";
-
-import { createClient } from "@fiap-tech-challenge/database/client";
 
 const httpService = new HTTPService();
 const authService = new AuthService(httpService);

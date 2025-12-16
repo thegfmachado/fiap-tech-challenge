@@ -1,7 +1,6 @@
 import { Slot } from "@radix-ui/react-slot"
 
-import { FormControlProps } from "./form-control.types"
-
+import type { FormControlProps } from "./form-control.types"
 import { useFormControl } from "./use-form-control"
 
 function FormControl(props: FormControlProps) {

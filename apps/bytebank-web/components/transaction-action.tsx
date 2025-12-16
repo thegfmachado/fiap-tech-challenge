@@ -1,4 +1,3 @@
-
 import { Trash2Icon, SquarePen, ClipboardList } from "lucide-react";
 import type { ReactElement, MouseEventHandler } from "react";
 

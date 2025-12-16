@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import { commonValidations } from './common-validations.js';
 import { withPasswordConfirmation } from './helpers.js';
 
@@ -42,4 +43,3 @@ export type LoginSchema = z.infer<typeof loginSchema>;
 export type SignupSchema = z.infer<typeof signupSchema>;
 export type ForgotPasswordSchema = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordSchema = z.infer<typeof resetPasswordSchema>;
-

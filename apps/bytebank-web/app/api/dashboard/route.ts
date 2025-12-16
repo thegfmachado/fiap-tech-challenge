@@ -261,4 +261,3 @@ export async function GET(request: Request) {
     return handleResponseError(err);
   }
 }
-

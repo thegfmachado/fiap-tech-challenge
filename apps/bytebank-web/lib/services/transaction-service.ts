@@ -4,7 +4,6 @@ import { HttpError } from "@fiap-tech-challenge/services";
 
 import type { ITransactionService } from "./transaction-service.interface";
 
-
 export class TransactionService implements ITransactionService {
   private readonly queries: ITransactionsQueries
 

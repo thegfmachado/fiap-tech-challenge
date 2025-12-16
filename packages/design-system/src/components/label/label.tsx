@@ -2,7 +2,7 @@
 
 import * as LabelPrimitive from "@radix-ui/react-label"
 
-import { LabelProps } from "./label.types"
+import type { LabelProps } from "./label.types"
 import { useLabel } from "./use-label"
 
 function Label(props: LabelProps) {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+
 import type { TransactionAttachmentProps, BaseTransaction } from "./transaction-attachment.types";
 
 export const TRANSACTION_ATTACHMENT_DEFAULT_PROPS: Partial<TransactionAttachmentProps> = {

@@ -1,12 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useArgs } from "storybook/internal/preview-api";
+
 import {
   TransactionAttachment,
   FileIcon,
   AttachmentCard,
   FileUpload,
 } from "./transaction-attachment";
-import { TransactionAttachmentProps } from "./transaction-attachment.types";
+import type { TransactionAttachmentProps } from "./transaction-attachment.types";
 import { TRANSACTION_ATTACHMENT_DEFAULT_PROPS } from "./use-transaction-attachment";
 
 const mockUpload = async (transactionId: string, file: File) => {

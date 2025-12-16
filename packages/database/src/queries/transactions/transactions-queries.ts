@@ -1,5 +1,5 @@
-import type { ITransaction, ITransactionInsert, ITransactionUpdate, TypedSupabaseClient } from '../../types.js';
 import type { GetAllTransactionsParams, GetAllTransactionsResponse, ITransactionsQueries } from './transactions-queries.interface.js';
+import type { ITransaction, ITransactionInsert, ITransactionUpdate, TypedSupabaseClient } from '../../types.js';
 
 export class TransactionsQueriesService implements ITransactionsQueries {
   static TABLE_NAME = 'transactions' as const;

@@ -1,8 +1,8 @@
-import { cva } from "class-variance-authority";
-import { cn } from "../../lib/utils";
 import { Slot } from "@radix-ui/react-slot";
+import { cva } from "class-variance-authority";
 
 import type { ButtonProps } from "./button.types";
+import { cn } from "../../lib/utils";
 
 export const BUTTON_DEFAULT_PROPS: Pick<ButtonProps, 'asChild' | 'disabled' | 'variant' | 'size'> = {
   asChild: false,
