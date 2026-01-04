@@ -13,87 +13,23 @@
 <p align="center">
   <a href="#-sobre-o-projeto">Sobre</a> •
   <a href="#-início-rápido">Início Rápido</a> •
-  <a href="#-funcionalidades">Funcionalidades</a> •
+  <a href="#-arquitetura">Arquitetura</a> •
+  <a href="#-decisões-técnicas">Decisões Técnicas</a> •
   <a href="#-tecnologias">Tecnologias</a> •
-  <a href="#-desenvolvimento">Desenvolvimento</a> •
   <a href="#-comandos">Comandos</a>
 </p>
 
 ## 📖 Sobre o Projeto
 
-Este repositório contém a entrega do Tech Challenge de Front-end Engineering da FIAP. O projeto é uma aplicação de controle financeiro chamada **ByteBank**, construída como um monorepo usando TurboRepo.
+Aplicação de controle financeiro desenvolvida como entrega do **Tech Challenge de Front-end Engineering da FIAP**. O **ByteBank** permite gerenciar transações financeiras (crédito/débito), visualizar dashboards com gráficos e fazer upload de comprovantes.
 
-### 🏗️ Arquitetura
+### ✅ Funcionalidades
 
-O projeto está organizado em pacotes independentes:
-
-**Apps:**
-
-- **bytebank-web**: Aplicação principal de controle financeiro (React/Next.js)
-- **bytebank-web-auth**: Sistema de autenticação e cadastro (React/Next.js)
-- **bytebank-native**: Aplicação mobile nativa (React Native/Expo)
-
-**Packages:**
-
-- **@fiap-tech-challenge/design-system**: Biblioteca de componentes reutilizáveis (documentada no Storybook)
-- **@fiap-tech-challenge/database**: Utilidades e queries do Supabase
-- **@fiap-tech-challenge/models**: Interfaces e modelos (TypeScript)
-- **@fiap-tech-challenge/services**: Serviços compartilhados
-- **@fiap-tech-challenge/eslint-config**: Configurações de ESLint
-- **@fiap-tech-challenge/typescript-config**: Configurações de TypeScript
-
-### 🏛️ Arquitetura Micro Front-end
-
-O projeto implementa uma **arquitetura de micro front-end** onde a autenticação é isolada em uma aplicação independente:
-
-#### **bytebank-web-auth** (Micro Front-end de Autenticação)
-
-- **Responsabilidade**: Gerenciar login, cadastro, recuperação de senha e autenticação
-- **Isolamento**: Aplicação Next.js independente com seu próprio build e deploy
-- **Comunicação**: Integração via redirecionamentos e shared state através do Supabase
-- **Benefícios**:
-  - **Deployment independente**: Auth pode ser atualizada sem afetar a aplicação principal
-  - **Tecnologias específicas**: Pode usar stack otimizada para autenticação
-  - **Escalabilidade**: Pode ser hospedada em infraestrutura dedicada para alta disponibilidade
-
-#### **Integração entre Micro Front-ends**
-
-- **Estado compartilhado**: Sessão do usuário gerenciada pelo Supabase
-- **Roteamento**: Redirecionamentos automáticos entre apps baseados no estado de autenticação
-- **Design System**: Componentes UI compartilhados via `@fiap-tech-challenge/design-system`
-- **Tipos**: Modelos de dados compartilhados via `@fiap-tech-challenge/models`
-
-### 📱 Aplicação Mobile Nativa (bytebank-native)
-
-O projeto também inclui uma **aplicação móvel nativa** desenvolvida com React Native e Expo:
-
-- **Autenticação**: Integração direta com Supabase
-- **Compartilhamento**: Reutiliza packages do monorepo (`@fiap-tech-challenge/database`, `models`, `services`)
-
-#### **Integração com o Ecossistema**
-
-- **Estado compartilhado**: Mesma conexão com o Supabase das aplicações web
-- **Dados sincronizados**: Utiliza as mesmas queries e mutations
-- **Design consistente**: Adaptação mobile do design system
-
-### ⚛️ Gerenciamento de Estado
-
-O projeto adota uma **abordagem simples e pragmática** para gerenciamento de estado, utilizando principalmente **React Context API** e hooks nativos:
-
-#### **Estratégia de Estado**
-
-- **Context API nativo**: Para estado que precisa ser compartilhado entre componentes
-- **useState local**: Para estado de componentes isolados
-- **React Hook Form**: Para gerenciamento de formulários complexos
-- **Supabase**: Para persistência e sincronização de dados
-
-#### **Justificativa da Abordagem**
-
-**Por que Context API ao invés de Redux/Zustand?**
-
-- ✅ **Simplicidade**: O projeto não possui estado complexo que justifique bibliotecas externas
-- ✅ **Performance**: Context API atende bem para o volume de estado atual
-- ✅ **Manutenibilidade**: Menos dependências e boilerplate
+- Cadastro de transações de crédito (+) e débito (-)
+- Upload e visualização de anexos/comprovantes
+- Dashboard com gráficos de desempenho financeiro
+- Autenticação completa (login, cadastro, recuperação de senha)
+- Aplicação mobile com paridade de funcionalidades
 
 ## 🚀 Início Rápido
 
@@ -101,238 +37,241 @@ O projeto adota uma **abordagem simples e pragmática** para gerenciamento de es
 
 - **Node.js** 20+ e **npm**
 - **Docker** (para Supabase local)
-- **Git** configurado com SSH
 
-### ⚡ Comandos Essenciais
+### ⚡ Instalação
 
 ```bash
-# 1. Clone e instale dependências
+# Clone e instale
 git clone https://github.com/thegfmachado/fiap-tech-challenge.git
 cd fiap-tech-challenge
 npm install
 
-# 2. Configure o Supabase (primeira vez)
+# Configure o Supabase local
 npm run db:local:start
 
-# 3. Inicie todas as aplicações
+# Inicie todas as aplicações
 npm run dev
 ```
 
-📚 **Primeira vez?** Consulte o [Guia de Configuração do Supabase](SUPABASE_SETUP.md) para setup detalhado, credenciais e troubleshooting.
+> 📚 Para configuração detalhada do Supabase, consulte o [README do package database](packages/database/README.md).
 
-### 🌐 URLs dos Serviços
+### 🌐 URLs
 
-Após iniciar, as aplicações estarão disponíveis em:
+| Serviço | URL | Descrição |
+|---------|-----|-----------|
+| App Principal | [localhost:3000](http://localhost:3000) | Interface principal |
+| App Auth | [localhost:3001](http://localhost:3001) | Autenticação (micro frontend) |
+| App Mobile | [localhost:8081](http://localhost:8081) | Versão mobile (Expo Web) |
+| Storybook | [localhost:9009](http://localhost:9009) | Design System |
+| Supabase Studio | [localhost:54323](http://127.0.0.1:54323) | Banco de dados |
 
-- **App Principal**: [http://localhost:3000](http://localhost:3000) - Interface principal do ByteBank
-- **App Autenticação**: [http://localhost:3001](http://localhost:3001) - Sistema de autenticação
-- **App Native**: [http://localhost:8081](http://localhost:8081) - Interface mobile nativa (Expo)
-- **Storybook**: [http://localhost:9009](http://localhost:9009) - Documentação do Design System
-- **Supabase Studio**: [http://127.0.0.1:54323](http://127.0.0.1:54323) - Interface web do banco de dados
+## 🏗️ Arquitetura
 
-## ✅ Funcionalidades
+Monorepo gerenciado com **TurboRepo**, organizado em apps e packages compartilhados:
 
-### Web Apps (bytebank-web + bytebank-web-auth)
+```
+fiap-tech-challenge/
+├── apps/
+│   ├── bytebank-web/           # App principal (Next.js) 
+│   ├── bytebank-web-auth/      # Micro frontend auth (Next.js) 
+│   └── bytebank-native/        # App mobile (React Native/Expo) 
+└── packages/
+    ├── database/               # Cliente e queries Supabase 
+    ├── design-system/          # Componentes UI + Storybook 
+    ├── models/                 # Tipos e interfaces TypeScript 
+    ├── services/               # Serviços HTTP e storage 
+    ├── utils/                  # Funções utilitárias 
+    ├── validation-schemas/     # Schemas Zod 
+    ├── eslint-config/          # Configuração ESLint
+    └── typescript-config/      # Configuração TypeScript
+```
 
-- [x] Cadastro de transações de crédito (+) e débito (-)
-- [x] Upload de anexos/comprovantes para transações
-- [x] Download e visualização de anexos
-- [x] Cálculo automático do balanço
-- [x] Gráficos de desempenho financeiro
-- [x] Arquitetura micro front-end para autenticação
-- [x] Design responsivo e acessível
-- [x] Documentação interativa do Design System com Storybook
+> 📖 Consulte a seção [Documentação](#-documentação) para links diretos para cada README.
 
-### Mobile App (bytebank-native)
+<details>
+<summary><b>📊 Diagrama de Arquitetura</b></summary>
 
-- [x] Mesmas funcionalidades do aplicativo web
-- [x] Aplicação nativa multiplataforma (iOS, Android)
-- [x] Navegação com abas
-- [x] Sincronização com a mesma base de dados do aplicativo web
+```
+┌────────────────────────────────────────────────────────────┐
+│                            USUÁRIO                         │
+└─────────────────────────────┬──────────────────────────────┘
+                              │
+          ┌───────────────────┼───────────────────┐
+          ▼                   ▼                   ▼
+┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
+│  bytebank-web   │  │bytebank-web-auth│  │ bytebank-native │
+│   (Next.js)     │◄─│   (Next.js)     │  │  (Expo/RN)      │
+│   Port: 3000    │  │   Port: 3001    │  │   Port: 8081    │
+└────────┬────────┘  └────────┬────────┘  └────────┬────────┘
+         │                    │                    │
+         └────────────────────┼────────────────────┘
+                              │
+                              ▼
+         ┌────────────────────────────────────────┐
+         │           PACKAGES COMPARTILHADOS      │
+         │  database │ design-system │ models     │
+         │  services │ utils │ validation-schemas │
+         └────────────────────┬───────────────────┘
+                              │
+                              ▼
+         ┌────────────────────────────────────────┐
+         │              SUPABASE                  │
+         │   PostgreSQL + Auth + Storage          │
+         └────────────────────────────────────────┘
+```
+
+</details>
+
+<details>
+<summary><b>🔄 Fluxo de Micro Frontend (Auth)</b></summary>
+
+O app de autenticação funciona como um **micro frontend** integrado via rewrites do Next.js:
+
+```
+┌──────────────────┐    ┌───────────────────┐    ┌──────────────┐
+│    Usuário       │    │   bytebank-web    │    │  web-auth    │
+└────────┬─────────┘    └─────────┬─────────┘    └──────┬───────┘
+         │                        │                     │
+         │  GET /auth/login       │                     │
+         │───────────────────────>│                     │
+         │                        │                     │
+         │                        │  Proxy (rewrite)    │
+         │                        │────────────────────>│
+         │                        │                     │
+         │  Página de login       │                     │
+         │<───────────────────────│<────────────────────│
+         │                        │                     │
+         │  POST credenciais      │                     │
+         │───────────────────────────────────────────────>
+         │                        │                     │
+         │  Set cookies + redirect /home                │
+         │<───────────────────────────────────────────────
+```
+
+**Rotas proxy:** `/auth/*` e `/api/auth/*` → `bytebank-web-auth`
+
+</details>
+
+## 🎯 Decisões Técnicas
+
+### Por que TurboRepo?
+
+Ferramenta moderna de monorepo com **cache inteligente**, desenvolvida pela Vercel (mesma do Next.js), garantindo boa integração e builds rápidos.
+
+### Por que Micro Frontend para Auth?
+
+Separamos a autenticação para **deploy independente** e **isolamento de responsabilidade**. O código de auth não se mistura com regras de negócio e pode escalar separadamente.
+
+### Por que Context API ao invés de Redux/Zustand?
+
+O projeto **não possui estado global complexo**. A maioria dos dados vem do Supabase e o único estado compartilhado é o usuário logado. Context API atende bem, com menos boilerplate.
+
+### Por que Supabase?
+
+Oferece **PostgreSQL + Auth + Storage** em uma solução. O **Row Level Security (RLS)** garante que cada usuário só acessa seus próprios dados, sem lógica extra no frontend.
+
+### Por que React Hook Form + Zod?
+
+**RHF** usa refs e evita re-renders. **Zod** infere tipos automaticamente e permite **compartilhar schemas** de validação entre web e mobile.
+
+### Por que Expo para o Mobile?
+
+**Setup simplificado** sem precisar configurar Xcode/Android Studio. O **Expo Go** permite testar rapidamente em dispositivos físicos e reutiliza os packages do monorepo.
 
 ## 🔧 Tecnologias
 
-### Frontend
-
-- **Next.js 15** - Framework React com Server Components (apps web)
-- **React 19** - Biblioteca de interface
-- **React Native 0.79** - Framework mobile multiplataforma
-- **Expo SDK 53** - Ferramentas e serviços para React Native
-- **TypeScript 5.8** - Tipagem estática
-- **TailwindCSS** - Framework CSS utilitário
-- **NativeWind 4.1** - TailwindCSS para React Native
-
-### Backend & Database
-
-- **Supabase** - Backend as a Service (PostgreSQL)
-- **PostgreSQL** - Banco de dados relacional
-
-### Design System & Documentação
-
-- **Storybook** - Documentação de componentes
-- **Vite** - Build tool para o design system
-
-### Ferramentas de Desenvolvimento
-
-- **TurboRepo 2.5** - Monorepo toolkit
-- **ESLint** - Linting de código
-- **TypeScript** - Verificação de tipos
-- **Expo** - Ecossistema de desenvolvimento mobile nativo
-- **Docker** - Containerização (Supabase local)
-
-### Deploy & CI/CD
-
-- **Vercel** - Deploy das aplicações frontend
-- **Docker Compose** - Orquestração de containers locais
-
-## 💻 Desenvolvimento
-
-### 1. Configure o banco de dados local (Supabase)
-
-```bash
-npm run db:local:start
-```
-
-> **📖 Configuração completa:** Para setup detalhado, credenciais e troubleshooting específico do Supabase, consulte [SUPABASE_SETUP.md](SUPABASE_SETUP.md)
-
-### 2. Modo de Desenvolvimento
-
-Em um **novo terminal**, inicie as aplicações:
-
-```bash
-npm run dev
-```
-
-> **💡 Nota:** Este comando inicia o TurboRepo e executa todas as aplicações. As URLs estão disponíveis na [seção Início Rápido](#-início-rápido).
-
-#### Executando o app React Native (bytebank-native)
-
-A aplicação mobile utiliza Expo e pode ser executada de várias formas:
-
-#### Dispositivo Físico (Recomendado)
-
-1. **Baixe o aplicativo Expo Go** na App Store (iOS) ou Google Play (Android)
-2. **Abra o Expo Go** no seu dispositivo
-3. **Escaneie o QR code** exibido no terminal do processo `bytebank-native`
-
-#### Emuladores/Simuladores
-
-```bash
-# iOS Simulator (requer macOS e Xcode)
-cd apps/bytebank-native
-npm run ios
-
-# Android Emulator (requer Android Studio)
-cd apps/bytebank-native
-npm run android
-```
-
-#### Navegador Web
-
-A aplicação também roda no navegador através do Expo Web:
-
-- Acesse: <http://localhost:8081>
-- Pressione `w` no terminal do Expo para abrir no navegador
-
-### 3. Parar os serviços
-
-```bash
-# Parar aplicações (Ctrl+C no terminal onde rodou npm run dev)
-
-# Parar Supabase local
-npm run db:local:stop
-```
+| Camada | Tecnologias |
+|--------|-------------|
+| **Frontend Web** | Next.js 15, React 19, TypeScript 5.8, TailwindCSS |
+| **Frontend Mobile** | React Native 0.79, Expo SDK 53, NativeWind |
+| **Backend** | Supabase (PostgreSQL + Auth + Storage) |
+| **Build** | TurboRepo 2.5, Vite, Turbopack |
+| **UI** | Radix UI, Storybook 8.6, Recharts, Victory Native |
 
 ## 📋 Comandos
-
-### Banco de dados
-
-```bash
-npm run db:local:start     # Iniciar Supabase local
-npm run db:local:stop      # Parar Supabase local
-npm run db:local:status    # Ver status e credenciais
-npm run db:generate:types  # Gerar tipos TypeScript do banco
-```
 
 ### Desenvolvimento
 
 ```bash
-npm run dev                # Iniciar todas as aplicações
-npm run build              # Build de produção
-npm run lint               # Verificar código
-npm run format             # Formatar código
+npm run dev              # Iniciar todas as apps
+npm run build            # Build de produção
+npm run lint             # Verificar código
+npm run check-types      # Verificar tipos TypeScript
 ```
 
-### Workspaces específicos
+### Banco de Dados
 
 ```bash
-# Iniciar apenas um serviço específico
-npm run dev --workspace packages/design-system
+npm run db:local:start   # Iniciar Supabase local
+npm run db:local:stop    # Parar Supabase local
+npm run db:local:status  # Ver status e credenciais
+```
+
+### Docker
+
+```bash
+npm run docker:up        # Subir containers de produção
+npm run docker:down      # Parar containers
+```
+
+### Workspace Específico
+
+```bash
 npm run dev --workspace apps/bytebank-web
 npm run dev --workspace apps/bytebank-native
+npm run dev --workspace packages/design-system
 ```
 
-### Docker (Alternativo)
+## 📚 Documentação
+
+### Apps
+
+| Módulo | Descrição | README |
+|--------|-----------|--------|
+| **bytebank-web** | App principal (Next.js) | [📖 Ver docs](apps/bytebank-web/README.md) |
+| **bytebank-web-auth** | Micro frontend de autenticação | [📖 Ver docs](apps/bytebank-web-auth/README.md) |
+| **bytebank-native** | App mobile (Expo/React Native) | [📖 Ver docs](apps/bytebank-native/README.md) |
+
+### Packages
+
+| Package | Descrição | README |
+|---------|-----------|--------|
+| **database** | Cliente Supabase, queries e setup | [📖 Ver docs](packages/database/README.md) |
+| **design-system** | Componentes UI + Storybook | [📖 Ver docs](packages/design-system/README.md) |
+| **models** | Tipos e interfaces TypeScript | [📖 Ver docs](packages/models/README.md) |
+| **services** | Serviços HTTP e storage | [📖 Ver docs](packages/services/README.md) |
+| **utils** | Funções utilitárias | [📖 Ver docs](packages/utils/README.md) |
+| **validation-schemas** | Schemas Zod | [📖 Ver docs](packages/validation-schemas/README.md) |
+
+## 🐛 Troubleshooting
+
+<details>
+<summary><b>Porta já está em uso</b></summary>
 
 ```bash
-npm run docker:up        # Iniciar containers
-npm run docker:down      # Parar containers
-npm run docker:logs      # Ver logs
-npm run docker:build     # Rebuild containers
-```
+# Linux/macOS
+lsof -i :3000 && kill -9 <PID>
 
-## 🔧 Troubleshooting
-
-### Problemas comuns
-
-#### 1. Porta já está em uso
-
-**Unix/Linux/macOS:**
-
-```bash
-# Verificar processos nas portas
-lsof -i :3000  # ou :3001, :54321, etc
-# Matar processo específico
-kill -9 <PID>
-```
-
-**Windows:**
-
-```powershell
-# Verificar processos nas portas
+# Windows
 netstat -ano | findstr :3000
-# Matar processo específico
 taskkill /PID <PID> /F
 ```
 
-#### 2. Problemas com Supabase
+</details>
 
-> **📖 Troubleshooting completo:** Para problemas específicos do Supabase, consulte [SUPABASE_SETUP.md](SUPABASE_SETUP.md)
-
-#### 3. Erro de dependências
+<details>
+<summary><b>Problemas com dependências</b></summary>
 
 ```bash
-# Limpar cache e reinstalar
 rm -rf node_modules package-lock.json
 npm install
 ```
 
-### Estrutura de pastas
+</details>
 
-```text
-fiap-tech-challenge/
-├── apps/
-│   ├── bytebank-web/           # App principal (Next.js)
-│   ├── bytebank-web-auth/      # App de autenticação (Next.js)
-│   └── bytebank-native/        # App mobile nativo (React Native/Expo)
-├── packages/
-│   ├── database/               # Utilities do Supabase
-│   ├── design-system/          # Componentes UI (Storybook)
-│   ├── models/                 # Tipos TypeScript
-│   ├── services/               # Serviços compartilhados
-│   ├── eslint-config/          # Config ESLint
-│   └── typescript-config/      # Config TypeScript
-├── docker-compose.yml          # Docker para produção
-├── turbo.json                  # Config TurboRepo
-└── package.json               # Dependencies raiz
-```
+<details>
+<summary><b>Problemas com Supabase</b></summary>
+
+Consulte o [README do package database](packages/database/README.md#troubleshooting).
+
+</details>
